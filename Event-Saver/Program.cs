@@ -1,9 +1,10 @@
+using Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Event_Saver.Components;
 using Event_Saver.Components.Account;
-using Event_Saver.Data;
+using Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
