@@ -24,16 +24,19 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Data\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Data\Data.csproj" />
       <ProjectReference Include="..\Users\Users.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Users\Users.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Data\app.db">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </None>
     </ItemGroup>
 
 </Project>
