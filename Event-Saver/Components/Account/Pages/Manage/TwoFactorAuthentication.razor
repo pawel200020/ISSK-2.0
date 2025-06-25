@@ -3,11 +3,12 @@
 @using Microsoft.AspNetCore.Http.Features
 @using Microsoft.AspNetCore.Identity
 @using Users
+@using Users.Models
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityUserAccessor UserAccessor
-@inject IdentityRedirectManager RedirectManager
+@inject IdentityRedirectProcessor RedirectProcessor
 
 <PageTitle>Two-factor authentication (2FA)</PageTitle>
 
@@ -93,7 +94,7 @@ else
     {
         await SignInManager.ForgetTwoFactorClientAsync();
 
-        RedirectManager.RedirectToCurrentPageWithStatus(
+        RedirectProcessor.RedirectToCurrentPageWithStatus(
             "The current browser has been forgotten. When you login again from this browser you will be prompted for your 2fa code.",
             HttpContext);
     }

@@ -4,11 +4,12 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Users
+@using Users.Models
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
-@inject IdentityRedirectManager RedirectManager
+@inject IdentityRedirectProcessor RedirectProcessor
 
 <PageTitle>Log in</PageTitle>
 
@@ -90,18 +91,18 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+            RedirectProcessor.RedirectTo(ReturnUrl);
         }
         else if (result.RequiresTwoFactor)
         {
-            RedirectManager.RedirectTo(
+            RedirectProcessor.RedirectTo(
                 "Account/LoginWith2fa",
                 new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
         }
         else if (result.IsLockedOut)
         {
             Logger.LogWarning("User account locked out.");
-            RedirectManager.RedirectTo("Account/Lockout");
+            RedirectProcessor.RedirectTo("Account/Lockout");
         }
         else
         {

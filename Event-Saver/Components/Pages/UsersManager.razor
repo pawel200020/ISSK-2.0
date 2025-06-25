@@ -1,0 +1,70 @@
+﻿@page "/usersmanager"
+@using Microsoft.AspNetCore.Authorization
+@using Users
+@using Abstract.Users
+@using Users.Interfaces.Managers
+
+@attribute [Authorize(Roles = nameof(UserRole.Administrator))]
+<h3>Users Manager</h3>
+<Button Color="ButtonColor.Primary">Add User</Button>
+
+<Grid TItem="IUser"
+      Class="table table-hover table-bordered table-striped"
+      DataProvider="CustomersDataProvider"
+      AllowFiltering="true"
+      AllowPaging="true"
+      AllowSorting="true"
+      Responsive="true"
+      PageSizeSelectorVisible="true"
+      PageSizeSelectorItems="@(new int[] { 5, 10, 20 })">
+
+    <GridColumn TItem="IUser" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
+        @context.FirstName
+    </GridColumn>
+    <GridColumn TItem="IUser" HeaderText="Last Name" PropertyName="LastName" SortString="LastName" SortKeySelector="item => item.LastName" FilterTextboxWidth="80">
+        @context.LastName
+    </GridColumn>
+    <GridColumn TItem="IUser" HeaderText="User Name" PropertyName="UserName" SortString="UserName" SortKeySelector="item => item.UserName" FilterTextboxWidth="80">
+        @context.UserName
+    </GridColumn>
+    <GridColumn TItem="IUser" HeaderText="Phone" PropertyName="Phone" SortString="Phone" Filterable="false">
+        @context.PhoneNumber
+    </GridColumn>
+    <GridColumn TItem="IUser" HeaderText="Email" PropertyName="Email" SortString="Email" SortKeySelector="item => item.Email" FilterTextboxWidth="120">
+        @context.Email
+    </GridColumn>
+    <GridColumn TItem="IUser" HeaderText="Birth Date" PropertyName="BirthDate" SortString="BirthDate" SortKeySelector="item => item.BirthDate" FilterTextboxWidth="80">
+        @context.BirthDate
+    </GridColumn>
+</Grid>
+
+@code {
+    [Inject] private IUsersDownloader _usersDownloader { get; set; } = default!;
+    Grid<IUser> grid = default!;
+
+    private async Task<GridDataProviderResult<IUser>> CustomersDataProvider(GridDataProviderRequest<IUser> request)
+    {
+        try
+        {
+            StateHasChanged();
+            string sortString = "";
+            SortDirection sortDirection = SortDirection.None;
+
+            if (request.Sorting is not null && request.Sorting.Any())
+            {
+                // Note: Multi column sorting is not supported at this moment
+                sortString = request.Sorting.FirstOrDefault()!.SortString;
+                sortDirection = request.Sorting.FirstOrDefault()!.SortDirection;
+            }
+
+            var usersList = await _usersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
+            return await Task.FromResult(new GridDataProviderResult<IUser> { Data = usersList, TotalCount = usersList.Count() });
+        }
+        catch (Exception ex)
+        {
+            //log
+            throw;
+        }
+    }
+
+}

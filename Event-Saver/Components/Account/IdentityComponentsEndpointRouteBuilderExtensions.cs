@@ -9,6 +9,7 @@ using Microsoft.Extensions.Primitives;
 using Event_Saver.Components.Account.Pages;
 using Event_Saver.Components.Account.Pages.Manage;
 using Users;
+using Users.Models;
 
 namespace Microsoft.AspNetCore.Routing;
 

@@ -6,11 +6,12 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Users
+@using Users.Models
 
 @inject UserManager<ApplicationUser> UserManager
 @inject IdentityUserAccessor UserAccessor
 @inject UrlEncoder UrlEncoder
-@inject IdentityRedirectManager RedirectManager
+@inject IdentityRedirectProcessor RedirectProcessor
 @inject ILogger<EnableAuthenticator> Logger
 
 <PageTitle>Configure authenticator app</PageTitle>
@@ -112,7 +113,7 @@ else
         }
         else
         {
-            RedirectManager.RedirectToWithStatus("Account/Manage/TwoFactorAuthentication", message, HttpContext);
+            RedirectProcessor.RedirectToWithStatus("Account/Manage/TwoFactorAuthentication", message, HttpContext);
         }
     }
 

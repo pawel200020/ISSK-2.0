@@ -1,11 +1,12 @@
 using Microsoft.AspNetCore.Identity;
 using Users;
+using Users.Models;
 
 namespace Event_Saver.Components.Account;
 
 internal sealed class IdentityUserAccessor(
     UserManager<ApplicationUser> userManager,
-    IdentityRedirectManager redirectManager)
+    IdentityRedirectProcessor redirectProcessor)
 {
     public async Task<ApplicationUser> GetRequiredUserAsync(HttpContext context)
     {
@@ -13,7 +14,7 @@ internal sealed class IdentityUserAccessor(
 
         if (user is null)
         {
-            redirectManager.RedirectToWithStatus("Account/InvalidUser",
+            redirectProcessor.RedirectToWithStatus("Account/InvalidUser",
                 $"Error: Unable to load user with ID '{userManager.GetUserId(context.User)}'.", context);
         }
 

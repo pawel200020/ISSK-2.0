@@ -1,9 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Users
+@using Users.Models
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject IdentityRedirectManager RedirectManager
+@inject IdentityRedirectProcessor RedirectProcessor
 
 @if (externalLogins.Length == 0)
 {

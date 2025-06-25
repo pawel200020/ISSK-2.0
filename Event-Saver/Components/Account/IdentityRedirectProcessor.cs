@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Event_Saver.Components.Account;
 
-internal sealed class IdentityRedirectManager(NavigationManager navigationManager)
+internal sealed class IdentityRedirectProcessor(NavigationManager navigationManager)
 {
     public const string StatusCookieName = "Identity.StatusMessage";
 
@@ -30,7 +30,7 @@ internal sealed class IdentityRedirectManager(NavigationManager navigationManage
         // So as long as this is called from a statically rendered Identity component, the InvalidOperationException is never thrown.
         navigationManager.NavigateTo(uri);
         throw new InvalidOperationException(
-            $"{nameof(IdentityRedirectManager)} can only be used during static rendering.");
+            $"{nameof(IdentityRedirectProcessor)} can only be used during static rendering.");
     }
 
     [DoesNotReturn]
