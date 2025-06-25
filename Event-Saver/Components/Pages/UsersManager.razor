@@ -57,8 +57,8 @@
                 sortDirection = request.Sorting.FirstOrDefault()!.SortDirection;
             }
 
-            var usersList = await _usersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
-            return await Task.FromResult(new GridDataProviderResult<IUser> { Data = usersList, TotalCount = usersList.Count() });
+            var users = await _usersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
+            return await Task.FromResult(new GridDataProviderResult<IUser> { Data = users.Users, TotalCount = users.TotalCount });
         }
         catch (Exception ex)
         {

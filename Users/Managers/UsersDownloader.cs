@@ -15,7 +15,7 @@ internal class UsersDownloader : IUsersDownloader
         _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
     }
 
-    public async Task<IEnumerable<IUser>> GetUsersPaged(int page, int pageSize, string query,
+    public async Task<IUsersPaginatedList> GetUsersPaged(int page, int pageSize, string query,
         IEnumerable<FilterItem> filters)
         => await _usersRepository.GetUsersPagedWithFilters(page, pageSize, filters);
 }

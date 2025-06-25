@@ -1,7 +1,6 @@
 ﻿using Abstract.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Users.Filters;
 using Users.Interfaces;
 using Users.Interfaces.Repositories;
 using Users.Models;
@@ -48,22 +47,26 @@ internal class UsersRepository : IUsersRepository
     }
 
 
-    public async Task<IEnumerable<IUser>> GetUsersPagedWithFilters(int page, int pageSize, IEnumerable<FilterItem> filters)
+    public async Task<IUsersPaginatedList> GetUsersPagedWithFilters(int page, int pageSize, IEnumerable<FilterItem> filters)
     {
-        var filteredUsers = applyFiltering(filters);
-        
-        return await filteredUsers.Skip(page - 1).Take(pageSize).Select(user => new AppUser()
+        var filteredUsers = ApplyFiltering(filters);
+
+        return new UsersPaginatedList()
         {
-            Email = user.Email!,
-            Id = new Guid(user.Id),
-            IsAccountDisabled = user.LockoutEnabled,
-            PhoneNumber = user.PhoneNumber!,
-            UserName = user.UserName!,
-            Password = string.Empty,
-            FirstName = user.FirstName,
-            LastName = user.LastName,
-            BirthDate = user.BirthDate
-        }).ToArrayAsync();
+            Users = await filteredUsers.Skip(page - 1).Take(pageSize).Select(user => new AppUser()
+            {
+                Email = user.Email!,
+                Id = new Guid(user.Id),
+                IsAccountDisabled = user.LockoutEnabled,
+                PhoneNumber = user.PhoneNumber!,
+                UserName = user.UserName!,
+                Password = string.Empty,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                BirthDate = user.BirthDate
+            }).ToArrayAsync(),
+            TotalCount = GetTotalRowsNumber()
+        };
     }
 
     public async Task<bool> EditUserAsync(IUser user)
@@ -98,7 +101,7 @@ internal class UsersRepository : IUsersRepository
         return (IUserEmailStore<ApplicationUser>)_userStore;
     }
 
-    private IQueryable<ApplicationUser> applyFiltering(IEnumerable<FilterItem> filters)
+    private IQueryable<ApplicationUser> ApplyFiltering(IEnumerable<FilterItem> filters)
     {
         var users = _userManager.Users;
         foreach (var filter in filters)
@@ -109,4 +112,6 @@ internal class UsersRepository : IUsersRepository
 
         return users;
     }
+
+    private int GetTotalRowsNumber() => _userManager.Users.Count();
 }
