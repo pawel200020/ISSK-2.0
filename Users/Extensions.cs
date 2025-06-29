@@ -1,4 +1,5 @@
-﻿using Event_Saver.Components.Account;
+﻿using Abstract.Users;
+using Event_Saver.Components.Account;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Users.Filters;
@@ -23,5 +24,6 @@ public static class Extensions
             .AddScoped<BirthDateFilter>()
             .AddScoped<IFilterFactory,FilterFactory>()
             .AddScoped<IUsersRepository,UsersRepository>()
-            .AddScoped<IUsersDownloader,UsersDownloader>();
+            .AddScoped<IUsersDownloader,UsersDownloader>()
+            .AddScoped<IUsersUploader, UsersUploader>();
 }

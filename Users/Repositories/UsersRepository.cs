@@ -1,4 +1,5 @@
 ﻿using Abstract.Users;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Users.Interfaces;
@@ -17,11 +18,12 @@ internal class UsersRepository : IUsersRepository
     private IFilterFactory _filterFactory;
    //private readonly ILogger _logger;
 
-    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory)
+    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory, NavigationManager navigationManager, RoleManager<IdentityRole> roleManager)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
         _filterFactory = filterFactory;
+        _roleManager = roleManager;
         // _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -31,8 +33,6 @@ internal class UsersRepository : IUsersRepository
         
         await _userStore.SetUserNameAsync(dbUser, user.Email, CancellationToken.None);
         dbUser.PhoneNumber = user.PhoneNumber;
-        //_roleManager.
-        //dbUser.EmailConfirmed = true;
 
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
@@ -45,6 +45,47 @@ internal class UsersRepository : IUsersRepository
         //_logger.LogInformation("Admin created a new account with password.");
         return true;
     }
+    
+    
+    
+    public async Task<IUserCreationResult> RegisterUser(IUser user)
+    {
+        var dbUser = CreateDbUser(user);
+        
+        await _userStore.SetUserNameAsync(dbUser, user.NickName, CancellationToken.None);
+        var emailStore = GetEmailStore();
+        await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
+        var result = await _userManager.CreateAsync(dbUser, user.Password);
+        
+        if (!result.Succeeded)
+            return new UserCreationResult() { Errors = result.Errors };
+
+        //Logger.LogInformation("User created a new account with password.");
+
+        var userId = await _userManager.GetUserIdAsync(dbUser);
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync(dbUser);
+        return new UserCreationResult() { UserId = userId, Code = code, CreatedUser = dbUser};
+    }
+
+    private ApplicationUser CreateDbUser(IUser user)
+    {
+        try
+        {
+            var dbUser =  Activator.CreateInstance<ApplicationUser>();
+            dbUser.FirstName = user.FirstName;
+            dbUser.LastName = user.LastName;
+            dbUser.BirthDate = user.BirthDate;
+            return dbUser;
+        }
+        catch
+        {
+            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+                                                $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
+        }
+    }
+    
+    
+    
 
 
     public async Task<IUsersPaginatedList> GetUsersPagedWithFilters(int page, int pageSize, IEnumerable<FilterItem> filters)

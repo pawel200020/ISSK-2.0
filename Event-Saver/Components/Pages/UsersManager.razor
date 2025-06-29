@@ -2,12 +2,17 @@
 @using Microsoft.AspNetCore.Authorization
 @using Users
 @using Abstract.Users
+@using Event_Saver.Components.Modals
 @using Users.Interfaces.Managers
+@using Users.Models
+@using Modal = BlazorBootstrap.Modal
+@using SortDirection = BlazorBootstrap.SortDirection
 
 @attribute [Authorize(Roles = nameof(UserRole.Administrator))]
-<h3>Users Manager</h3>
-<Button Color="ButtonColor.Primary">Add User</Button>
 
+<h3>Users Manager</h3>
+<Button Color="ButtonColor.Primary" @onclick="OnShowModalClickForCreation">Add User</Button>   
+<Modal @ref="modal" Style="height: 700px" />
 <Grid TItem="IUser"
       Class="table table-hover table-bordered table-striped"
       DataProvider="CustomersDataProvider"
@@ -16,7 +21,9 @@
       AllowSorting="true"
       Responsive="true"
       PageSizeSelectorVisible="true"
-      PageSizeSelectorItems="@(new int[] { 5, 10, 20 })">
+      PageSizeSelectorItems="@(new int[] { 5, 10, 20 })"
+      OnRowClick="OnShowModalClick"
+      AllowRowClick="true">
 
     <GridColumn TItem="IUser" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
         @context.FirstName
@@ -65,6 +72,28 @@
             //log
             throw;
         }
+    }
+    
+    private Modal modal = default!;
+
+    private async Task OnShowModalClick(GridRowEventArgs<IUser> args)
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("User", args.Item);
+        parameters.Add("IsEditMode",true);
+        await modal.ShowAsync<UserEditModal>(title: "User Details", parameters: parameters);
+    }
+    private async Task OnShowModalClickForCreation()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("User", new AppUser());
+        parameters.Add("IsEditMode",false);
+        await modal.ShowAsync<UserEditModal>(title: "Create user", parameters: parameters);
+    }
+
+    private async Task OnHideModalClick()
+    {
+        await modal.HideAsync();
     }
 
 }

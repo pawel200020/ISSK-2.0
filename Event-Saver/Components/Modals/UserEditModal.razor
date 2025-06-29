@@ -1,0 +1,115 @@
+﻿@using Abstract.Users
+@using Users.Models
+<EditForm EditContext="@_editContext" OnValidSubmit="HandleOnValidSubmit">
+    <DataAnnotationsValidator/>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">User guid: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@UserGuid" Disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">First Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.FirstName" Placeholder="Enter first name"/>
+            <ValidationMessage For="@(() => User.FirstName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Last Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.LastName" Placeholder="Enter last name"/>
+            <ValidationMessage For="@(() => User.LastName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Email: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.Email" Placeholder="Enter email"/>
+            <ValidationMessage For="@(() => User.Email)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Phone number: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.PhoneNumber" Placeholder="Enter phone number"/>
+            <ValidationMessage For="@(() => User.PhoneNumber)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Birth date: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <DateInput TValue="DateOnly" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
+            <ValidationMessage For="@(() => User.BirthDate)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Is disabled:</label>
+        <div class="col-md-9">
+            <CheckboxInput @bind-Value="@User.IsAccountDisabled"/>
+        </div>
+    </div>
+    @if (IsEditMode)
+    {
+        <h4><span class="text-danger">Danger zone</span></h4>
+        <span>Password change</span>
+        <div class="form-floating mb-3">
+            <InputText type="password" @bind-Value="User.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+            <label for="password">Password</label>
+            <ValidationMessage For="() => User.Password" class="text-danger"/>
+        </div>
+        @* <div class="form-floating mb-3"> *@
+        @*     <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/> *@
+        @*     <label for="confirm-password">Confirm Password</label> *@
+        @*     <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger"/> *@
+        @* </div> *@
+    }
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="float-end" @onclick="ResetForm">Reset</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Submit</Button>
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+    
+    private EditContext? _editContext;
+    [Parameter] public IUser User { get; set; } = null!;
+    [Parameter] public bool IsEditMode { get; set; }
+    private string UserGuid { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(User);
+        UserGuid = User.Id.ToString();
+        base.OnInitialized();
+    }
+
+    public void HandleOnValidSubmit()
+    {
+        // additional check
+        if (_editContext.Validate())
+        {
+            // do something
+            // submit the form
+            Console.WriteLine("Form submitted successfully");
+        }
+    }
+
+    private void ResetForm()
+    {
+        User = new AppUser();
+        _editContext = new EditContext(User);
+    }
+}

@@ -6,9 +6,17 @@ using Users.Repositories;
 
 namespace Users.Managers;
 
-internal class UsersUploader 
+internal class UsersUploader : IUsersUploader
 {
-    
-    
-    
+    private IUsersRepository _usersRepository;
+
+    public UsersUploader(IUsersRepository usersRepository)
+    {
+        _usersRepository = usersRepository ?? throw new ArgumentNullException(nameof(usersRepository));
+    }
+
+   public async Task<IUserCreationResult> RegisterUser(IUser user)
+        => await _usersRepository.RegisterUser(user);
+
+
 }

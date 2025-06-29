@@ -1,6 +1,7 @@
 ﻿@page "/Account/Manage"
 
 @using System.ComponentModel.DataAnnotations
+@using Humanizer
 @using Microsoft.AspNetCore.Identity
 @using Users
 @using Users.Models
@@ -29,6 +30,11 @@
                 <label for="phone-number" class="form-label">Phone number</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
             </div>
+            <div class="form-floating mb-3">
+                <DateInput TValue="DateOnly?" @bind-Value="Input.BirthDate" class="form-control" placeholder="Please enter your birth date."/>
+                <label for="birth-date" class="form-label">Birth date</label>
+                <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
+            </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
         </EditForm>
     </div>
@@ -50,10 +56,19 @@
         phoneNumber = await UserManager.GetPhoneNumberAsync(user);
 
         Input.PhoneNumber ??= phoneNumber;
+        Input.BirthDate ??= user.BirthDate;
+
     }
 
     private async Task OnValidSubmitAsync()
     {
+        user.PhoneNumber = Input.PhoneNumber;
+        user.BirthDate = Input.BirthDate.Value;
+        var updateResult = await UserManager.UpdateAsync(user);
+        if (!updateResult.Succeeded)
+        {
+            RedirectProcessor.RedirectToCurrentPageWithStatus("Error: Failed to update a user.", HttpContext);
+        }
         if (Input.PhoneNumber != phoneNumber)
         {
             var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
@@ -72,6 +87,8 @@
         [Phone]
         [Display(Name = "Phone number")]
         public string? PhoneNumber { get; set; }
+        [Display(Name = "Date of birth")]
+        public DateOnly? BirthDate { get; set; }
     }
 
 }

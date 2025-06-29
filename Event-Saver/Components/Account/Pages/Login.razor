@@ -5,6 +5,7 @@
 @using Microsoft.AspNetCore.Identity
 @using Users
 @using Users.Models
+@using ViewModels.RazorPages.Users
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
@@ -70,7 +71,7 @@
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromForm] private InputModel Input { get; set; } = new();
+    [SupplyParameterFromForm] private UserLoginViewModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
 
@@ -109,16 +110,4 @@
             errorMessage = "Error: Invalid login attempt.";
         }
     }
-
-    private sealed class InputModel
-    {
-        [Required] [EmailAddress] public string Email { get; set; } = "";
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; } = "";
-
-        [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
-    }
-
 }

@@ -5,6 +5,7 @@ namespace Users.Models;
 public class AppUser : IUser
 {
     public Guid Id { get; set; }
+    public string NickName { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateOnly BirthDate { get; set; }
