@@ -13,4 +13,5 @@ public interface IUser
     bool IsEmailConfirmed { get; set; }
     bool IsAccountDisabled { get; set; }
     string Password { get; set; }
+    string RoleId { get; set; }
 }

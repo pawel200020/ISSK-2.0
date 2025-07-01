@@ -13,42 +13,19 @@ internal class UsersRepository : IUsersRepository
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IUserStore<ApplicationUser> _userStore;
-    private RoleManager<IdentityRole> _roleManager;
 
     private IFilterFactory _filterFactory;
    //private readonly ILogger _logger;
 
-    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory, NavigationManager navigationManager, RoleManager<IdentityRole> roleManager)
+    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
         _filterFactory = filterFactory;
-        _roleManager = roleManager;
         // _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
-
-    public async Task<bool> AddUserAsync(IUser user, UserRole? role)
-    { 
-        var dbUser = CreateUser();
-        
-        await _userStore.SetUserNameAsync(dbUser, user.Email, CancellationToken.None);
-        dbUser.PhoneNumber = user.PhoneNumber;
-
-        var emailStore = GetEmailStore();
-        await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
-        var result = await _userManager.CreateAsync(dbUser, user.Password);
-
-        if (!result.Succeeded)
-            return false;
-        
-
-        //_logger.LogInformation("Admin created a new account with password.");
-        return true;
-    }
     
-    
-    
-    public async Task<IUserCreationResult> RegisterUser(IUser user)
+    public async Task<IUserCreationResult> RegisterUser(IUser user, UserRole role)
     {
         var dbUser = CreateDbUser(user);
         
@@ -59,6 +36,8 @@ internal class UsersRepository : IUsersRepository
         
         if (!result.Succeeded)
             return new UserCreationResult() { Errors = result.Errors };
+
+        await _userManager.AddToRoleAsync(dbUser, nameof(role));
 
         //Logger.LogInformation("User created a new account with password.");
 
@@ -83,29 +62,32 @@ internal class UsersRepository : IUsersRepository
                                                 $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
         }
     }
-    
-    
-    
 
 
-    public async Task<IUsersPaginatedList> GetUsersPagedWithFilters(int page, int pageSize, IEnumerable<FilterItem> filters)
+    public async Task<IUsersPaginatedList> GetUsersPagedWithFilters(int page, int pageSize,
+        IEnumerable<FilterItem> filters)
     {
         var filteredUsers = ApplyFiltering(filters);
-
         return new UsersPaginatedList()
         {
-            Users = await filteredUsers.Skip(page - 1).Take(pageSize).Select(user => new AppUser()
-            {
-                Email = user.Email!,
-                Id = new Guid(user.Id),
-                IsAccountDisabled = user.LockoutEnabled,
-                PhoneNumber = user.PhoneNumber!,
-                UserName = user.UserName!,
-                Password = string.Empty,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                BirthDate = user.BirthDate
-            }).ToArrayAsync(),
+            Users = filteredUsers
+                .Include(x => x.UserRoles)
+                .ThenInclude(x => x.Role)
+                .Skip(page - 1)
+                .Take(pageSize)
+                .Select(user => new AppUser()
+                {
+                    Email = user.Email!,
+                    Id = new Guid(user.Id),
+                    IsAccountDisabled = user.LockoutEnabled,
+                    PhoneNumber = user.PhoneNumber!,
+                    UserName = user.UserName!,
+                    Password = string.Empty,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    BirthDate = user.BirthDate,
+                    RoleId = user.UserRoles.First().RoleId
+                }).ToArray(),
             TotalCount = GetTotalRowsNumber()
         };
     }

@@ -15,4 +15,5 @@ public class AppUser : IUser
     public bool IsEmailConfirmed { get; set; }
     public bool IsAccountDisabled { get; set; }
     public string Password { get; set; }
+    public string RoleId { get; set; }
 }

@@ -17,5 +17,6 @@ public class ApplicationUser : IdentityUser
     [NotNull]
     public required string LastName { get; set; }
     public required DateOnly BirthDate { get; set; }
+    public virtual ICollection<ApplicationUserRole> UserRoles { get; set; }
     public required DateTime TsInsert { get; set; }
 }

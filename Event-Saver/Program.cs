@@ -36,7 +36,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>()
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddDefaultTokenProviders();

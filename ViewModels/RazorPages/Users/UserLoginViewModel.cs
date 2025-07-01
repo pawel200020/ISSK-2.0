@@ -4,7 +4,7 @@ namespace ViewModels.RazorPages.Users;
 
 public sealed class UserLoginViewModel
 {
-    [Required] public string Email { get; set; } = "";
+    [Required] public string UserName { get; set; } = "";
 
     [Required]
     [DataType(DataType.Password)]
