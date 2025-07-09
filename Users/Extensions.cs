@@ -25,5 +25,6 @@ public static class Extensions
             .AddScoped<IFilterFactory,FilterFactory>()
             .AddScoped<IUsersRepository,UsersRepository>()
             .AddScoped<IUsersDownloader,UsersDownloader>()
-            .AddScoped<IUsersUploader, UsersUploader>();
+            .AddScoped<IUsersUploader, UsersUploader>()
+            .AddScoped<IUsersRemover,UsersRemover>();
 }
