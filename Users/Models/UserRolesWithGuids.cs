@@ -1,0 +1,13 @@
+﻿namespace Users.Models;
+
+public class UserRolesWithGuids
+{
+    public static Dictionary<Guid, UserRole> RolesWithGuids = new()
+    {
+        {new Guid("501d9016-6785-4fec-889f-431fd151b4b2"), UserRole.Administrator},
+        {new Guid("6c18d691-ea82-4765-b876-60c83837c93f"), UserRole.Manager},
+        {new Guid("af3307f8-e217-42c1-bf23-5523feba07fc"), UserRole.Standard},
+        {new Guid("cc413efd-1a3c-482f-839c-274f3e63857c"), UserRole.Basic}
+    };
+
+}

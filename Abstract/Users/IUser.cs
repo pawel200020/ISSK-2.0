@@ -3,7 +3,6 @@
 public interface IUser
 {
     Guid Id { get; set; }
-    string NickName { get; set; }
     string FirstName { get; set; }
     public string LastName { get; set; }
     public DateOnly BirthDate { get; set; }
@@ -13,5 +12,5 @@ public interface IUser
     bool IsEmailConfirmed { get; set; }
     bool IsAccountDisabled { get; set; }
     string Password { get; set; }
-    string RoleId { get; set; }
+    Guid RoleId { get; set; }
 }

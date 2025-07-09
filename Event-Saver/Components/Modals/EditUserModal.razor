@@ -1,0 +1,146 @@
+﻿@using Users.Models
+@using ViewModels.RazorPages.Users
+@using Users.Interfaces.Managers
+@using AutoMapper
+@using Event_Saver.Components.Modals.ConfirmationModals
+@using ModalSize = BlazorBootstrap.ModalSize
+<Modal @ref="_modal" IsVerticallyCentered="true" Style="backdrop-filter: blur(10px)" Size="ModalSize.Small"/>
+
+<EditForm EditContext="@_editContext" OnSubmit="HandleOnSubmit" id="my-form-ref-2">
+    <DataAnnotationsValidator/>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">User guid: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.Id" Disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">First Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.FirstName" Placeholder="Enter first name"/>
+            <ValidationMessage For="@(() => User.FirstName)"/>
+        </div>
+    </div>
+<div class="blur-overlay">
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Last Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.LastName" Placeholder="Enter last name"/>
+            <ValidationMessage For="@(() => User.LastName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Email: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.Email" Placeholder="Enter email"/>
+            <ValidationMessage For="@(() => User.Email)"/>
+        </div>
+    </div>
+</div>
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Phone: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.PhoneNumber" Placeholder="Enter phone number"/>
+            <ValidationMessage For="@(() => User.PhoneNumber)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Birth date: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
+            <ValidationMessage For="@(() => User.BirthDate)"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Role: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <InputSelect TValue="Guid" class="form-select" @bind-Value="@User.RoleId">
+                @foreach (var (guid, role) in UserRolesWithGuids.RolesWithGuids)
+                {
+                    <option value="@guid">@role</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => User.RoleId)"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Is disabled:</label>
+        <div class="col-md-9">
+            <CheckboxInput @bind-Value="@User.IsDisabled"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Save</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="RemoveUser">Delete</Button>
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+
+    private EditContext? _editContext;
+    [Parameter] public UserAdminViewModel User { get; set; } = null!;
+    [Parameter] public EventCallback<Task> OnSuccessCallback { get; set; }
+    [Parameter] public EventCallback<Task> OnFailCallback { get; set; }
+    [Inject] private IUsersUploader UsersUploader { get; set; } = default!;
+    [Inject] private IUsersRemover UsersRemover { get; set; } = null!;
+    [Inject] private IMapper Mapper { get; set; } = default!;
+    [Parameter] public bool IsEditMode { get; set; }
+    private Modal _modal = default!;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(User);
+        base.OnInitialized();
+    }
+
+    public async Task HandleOnSubmit()
+    {
+        if (_editContext != null && !_editContext.Validate() || _editContext is null)
+        {
+            await OnFailCallback.InvokeAsync();
+            return;
+        }
+
+        var userFromRequest = (UserAdminViewModel)_editContext.Model;
+
+        if (await UsersUploader.EditUserAsync(Mapper.Map<AppUser>(userFromRequest)))
+            await OnSuccessCallback.InvokeAsync();
+        else
+            await OnFailCallback.InvokeAsync();
+    }
+
+    private async Task RemoveUser()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("OnCloseClick", EventCallback.Factory.Create<MouseEventArgs>(this, OnCloseClick));
+        parameters.Add("OnDeleteClick", EventCallback.Factory.Create<MouseEventArgs>(this, OnDeleteClick));
+        await _modal.ShowAsync<ConfirmDeleteModal>("Confirmation", parameters: parameters);
+    }
+    
+    private async Task OnCloseClick(MouseEventArgs e) => await _modal.HideAsync();
+    
+    private async Task OnDeleteClick(MouseEventArgs e)
+    {
+        await _modal.HideAsync();
+        if (_editContext != null && !_editContext.Validate() || _editContext is null)
+        {
+            await OnFailCallback.InvokeAsync();
+            return;
+        }
+
+        var userFromRequest = (UserAdminViewModel)_editContext.Model;
+
+        if (await UsersRemover.DeleteUser(new Guid(userFromRequest.Id)))
+            await OnSuccessCallback.InvokeAsync();
+        else
+            await OnFailCallback.InvokeAsync();
+    }
+}

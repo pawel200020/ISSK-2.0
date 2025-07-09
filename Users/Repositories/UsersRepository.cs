@@ -1,7 +1,7 @@
 ﻿using Abstract.Users;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Users.Interfaces;
 using Users.Interfaces.Repositories;
 using Users.Models;
@@ -15,21 +15,21 @@ internal class UsersRepository : IUsersRepository
     private readonly IUserStore<ApplicationUser> _userStore;
 
     private IFilterFactory _filterFactory;
-   //private readonly ILogger _logger;
+   private readonly ILogger<UsersRepository> _logger;
 
-    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory)
+    public UsersRepository(UserManager<ApplicationUser> userManager, IUserStore<ApplicationUser> userStore, IFilterFactory filterFactory, ILogger<UsersRepository> logger)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _userStore = userStore ?? throw new ArgumentNullException(nameof(userStore));
         _filterFactory = filterFactory;
-        // _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
     
     public async Task<IUserCreationResult> RegisterUser(IUser user, UserRole role)
     {
         var dbUser = CreateDbUser(user);
         
-        await _userStore.SetUserNameAsync(dbUser, user.NickName, CancellationToken.None);
+        await _userStore.SetUserNameAsync(dbUser, user.UserName, CancellationToken.None);
         var emailStore = GetEmailStore();
         await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
         var result = await _userManager.CreateAsync(dbUser, user.Password);
@@ -39,11 +39,11 @@ internal class UsersRepository : IUsersRepository
 
         await _userManager.AddToRoleAsync(dbUser, nameof(role));
 
-        //Logger.LogInformation("User created a new account with password.");
+        _logger.LogInformation("User created a new account with password.");
 
         var userId = await _userManager.GetUserIdAsync(dbUser);
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(dbUser);
-        return new UserCreationResult() { UserId = userId, Code = code, CreatedUser = dbUser};
+        return new UserCreationResult() { UserId = userId, Code = code, CreatedUser = dbUser, RequireConfirmedAccount = _userManager.Options.SignIn.RequireConfirmedAccount};
     }
 
     private ApplicationUser CreateDbUser(IUser user)
@@ -63,7 +63,15 @@ internal class UsersRepository : IUsersRepository
         }
     }
 
-
+    private void UpdateDbUser(IUser user, ApplicationUser dbUser)
+    {
+        dbUser.FirstName = user.FirstName;
+        dbUser.LastName = user.LastName;
+        dbUser.BirthDate = user.BirthDate;
+        dbUser.UserName = user.UserName;
+        dbUser.PhoneNumber = user.PhoneNumber;
+    }
+    
     public async Task<IUsersPaginatedList> GetUsersPagedWithFilters(int page, int pageSize,
         IEnumerable<FilterItem> filters)
     {
@@ -86,7 +94,7 @@ internal class UsersRepository : IUsersRepository
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     BirthDate = user.BirthDate,
-                    RoleId = user.UserRoles.First().RoleId
+                    RoleId = new Guid(user.UserRoles.First().RoleId)
                 }).ToArray(),
             TotalCount = GetTotalRowsNumber()
         };
@@ -94,26 +102,44 @@ internal class UsersRepository : IUsersRepository
 
     public async Task<bool> EditUserAsync(IUser user)
     {
-        throw new NotImplementedException();
+        var dbUser = await _userManager.Users.Include(x=>x.UserRoles).FirstOrDefaultAsync(x => x.Id == user.Id.ToString());
+        if (dbUser is null)
+            return false;
+        
+        await _userStore.SetUserNameAsync(dbUser, user.UserName, CancellationToken.None);
+        var emailStore = GetEmailStore();
+        await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
+
+        if (dbUser.UserRoles.First().RoleId != user.RoleId.ToString())
+        {
+            await _userManager.RemoveFromRoleAsync(dbUser, dbUser.UserRoles.First().Role.ToString());
+            await _userManager.AddToRoleAsync(dbUser, GetUserRoleNameByGuid(user.RoleId));
+        }
+
+        UpdateDbUser(user,dbUser);
+        await _userManager.UpdateAsync(dbUser);
+      
+        _logger.LogInformation("User successfully edited.");
+        return true;
     }
+
+    private string GetUserRoleNameByGuid(Guid guid)
+        => UserRolesWithGuids.RolesWithGuids[guid].ToString();
 
     public async Task<bool> RemoveUserAsync(Guid userId)
     {
-        throw new NotImplementedException();
-    }
-    
-    
-    private ApplicationUser CreateUser()
-    {
         try
         {
-            return Activator.CreateInstance<ApplicationUser>();
+            var userToRemove = _userManager.Users.Single(u => u.Id == userId.ToString());
+            await _userManager.DeleteAsync(userToRemove);
+            return true;
         }
-        catch
+        catch (Exception ex)
         {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-                                                $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor.");
+            _logger.LogCritical(ex.Message);
         }
+
+        return false;
     }
     
     private IUserEmailStore<ApplicationUser> GetEmailStore()

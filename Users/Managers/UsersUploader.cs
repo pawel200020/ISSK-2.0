@@ -18,5 +18,8 @@ internal class UsersUploader : IUsersUploader
    public async Task<IUserCreationResult> RegisterUser(IUser user)
         => await _usersRepository.RegisterUser(user, UserRole.Basic);
 
+   public async Task<bool> EditUserAsync(IUser user) 
+       => await _usersRepository.EditUserAsync(user);
+
 
 }

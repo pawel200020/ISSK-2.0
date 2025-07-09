@@ -1,11 +1,11 @@
-﻿using Abstract.Users;
+﻿using System.ComponentModel.DataAnnotations;
+using Abstract.Users;
 #nullable disable
 namespace Users.Models;
 
 public class AppUser : IUser
 {
     public Guid Id { get; set; }
-    public string NickName { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public DateOnly BirthDate { get; set; }
@@ -15,5 +15,5 @@ public class AppUser : IUser
     public bool IsEmailConfirmed { get; set; }
     public bool IsAccountDisabled { get; set; }
     public string Password { get; set; }
-    public string RoleId { get; set; }
+    public Guid RoleId { get; set; }
 }

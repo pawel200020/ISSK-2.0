@@ -1,6 +1,7 @@
 ﻿@using Abstract.Users
 @using Users.Models
-<EditForm EditContext="@_editContext" OnValidSubmit="HandleOnValidSubmit">
+@using ViewModels.RazorPages.Users
+<EditForm EditContext="@_editContext" OnSubmit="HandleOnValidSubmit" id="my-form-ref-2">
     <DataAnnotationsValidator/>
 
     <div class="form-group row mb-3">
@@ -35,7 +36,7 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Phone number: <span class="text-danger">*</span></label>
+        <label class="col-md-3 col-form-label">Phone: <span class="text-danger">*</span></label>
         <div class="col-md-9">
             <TextInput @bind-Value="@User.PhoneNumber" Placeholder="Enter phone number"/>
             <ValidationMessage For="@(() => User.PhoneNumber)"/>
@@ -45,37 +46,33 @@
     <div class="form-group row mb-3">
         <label class="col-md-3 col-form-label">Birth date: <span class="text-danger">*</span></label>
         <div class="col-md-9">
-            <DateInput TValue="DateOnly" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
+            <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
             <ValidationMessage For="@(() => User.BirthDate)"/>
         </div>
     </div>
-
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Role: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <InputSelect TValue="Guid" class="form-select" @bind-Value="@User.RoleId">
+                @foreach (var (guid, role) in UserRolesWithGuids.RolesWithGuids)
+                {
+                    <option value="@guid">@role</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => User.RoleId)"/>
+        </div>
+    </div>
     <div class="form-group row mb-3">
         <label class="col-md-3 col-form-label">Is disabled:</label>
         <div class="col-md-9">
-            <CheckboxInput @bind-Value="@User.IsAccountDisabled"/>
+            <CheckboxInput @bind-Value="@User.IsDisabled"/>
         </div>
     </div>
-    @if (IsEditMode)
-    {
-        <h4><span class="text-danger">Danger zone</span></h4>
-        <span>Password change</span>
-        <div class="form-floating mb-3">
-            <InputText type="password" @bind-Value="User.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-            <label for="password">Password</label>
-            <ValidationMessage For="() => User.Password" class="text-danger"/>
-        </div>
-        @* <div class="form-floating mb-3"> *@
-        @*     <InputText type="password" @bind-Value="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/> *@
-        @*     <label for="confirm-password">Confirm Password</label> *@
-        @*     <ValidationMessage For="() => Input.ConfirmPassword" class="text-danger"/> *@
-        @* </div> *@
-    }
-
     <div class="row">
         <div class="col-md-12 text-right">
             <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="float-end" @onclick="ResetForm">Reset</Button>
             <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Submit</Button>
+            <button type="submit" class="btn btn-danger" form="my-form-ref-2">Submit Form</button>
         </div>
     </div>
 
@@ -83,16 +80,15 @@
 
 
 @code {
-    
+
     private EditContext? _editContext;
-    [Parameter] public IUser User { get; set; } = null!;
-    [Parameter] public bool IsEditMode { get; set; }
+    private UserAdminCreateViewModel User { get; set; } = null!;
     private string UserGuid { get; set; }
 
     protected override void OnInitialized()
     {
+        User = new UserAdminCreateViewModel();
         _editContext = new EditContext(User);
-        UserGuid = User.Id.ToString();
         base.OnInitialized();
     }
 
@@ -109,7 +105,8 @@
 
     private void ResetForm()
     {
-        User = new AppUser();
+        User = new UserAdminCreateViewModel();
         _editContext = new EditContext(User);
     }
+
 }

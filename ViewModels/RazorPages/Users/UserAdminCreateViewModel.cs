@@ -2,9 +2,9 @@
 
 namespace ViewModels.RazorPages.Users;
 
-public class UserViewModel
+public class UserAdminCreateViewModel
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
     [Required]
     [StringLength(50, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 2)]
     [Display(Name = "First name")]
@@ -36,7 +36,6 @@ public class UserViewModel
     [DataType(DataType.PhoneNumber)]
     [Display(Name = "Phone number")]
     public string PhoneNumber { get; set; } = null!;
-    public string testParam { get; set; } = null!;
 
     [Required]
     [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
@@ -48,6 +47,8 @@ public class UserViewModel
     [Display(Name = "Confirm password")]
     [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
     public string ConfirmPassword { get; set; } = null!;
-
-    public int Role { get; set; }
+    
+    [Required]
+    [Display(Name = "Role")]
+    public Guid RoleId { get; set; }
 }

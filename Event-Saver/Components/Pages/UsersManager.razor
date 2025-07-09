@@ -2,20 +2,24 @@
 @using Microsoft.AspNetCore.Authorization
 @using Users
 @using Abstract.Users
+@using AutoMapper
 @using Event_Saver.Components.Modals
+@using Event_Saver.Toasts
 @using Users.Interfaces.Managers
-@using Users.Models
+@using ViewModels.RazorPages.Users
 @using Modal = BlazorBootstrap.Modal
 @using SortDirection = BlazorBootstrap.SortDirection
 
 @attribute [Authorize(Roles = nameof(UserRole.Administrator))]
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <h3>Users Manager</h3>
 <Button Color="ButtonColor.Primary" @onclick="OnShowModalClickForCreation">Add User</Button>   
-<Modal @ref="modal" Style="height: 700px" />
-<Grid TItem="IUser"
+<Modal @ref="_modal" Style="height: 700px" />
+<Grid TItem="UserAdminViewModel"
+      @ref="_grid"
       Class="table table-hover table-bordered table-striped"
-      DataProvider="CustomersDataProvider"
+      DataProvider="ReadData"
       AllowFiltering="true"
       AllowPaging="true"
       AllowSorting="true"
@@ -25,31 +29,37 @@
       OnRowClick="OnShowModalClick"
       AllowRowClick="true">
 
-    <GridColumn TItem="IUser" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
         @context.FirstName
     </GridColumn>
-    <GridColumn TItem="IUser" HeaderText="Last Name" PropertyName="LastName" SortString="LastName" SortKeySelector="item => item.LastName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="Last Name" PropertyName="LastName" SortString="LastName" SortKeySelector="item => item.LastName" FilterTextboxWidth="80">
         @context.LastName
     </GridColumn>
-    <GridColumn TItem="IUser" HeaderText="User Name" PropertyName="UserName" SortString="UserName" SortKeySelector="item => item.UserName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="User Name" PropertyName="UserName" SortString="UserName" SortKeySelector="item => item.UserName" FilterTextboxWidth="80">
         @context.UserName
     </GridColumn>
-    <GridColumn TItem="IUser" HeaderText="Phone" PropertyName="Phone" SortString="Phone" Filterable="false">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="Phone" PropertyName="Phone" SortString="Phone" Filterable="false">
         @context.PhoneNumber
     </GridColumn>
-    <GridColumn TItem="IUser" HeaderText="Email" PropertyName="Email" SortString="Email" SortKeySelector="item => item.Email" FilterTextboxWidth="120">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="Email" PropertyName="Email" SortString="Email" SortKeySelector="item => item.Email" FilterTextboxWidth="120">
         @context.Email
     </GridColumn>
-    <GridColumn TItem="IUser" HeaderText="Birth Date" PropertyName="BirthDate" SortString="BirthDate" SortKeySelector="item => item.BirthDate" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText="Birth Date" PropertyName="BirthDate" SortString="BirthDate" SortKeySelector="item => item.BirthDate!" FilterTextboxWidth="80">
         @context.BirthDate
     </GridColumn>
 </Grid>
 
 @code {
-    [Inject] private IUsersDownloader _usersDownloader { get; set; } = default!;
-    Grid<IUser> grid = default!;
+    [Inject] private IUsersDownloader UsersDownloader { get; set; } = default!;
+    [Inject] private IMapper Mapper { get; set; } = default!;
+    [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
+    [Inject] private ILogger<UsersManager> Logger { get; set; } = null!;
+    [CascadingParameter] public required IModalService Modal { get; set; }
+    private Grid<UserAdminViewModel> _grid = default!;
+    private readonly List<ToastMessage> _messages = new();
+    private Modal _modal = default!;
 
-    private async Task<GridDataProviderResult<IUser>> CustomersDataProvider(GridDataProviderRequest<IUser> request)
+    private async Task<GridDataProviderResult<UserAdminViewModel>?> ReadData(GridDataProviderRequest<UserAdminViewModel> request)
     {
         try
         {
@@ -64,36 +74,47 @@
                 sortDirection = request.Sorting.FirstOrDefault()!.SortDirection;
             }
 
-            var users = await _usersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
-            return await Task.FromResult(new GridDataProviderResult<IUser> { Data = users.Users, TotalCount = users.TotalCount });
+            var users = await UsersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
+            return await Task.FromResult(new GridDataProviderResult<UserAdminViewModel> { Data = users.Users.Select(Mapper.Map<UserAdminViewModel>), TotalCount = users.TotalCount });
         }
         catch (Exception ex)
         {
-            //log
-            throw;
+            Logger.Log(LogLevel.Critical, ex.Message);
         }
+
+        return null;
     }
     
-    private Modal modal = default!;
-
-    private async Task OnShowModalClick(GridRowEventArgs<IUser> args)
+    private void ShowToast (string title, string message, ToastType toastType) 
+        => _messages.Add(ToastMessageCreationService.CreateToastMessage(title, message, toastType));
+    
+    private void ShowFailToast () 
+        => _messages.Add(ToastMessageCreationService.CreateUnknownErrorToastMessage());
+    
+    private async Task OnShowModalClick(GridRowEventArgs<UserAdminViewModel> args)
     {
         var parameters = new Dictionary<string, object>();
         parameters.Add("User", args.Item);
-        parameters.Add("IsEditMode",true);
-        await modal.ShowAsync<UserEditModal>(title: "User Details", parameters: parameters);
+        parameters.Add("OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessEditUser));
+        parameters.Add("OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail));
+        await _modal.ShowAsync<EditUserModal>(title: "Edit user", parameters: parameters);
     }
     private async Task OnShowModalClickForCreation()
     {
-        var parameters = new Dictionary<string, object>();
-        parameters.Add("User", new AppUser());
-        parameters.Add("IsEditMode",false);
-        await modal.ShowAsync<UserEditModal>(title: "Create user", parameters: parameters);
+        await _modal.ShowAsync<CreateUserModal>(title: "Create user");
+        await _modal.HideAsync();
     }
 
-    private async Task OnHideModalClick()
+    private async Task OnSuccessEditUser()
     {
-        await modal.HideAsync();
+        await _modal.HideAsync();
+        await _grid.RefreshDataAsync();
+        ShowToast("Success", "User successfully updated", ToastType.Success);
     }
-
+    private async Task OnFail()
+    {
+        await _modal.HideAsync();
+        await _grid.RefreshDataAsync();
+        ShowFailToast();
+    }
 }

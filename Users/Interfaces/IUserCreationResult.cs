@@ -9,4 +9,5 @@ public interface IUserCreationResult
     string? UserId { get; }
     string? Code { get; }
     ApplicationUser CreatedUser { get; set; }
+    bool RequireConfirmedAccount { get; set; }
 }

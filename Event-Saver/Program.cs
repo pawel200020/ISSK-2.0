@@ -1,3 +1,4 @@
+using BlazorBootstrap;
 using Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -5,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Event_Saver.Components;
 using Event_Saver.Components.Account;
 using Users;
-using Users.Interfaces;
 using Users.Models;
-using Extensions = System.Xml.XPath.Extensions;
+using Blazored.Modal;
+using Event_Saver.Toasts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,9 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectProcessor>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddSingleton<ToastMessageCreationService>();
+builder.Services.AddBlazoredModal();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthentication(options =>
     {
@@ -28,6 +32,11 @@ builder.Services.AddAuthentication(options =>
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
     .AddIdentityCookies();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Lockout.AllowedForNewUsers = false;
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                        throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");

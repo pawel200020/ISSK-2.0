@@ -10,4 +10,5 @@ public class UserCreationResult : IUserCreationResult
     public string? UserId { get; set; }
     public string? Code { get; set; }
     public ApplicationUser CreatedUser { get; set; }
+    public bool RequireConfirmedAccount { get; set; }
 }

@@ -1,0 +1,16 @@
+﻿<div class="row text-center">
+    <p>Are you sure you want to delete this item?</p>
+</div>
+
+<div class="row text-end">
+    <div class="col-md-12 text-right">
+        <Button Color="ButtonColor.Danger" Class="float-end me-2" @onclick="OnDeleteClick">Delete</Button>
+        <Button Color="ButtonColor.Secondary" Class="float-end me-2" @onclick="OnCloseClick">Cancel</Button>
+    </div>
+</div>
+
+
+@code {
+    [Parameter] public EventCallback<MouseEventArgs> OnCloseClick { get; set; }
+    [Parameter] public EventCallback<MouseEventArgs> OnDeleteClick { get; set; }
+}

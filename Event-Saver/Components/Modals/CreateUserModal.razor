@@ -1,0 +1,170 @@
+﻿@using ViewModels.RazorPages.Users
+@using Users.Models
+@using Users.Interfaces.Managers
+@using Microsoft.AspNetCore.Identity
+@using Event_Saver.Components.Pages
+@using Microsoft.AspNetCore.WebUtilities
+@using System.Text
+
+@inject ILogger<UsersManager> Logger
+@inject NavigationManager NavigationManager
+@inject IUsersUploader UsersUploader
+
+
+<EditForm EditContext="@_editContext" OnSubmit="RegisterUser">
+    <DataAnnotationsValidator/>
+    <StatusMessage Message="@Message"/>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">User guid: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.Id" Disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">First Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.FirstName" Placeholder="Enter first name"/>
+            <ValidationMessage For="@(() => User.FirstName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Last Name: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.LastName" Placeholder="Enter last name"/>
+            <ValidationMessage For="@(() => User.LastName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Email: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.Email" Placeholder="Enter email"/>
+            <ValidationMessage For="@(() => User.Email)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Phone: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <TextInput @bind-Value="@User.PhoneNumber" Placeholder="Enter phone number"/>
+            <ValidationMessage For="@(() => User.PhoneNumber)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Birth date: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
+            <ValidationMessage For="@(() => User.BirthDate)"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Role: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <InputSelect TValue="Guid" class="form-select" @bind-Value="@User.RoleId">
+                @foreach (var (guid, role) in UserRolesWithGuids.RolesWithGuids)
+                {
+                    <option value="@guid">@role</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => User.RoleId)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Password: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <InputText type="password" class="form-control" @bind-Value="User.Password" autocomplete="new-password" aria-required="true" placeholder="Enter password"/>
+            <ValidationMessage For="() => User.Password" class="text-danger"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-3 col-form-label">Confirm: <span class="text-danger">*</span></label>
+        <div class="col-md-9">
+            <InputText type="password" class="form-control" @bind-Value="User.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder="Confirm password"/>
+            <ValidationMessage For="@(() => User.ConfirmPassword)" class="text-danger"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+                <label class="col-md-3 col-form-label">Is disabled:</label>
+                <div class="col-md-9">
+                    <CheckboxInput @bind-Value="@User.IsDisabled"/>
+                </div>
+            </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            @* <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="float-end" @onclick="ResetForm">Reset</Button> *@
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Submit</Button>
+            <button type="submit" class="btn btn-danger" form="my-form-ref-2">Submit Form</button>
+        </div>
+    </div>
+    </EditForm>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+    private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok());
+    private EditContext? _editContext;
+    private UserAdminCreateViewModel User { get; set; } = null!;
+    private IEnumerable<IdentityError>? identityErrors;
+    private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    private Modal modal = default!;
+
+    protected override void OnInitialized()
+    {
+        PrepareNewUser();
+        base.OnInitialized();
+    }
+
+    public void RegisterUser()
+    {
+        // additional check
+        if (_editContext.Validate())
+        {
+            var userFromRequest = (UserCreateViewModel)_editContext.Model;
+            var user = new AppUser()
+            {
+                Email = userFromRequest.Email,
+                UserName = userFromRequest.UserName,
+                FirstName = userFromRequest.FirstName,
+                LastName = userFromRequest.LastName,
+                BirthDate = userFromRequest.BirthDate!.Value,
+                Password = userFromRequest.Password,
+                PhoneNumber = userFromRequest.PhoneNumber
+            };
+    
+            var creationResult = UsersUploader.RegisterUser(user).Result;
+    
+            if (creationResult.Errors is not null)
+            {
+                identityErrors = creationResult.Errors;
+                return;
+            }
+    
+            Logger.LogInformation("User created a new account with password.");
+    
+            var userId = creationResult.UserId;
+            var code = creationResult.Code;
+            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code!));
+            var callbackUrl = NavigationManager.GetUriWithQueryParameters(
+                NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
+    
+            //EmailSender.SendConfirmationLinkAsync(creationResult.CreatedUser, User.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        }
+    }
+
+    private void PrepareNewUser()
+    {
+        User = new UserAdminCreateViewModel()
+        {
+            RoleId = UserRolesWithGuids.RolesWithGuids.Where(x => x.Value == Users.UserRole.Basic).Select(x => x.Key).Single(),
+            Id = (new Guid()).ToString()
+        };
+        _editContext = new EditContext(User);
+        modal.HideAsync();
+    }
+
+}
