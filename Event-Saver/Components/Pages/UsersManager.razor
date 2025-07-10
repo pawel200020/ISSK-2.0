@@ -14,8 +14,9 @@
 <Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
 <h3>Users Manager</h3>
-<Button Color="ButtonColor.Primary" @onclick="OnShowModalClickForCreation">Add User</Button>   
-<Modal @ref="_modal" Style="height: 700px" />
+<Button Color="ButtonColor.Primary" @onclick="OnShowModalClickForCreation"><i class="bi bi-person-plus"></i></Button> 
+<hr/>
+<Modal @ref="_modal" IsScrollable="true"/>
 <Grid TItem="UserAdminViewModel"
       @ref="_grid"
       Class="table table-hover table-bordered table-striped"
@@ -28,7 +29,7 @@
       PageSizeSelectorItems="@(new int[] { 5, 10, 20 })"
       OnRowClick="OnShowModalClick"
       AllowRowClick="true">
-
+    
     <GridColumn TItem="UserAdminViewModel" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
         @context.FirstName
     </GridColumn>
@@ -54,7 +55,6 @@
     [Inject] private IMapper Mapper { get; set; } = default!;
     [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
     [Inject] private ILogger<UsersManager> Logger { get; set; } = null!;
-    [CascadingParameter] public required IModalService Modal { get; set; }
     private Grid<UserAdminViewModel> _grid = default!;
     private readonly List<ToastMessage> _messages = new();
     private Modal _modal = default!;
@@ -93,16 +93,22 @@
     
     private async Task OnShowModalClick(GridRowEventArgs<UserAdminViewModel> args)
     {
-        var parameters = new Dictionary<string, object>();
-        parameters.Add("User", args.Item);
-        parameters.Add("OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessEditUser));
-        parameters.Add("OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail));
+        var parameters = new Dictionary<string, object>
+        {
+            { "User", args.Item },
+            { "OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessEditUser) },
+            { "OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail) }
+        };
         await _modal.ShowAsync<EditUserModal>(title: "Edit user", parameters: parameters);
     }
     private async Task OnShowModalClickForCreation()
     {
-        await _modal.ShowAsync<CreateUserModal>(title: "Create user");
-        await _modal.HideAsync();
+        var parameters = new Dictionary<string, object>
+        {
+            { "OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessCreateUser) },
+            { "OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail) }
+        };
+        await _modal.ShowAsync<CreateUserModal>(title: "Create user", parameters: parameters);
     }
 
     private async Task OnSuccessEditUser()
@@ -110,6 +116,13 @@
         await _modal.HideAsync();
         await _grid.RefreshDataAsync();
         ShowToast("Success", "User successfully updated", ToastType.Success);
+    }
+    
+    private async Task OnSuccessCreateUser()
+    {
+        await _modal.HideAsync();
+        await _grid.RefreshDataAsync();
+        ShowToast("Success", "User successfully created", ToastType.Success);
     }
     private async Task OnFail()
     {

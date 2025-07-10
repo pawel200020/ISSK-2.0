@@ -21,7 +21,7 @@ namespace Event_Saver.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             foreach (var roleWithGuid in UserRolesWithGuids)
-                migrationBuilder.InsertData(table:"AspNetRoles",columns:["Id","Name","NormalizedName"], values:[roleWithGuid.Key.ToString(),Enum.GetName(roleWithGuid.Value),Enum.GetName(roleWithGuid.Value)]);
+                migrationBuilder.InsertData(table:"AspNetRoles",columns:["Id","Name","NormalizedName"], values:[roleWithGuid.Key.ToString(),Enum.GetName(roleWithGuid.Value), Enum.GetName(roleWithGuid.Value).ToString().ToUpper()]);
         }
 
         /// <inheritdoc />

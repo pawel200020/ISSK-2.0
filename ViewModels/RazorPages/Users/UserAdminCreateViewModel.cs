@@ -22,7 +22,7 @@ public class UserAdminCreateViewModel
     
     [Required]
     [Display(Name = "Nick")]
-    public string NickName { get; set; } = null!;
+    public string UserName { get; set; } = null!;
     
     [Required]
     [Display(Name = "Birth date")]

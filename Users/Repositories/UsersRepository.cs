@@ -25,7 +25,7 @@ internal class UsersRepository : IUsersRepository
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
     
-    public async Task<IUserCreationResult> RegisterUser(IUser user, UserRole role)
+    public async Task<IUserCreationResult> RegisterUser(IUser user)
     {
         var dbUser = CreateDbUser(user);
         
@@ -36,8 +36,8 @@ internal class UsersRepository : IUsersRepository
         
         if (!result.Succeeded)
             return new UserCreationResult() { Errors = result.Errors };
-
-        await _userManager.AddToRoleAsync(dbUser, nameof(role));
+        
+        await _userManager.AddToRoleAsync(dbUser, Enum.GetName(UserRolesWithGuids.RolesWithGuids[user.RoleId])!);
 
         _logger.LogInformation("User created a new account with password.");
 
@@ -54,6 +54,7 @@ internal class UsersRepository : IUsersRepository
             dbUser.FirstName = user.FirstName;
             dbUser.LastName = user.LastName;
             dbUser.BirthDate = user.BirthDate;
+            dbUser.PhoneNumber = user.PhoneNumber;
             return dbUser;
         }
         catch

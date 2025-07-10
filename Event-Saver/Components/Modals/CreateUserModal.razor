@@ -5,10 +5,14 @@
 @using Event_Saver.Components.Pages
 @using Microsoft.AspNetCore.WebUtilities
 @using System.Text
+@using System.Text.Encodings.Web
+@using AutoMapper
 
 @inject ILogger<UsersManager> Logger
 @inject NavigationManager NavigationManager
 @inject IUsersUploader UsersUploader
+@inject IEmailSender<ApplicationUser> EmailSender
+@inject IMapper Mapper;
 
 
 <EditForm EditContext="@_editContext" OnSubmit="RegisterUser">
@@ -45,6 +49,14 @@
             <ValidationMessage For="@(() => User.Email)"/>
         </div>
     </div>
+    
+    <div class="form-group row mb-3">
+            <label class="col-md-3 col-form-label">User name: <span class="text-danger">*</span></label>
+            <div class="col-md-9">
+                <TextInput @bind-Value="@User.UserName" Placeholder="Enter user name"/>
+                <ValidationMessage For="@(() => User.UserName)"/>
+            </div>
+        </div>
 
     <div class="form-group row mb-3">
         <label class="col-md-3 col-form-label">Phone: <span class="text-danger">*</span></label>
@@ -96,21 +108,18 @@
             </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            @* <Button Type="ButtonType.Button" Color="ButtonColor.Secondary" Class="float-end" @onclick="ResetForm">Reset</Button> *@
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Submit</Button>
-            <button type="submit" class="btn btn-danger" form="my-form-ref-2">Submit Form</button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Create</Button>
         </div>
     </div>
     </EditForm>
 
 @code {
-    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
-    private async Task SubmitForm() => await BlazoredModal.CloseAsync(ModalResult.Ok());
+    [Parameter] public EventCallback<Task> OnSuccessCallback { get; set; }
+    [Parameter] public EventCallback<Task> OnFailCallback { get; set; }
     private EditContext? _editContext;
     private UserAdminCreateViewModel User { get; set; } = null!;
     private IEnumerable<IdentityError>? identityErrors;
     private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
-    private Modal modal = default!;
 
     protected override void OnInitialized()
     {
@@ -118,42 +127,34 @@
         base.OnInitialized();
     }
 
-    public void RegisterUser()
+    public async Task RegisterUser()
     {
         // additional check
-        if (_editContext.Validate())
+        if (!_editContext.Validate()) return;
+        
+        var userFromRequest = (UserAdminCreateViewModel)_editContext.Model;
+        var user = Mapper.Map<AppUser>(userFromRequest);
+    
+        var creationResult = await UsersUploader.RegisterUser(user);
+    
+        if (creationResult.Errors is not null)
         {
-            var userFromRequest = (UserCreateViewModel)_editContext.Model;
-            var user = new AppUser()
-            {
-                Email = userFromRequest.Email,
-                UserName = userFromRequest.UserName,
-                FirstName = userFromRequest.FirstName,
-                LastName = userFromRequest.LastName,
-                BirthDate = userFromRequest.BirthDate!.Value,
-                Password = userFromRequest.Password,
-                PhoneNumber = userFromRequest.PhoneNumber
-            };
-    
-            var creationResult = UsersUploader.RegisterUser(user).Result;
-    
-            if (creationResult.Errors is not null)
-            {
-                identityErrors = creationResult.Errors;
-                return;
-            }
-    
-            Logger.LogInformation("User created a new account with password.");
-    
-            var userId = creationResult.UserId;
-            var code = creationResult.Code;
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code!));
-            var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-                NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-    
-            //EmailSender.SendConfirmationLinkAsync(creationResult.CreatedUser, User.Email, HtmlEncoder.Default.Encode(callbackUrl));
+            identityErrors = creationResult.Errors;
+            await OnFailCallback.InvokeAsync();
+            return;
         }
+    
+        Logger.LogInformation("User created a new account with password.");
+    
+        var userId = creationResult.UserId;
+        var code = creationResult.Code;
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code!));
+        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
+            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
+            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
+    
+        await EmailSender.SendConfirmationLinkAsync(creationResult.CreatedUser, User.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        await OnSuccessCallback.InvokeAsync();
     }
 
     private void PrepareNewUser()
@@ -164,7 +165,6 @@
             Id = (new Guid()).ToString()
         };
         _editContext = new EditContext(User);
-        modal.HideAsync();
     }
 
 }

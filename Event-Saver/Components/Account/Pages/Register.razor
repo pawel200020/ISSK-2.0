@@ -4,6 +4,7 @@
 @using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
+@using Users
 @using Users.Interfaces.Managers
 @using Users.Models
 @using ViewModels.RazorPages.Users
@@ -99,7 +100,8 @@
             LastName = userFromRequest.LastName,
             BirthDate = userFromRequest.BirthDate!.Value,
             Password = userFromRequest.Password,
-            PhoneNumber = userFromRequest.PhoneNumber
+            PhoneNumber = userFromRequest.PhoneNumber,
+            RoleId =  UserRolesWithGuids.RolesWithGuids.Single(x=>x.Value == UserRole.Basic).Key
         };
         var creationResult = await UsersUploader.RegisterUser(user);
         

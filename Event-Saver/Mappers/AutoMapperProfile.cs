@@ -1,5 +1,6 @@
 ﻿using Abstract.Users;
 using AutoMapper;
+using Event_Saver.Components.Modals;
 using Users.Models;
 using ViewModels.RazorPages.Users;
 
@@ -9,8 +10,7 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<UserAdminViewModel, IUser>();
-        CreateMap<IUser, UserAdminViewModel>().ReverseMap();
         CreateMap<AppUser, UserAdminViewModel>().ReverseMap();
+        CreateMap<AppUser, UserAdminCreateViewModel>().ReverseMap();
     }
 }
