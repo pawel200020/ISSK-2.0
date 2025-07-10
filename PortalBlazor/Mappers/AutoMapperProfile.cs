@@ -1,10 +1,8 @@
-﻿using Abstract.Users;
-using AutoMapper;
-using Event_Saver.Components.Modals;
+﻿using AutoMapper;
 using Users.Models;
 using ViewModels.RazorPages.Users;
 
-namespace Event_Saver.Mappers;
+namespace PortalBlazor.Mappers;
 
 public class AutoMapperProfile : Profile
 {

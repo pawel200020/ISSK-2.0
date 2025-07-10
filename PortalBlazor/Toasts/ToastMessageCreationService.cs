@@ -1,6 +1,6 @@
 ﻿using BlazorBootstrap;
 
-namespace Event_Saver.Toasts;
+namespace PortalBlazor.Toasts;
 
 public class ToastMessageCreationService
 {

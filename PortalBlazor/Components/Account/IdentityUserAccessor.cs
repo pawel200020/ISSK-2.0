@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Users;
 using Users.Models;
 
-namespace Event_Saver.Components.Account;
+namespace PortalBlazor.Components.Account;
 
 internal sealed class IdentityUserAccessor(
     UserManager<ApplicationUser> userManager,

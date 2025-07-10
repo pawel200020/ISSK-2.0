@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using Event_Saver.Components.Account.Pages;
-using Event_Saver.Components.Account.Pages.Manage;
-using Users;
+using PortalBlazor.Components.Account.Pages;
+using PortalBlazor.Components.Account.Pages.Manage;
 using Users.Models;
 
-namespace Microsoft.AspNetCore.Routing;
+namespace PortalBlazor.Components.Account;
 
 internal static class IdentityComponentsEndpointRouteBuilderExtensions
 {

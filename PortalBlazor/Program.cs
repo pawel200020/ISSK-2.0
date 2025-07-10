@@ -3,12 +3,12 @@ using Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Event_Saver.Components;
-using Event_Saver.Components.Account;
+using PortalBlazor.Components;
+using PortalBlazor.Components.Account;
 using Users;
 using Users.Models;
 using Blazored.Modal;
-using Event_Saver.Toasts;
+using PortalBlazor.Toasts;
 
 var builder = WebApplication.CreateBuilder(args);
 

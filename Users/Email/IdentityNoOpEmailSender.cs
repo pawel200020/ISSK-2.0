@@ -1,10 +1,9 @@
-using Abstract.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Users.Interfaces;
 using Users.Models;
 
-namespace Event_Saver.Components.Account;
+namespace Users.Email;
 
 // Remove the "else if (EmailSender is IdentityNoOpEmailSender)" block from RegisterConfirmation.razor after updating with a real implementation.
 internal sealed class IdentityNoOpEmailSender : IIdentityNoOpEmailSender, IEmailSender<ApplicationUser>

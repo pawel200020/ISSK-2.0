@@ -4,12 +4,13 @@
         <TargetFramework>net8.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
-        <UserSecretsId>aspnet-Event-Saver-E48696EB-F7E9-4804-A0ED-1A40C9B7FAFB</UserSecretsId>
-        <RootNamespace>Event-Saver</RootNamespace>
+        <UserSecretsId>aspnet-PortalBlazor-E48696EB-F7E9-4804-A0ED-1A40C9B7FAFB</UserSecretsId>
+        <RootNamespace>PortalBlazor</RootNamespace>
         <AssemblyName>$(AssemblyName.Replace(' ', '_'))</AssemblyName>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <Platform>x64</Platform>
     </PropertyGroup>
-
+    
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
@@ -32,10 +33,6 @@
       <ProjectReference Include="..\Data\Data.csproj" />
       <ProjectReference Include="..\Users\Users.csproj" />
       <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Users\Users.csproj" />
     </ItemGroup>
 
     <ItemGroup>

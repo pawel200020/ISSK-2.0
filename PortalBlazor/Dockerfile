@@ -7,17 +7,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Event-Saver/Event-Saver.csproj", "Event-Saver/"]
-RUN dotnet restore "Event-Saver/Event-Saver.csproj"
+COPY ["PortalBlazor/PortalBlazor.csproj", "PortalBlazor/"]
+RUN dotnet restore "PortalBlazor/PortalBlazor.csproj"
 COPY . .
 WORKDIR "/src/Event-Saver"
-RUN dotnet build "Event-Saver.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "PortalBlazor.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Event-Saver.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "PortalBlazor.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Event-Saver.dll"]
+ENTRYPOINT ["dotnet", "PortalBlazor.dll"]

@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
-namespace Event_Saver.Components.Account;
+namespace PortalBlazor.Components.Account;
 
 internal sealed class IdentityRedirectProcessor(NavigationManager navigationManager)
 {

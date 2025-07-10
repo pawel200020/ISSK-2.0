@@ -1,7 +1,6 @@
-﻿using Abstract.Users;
-using Event_Saver.Components.Account;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Users.Email;
 using Users.Filters;
 using Users.Interfaces;
 using Users.Interfaces.Managers;
