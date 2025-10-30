@@ -1,0 +1,54 @@
+@using System.Globalization
+
+<div class="imagedropdown-container" @onmouseenter="ToggleDropdown" @onmouseleave="ToggleDropdown">
+    <div class="imagedropdown-header @(_isOpen ? "active" : "")"  >
+        @if (SelectedItem != null)
+        {
+            <div class="imagedropdown-selected-item">
+                <img class="imagedropdown-image"src="@SelectedItem.ImageUrl" alt="@SelectedItem.Culture.DisplayName" />
+                <span>@SelectedItem.Culture.TwoLetterISOLanguageName.ToUpper()</span>
+            </div>
+        }
+        else
+        {
+            <span>@Placeholder</span>
+        }
+        <span class="imagedropdown-arrow">▼</span>
+    </div>
+    @if (_isOpen)
+    {
+        <div class="imagedropdown-menu">
+            @foreach (var item in Items)
+            {
+                <div class="imagedropdown-item @(SelectedItem?.Culture.Name == item.Culture.Name ? "selected" : "") " @onclick="() => SelectItem(item)" ValueChanged>
+                    <img class="imagedropdown-image" src="@item?.ImageUrl" alt="@item?.Culture.DisplayName"/>
+                    <span>@item?.Culture.TwoLetterISOLanguageName.ToUpper()</span>
+                </div>
+            }
+        </div>
+    }
+</div>
+@code {
+    [Parameter] public List<BasicImageDropdownItem> Items { get; set; } = new();
+    [Parameter] public BasicImageDropdownItem SelectedItem { get; set; }
+    [Parameter] public EventCallback<BasicImageDropdownItem> SelectedItemChanged { get; set; }
+    [Parameter] public string Placeholder { get; set; } = "Select an item";
+    private bool _isOpen = false;
+    private void ToggleDropdown() => _isOpen = !_isOpen;
+
+    private async Task SelectItem(BasicImageDropdownItem item)
+    {
+        SelectedItem = item;
+        _isOpen = false;
+        await SelectedItemChanged.InvokeAsync(item);
+    }
+    
+    protected override void OnParametersSet()
+    {
+        if(Items != null)
+            SelectedItem = Items.First(x=>x.Culture.Name == CultureInfo.CurrentCulture.Name);
+        base.OnParametersSet();
+    }
+    
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+}

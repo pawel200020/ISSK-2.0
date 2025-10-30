@@ -1,0 +1,62 @@
+@using System.Globalization
+@inject NavigationManager Navigation
+
+<div class="imagedropdown-container" @onmouseenter="ToggleDropdown" @onmouseleave="ToggleDropdown">
+    <div class="imagedropdown-header @(_isOpen ? "active" : "")">
+        <div class="imagedropdown-selected-item">
+            <CountryFlag class="flag" InputType="InputType.ISOA2" ISOA2=@AssignProperFlagCode(SelectedItem.TwoLetterISOLanguageName) Size="FlagSize.Normal"></CountryFlag>
+            <span>@SelectedItem.TwoLetterISOLanguageName.ToUpper()</span>
+        </div>
+        @*<span class="imagedropdown-arrow">▼</span>*@
+    </div>
+    @if (_isOpen)
+    {
+        <div class="imagedropdown-menu">
+            @foreach (var item in Items)
+            {
+                <div class="imagedropdown-item @(SelectedItem?.Name == item.Name ? "selected" : "") "
+                     @onclick="() => SelectItem(item)" ValueChanged>
+                    <CountryFlag InputType="InputType.ISOA2" ISOA2=@AssignProperFlagCode(item.TwoLetterISOLanguageName) Size="FlagSize.Normal"></CountryFlag>
+                    <span>@item.TwoLetterISOLanguageName.ToUpper()</span>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    [Parameter] public List<CultureInfo> Items { get; set; } = new();
+    private CultureInfo SelectedItem { get; set; } = null!;
+    private bool _isOpen;
+    private void ToggleDropdown() => _isOpen = !_isOpen;
+
+    private Task SelectItem(CultureInfo item)
+    {
+        SelectedItem = item;
+        _isOpen = false;
+        
+        if (Equals(CultureInfo.CurrentCulture, SelectedItem)) 
+            return Task.CompletedTask;
+        
+        var uri = new Uri(Navigation.Uri)
+            .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+        var cultureEscaped = Uri.EscapeDataString(item.Name);
+        var uriEscaped = Uri.EscapeDataString(uri);
+
+        Navigation.NavigateTo(
+            $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+            forceLoad: true);
+        
+        return Task.CompletedTask;
+    }
+
+    protected override void OnParametersSet()
+    {
+        SelectedItem = Items.First(x => x.Name == CultureInfo.CurrentCulture.Name);
+        base.OnParametersSet();
+    }
+
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+    private string AssignProperFlagCode(string twoLetterName) => twoLetterName.Equals("en") ? "GB" : twoLetterName;
+}
