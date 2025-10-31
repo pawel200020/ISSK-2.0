@@ -1,6 +1,8 @@
 ﻿@using System.Globalization
+@using Abstract.Languages
 @using PortalBlazor.Components.Controls
 @inherits LayoutComponentBase
+@inject ISupportedLanguagesDownloader SupportedLanguagesDownloader
 
 <div class="page">
     <div class="sidebar">
@@ -9,7 +11,7 @@
 
     <main>
         <div class="top-row px-4">
-            <CultureSelector Items="supporedLaungages"/>
+            <CultureSelector Items="GetSupportedCultures().GetAwaiter().GetResult()"/>
         </div>
 
         <article class="content px-4">
@@ -26,10 +28,5 @@
 
 @code
 {
-    List<CultureInfo> supporedLaungages = new()
-    {
-        new CultureInfo("en-us"),
-        new CultureInfo("pl-pl"),
-        new CultureInfo("de-de"),
-    };
+    private async Task<IEnumerable<CultureInfo>> GetSupportedCultures()=> await SupportedLanguagesDownloader.GetSupportedLanguages();
 }

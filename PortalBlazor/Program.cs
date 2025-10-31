@@ -7,6 +7,7 @@ using PortalBlazor.Components.Account;
 using Users;
 using Users.Models;
 using Blazored.Modal;
+using PortalBlazor.Extension;
 using PortalBlazor.Middlewares.Extension;
 using PortalBlazor.Toasts;
 
@@ -55,6 +56,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 builder.Services.AddUsers();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddMemoryCache();
+
+builder.Services.AddServices();
 
 var app = builder.Build();
 app.MapControllers();

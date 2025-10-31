@@ -25,7 +25,7 @@
 </div>
 
 @code {
-    [Parameter] public List<CultureInfo> Items { get; set; } = new();
+    [Parameter] public required IEnumerable<CultureInfo> Items { get; set; }
     private CultureInfo SelectedItem { get; set; } = null!;
     private bool _isOpen;
     private void ToggleDropdown() => _isOpen = !_isOpen;

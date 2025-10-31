@@ -1,5 +1,5 @@
+using Abstract.Languages;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 
 namespace PortalBlazor.Middlewares;
@@ -10,18 +10,19 @@ public class CustomRequestLocalizationMiddleware
     private readonly ILoggerFactory _loggerFactory;
 
     public CustomRequestLocalizationMiddleware(RequestDelegate next,
-        ILoggerFactory loggerFactory, IMemoryCache memoryCache)
+        ILoggerFactory loggerFactory)
     {
         _next = next ?? throw new ArgumentNullException(nameof(next));
         _loggerFactory = loggerFactory ?? throw new ArgumentNullException(nameof(loggerFactory));
     }
 
-    public async Task Invoke(HttpContext context /* You can inject services here, such as DbContext or IDbConnection*/)
+    public async Task Invoke(HttpContext context, ISupportedLanguagesDownloader supportedLanguagesDownloader /* You can inject services here, such as DbContext or IDbConnection*/)
     {
         // You can search your database for your supported and/or default languages here
         // This query will execute for all requests, so consider using caching
-        var cultures = await Task.FromResult(new[] { "en-US", "pl-Pl","de-De"});
-        var defaultCulture = await Task.FromResult("en");
+        var supportedLanguages = await supportedLanguagesDownloader.GetSupportedLanguages();
+        var cultures = supportedLanguages.Select(l => l.Name).ToArray();
+        var defaultCulture = cultures.First();
 
         // You can configure the options here as you would do by calling services.Configure<RequestLocalizationOptions>()
         var options = new RequestLocalizationOptions()
