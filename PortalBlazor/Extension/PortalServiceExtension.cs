@@ -1,5 +1,5 @@
 using Core.Extension;
-using Data.Extensions;
+using Data.Extension;
 
 namespace PortalBlazor.Extension;
 
