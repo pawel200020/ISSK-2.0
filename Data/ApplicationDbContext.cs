@@ -1,7 +1,7 @@
+using Data.Entites.Languages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Users;
 using Users.Models;
 
 namespace Data;
@@ -9,6 +9,7 @@ namespace Data;
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : IdentityDbContext<ApplicationUser, ApplicationRole,string, IdentityUserClaim<string>, ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>,IdentityUserToken<string>>(options)
 {
+    public DbSet<SupportedLanguage>  SupportedLanguages { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

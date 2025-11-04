@@ -1,10 +1,11 @@
 ﻿@page "/usersmanager"
 @using Microsoft.AspNetCore.Authorization
-@using Users
 @using AutoMapper
-@using PortalBlazor.Components.Modals
+@using PortalBlazor.Components.Modals.Users
 @using PortalBlazor.Toasts
+@using Resources.PortalResources
 @using Users.Interfaces.Managers
+@using Users.Models.Roles
 @using ViewModels.RazorPages.Users
 @using Modal = BlazorBootstrap.Modal
 @using SortDirection = BlazorBootstrap.SortDirection
@@ -12,7 +13,7 @@
 @attribute [Authorize(Roles = nameof(UserRole.Administrator))]
 <Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
 
-<h3>Users Manager</h3>
+<h3>@Resources.PortalResources.PortalResources.cUserManagement</h3>
 <Button Color="ButtonColor.Primary" @onclick="OnShowModalClickForCreation"><i class="bi bi-person-plus"></i></Button> 
 <hr/>
 <Modal @ref="_modal" IsScrollable="true"/>
@@ -29,22 +30,22 @@
       OnRowClick="OnShowModalClick"
       AllowRowClick="true">
     
-    <GridColumn TItem="UserAdminViewModel" HeaderText="First Name" PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cName PropertyName="FirstName" SortString="FirstName" SortKeySelector="item => item.FirstName" FilterTextboxWidth="80">
         @context.FirstName
     </GridColumn>
-    <GridColumn TItem="UserAdminViewModel" HeaderText="Last Name" PropertyName="LastName" SortString="LastName" SortKeySelector="item => item.LastName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cLastName PropertyName="LastName" SortString="LastName" SortKeySelector="item => item.LastName" FilterTextboxWidth="80">
         @context.LastName
     </GridColumn>
-    <GridColumn TItem="UserAdminViewModel" HeaderText="User Name" PropertyName="UserName" SortString="UserName" SortKeySelector="item => item.UserName" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cUserName PropertyName="UserName" SortString="UserName" SortKeySelector="item => item.UserName" FilterTextboxWidth="80">
         @context.UserName
     </GridColumn>
-    <GridColumn TItem="UserAdminViewModel" HeaderText="Phone" PropertyName="Phone" SortString="Phone" Filterable="false">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cPhone PropertyName="Phone" SortString="Phone" Filterable="false">
         @context.PhoneNumber
     </GridColumn>
-    <GridColumn TItem="UserAdminViewModel" HeaderText="Email" PropertyName="Email" SortString="Email" SortKeySelector="item => item.Email" FilterTextboxWidth="120">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cEmail PropertyName="Email" SortString="Email" SortKeySelector="item => item.Email" FilterTextboxWidth="120">
         @context.Email
     </GridColumn>
-    <GridColumn TItem="UserAdminViewModel" HeaderText="Birth Date" PropertyName="BirthDate" SortString="BirthDate" SortKeySelector="item => item.BirthDate!" FilterTextboxWidth="80">
+    <GridColumn TItem="UserAdminViewModel" HeaderText=@Resources.PortalResources.PortalResources.cBirthDate PropertyName="BirthDate" SortString="BirthDate" SortKeySelector="item => item.BirthDate!" FilterTextboxWidth="80">
         @context.BirthDate
     </GridColumn>
 </Grid>
@@ -98,7 +99,7 @@
             { "OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessEditUser) },
             { "OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail) }
         };
-        await _modal.ShowAsync<EditUserModal>(title: "Edit user", parameters: parameters);
+        await _modal.ShowAsync<EditUserModal>(title: Resources.PortalResources.PortalResources.cUserEdit, parameters: parameters);
     }
     private async Task OnShowModalClickForCreation()
     {
@@ -107,21 +108,21 @@
             { "OnSuccessCallback", EventCallback.Factory.Create<Task>(this, OnSuccessCreateUser) },
             { "OnFailCallBack", EventCallback.Factory.Create<Task>(this, OnFail) }
         };
-        await _modal.ShowAsync<CreateUserModal>(title: "Create user", parameters: parameters);
+        await _modal.ShowAsync<CreateUserModal>(title: @Resources.PortalResources.PortalResources.cCreateUser, parameters: parameters);
     }
 
     private async Task OnSuccessEditUser()
     {
         await _modal.HideAsync();
         await _grid.RefreshDataAsync();
-        ShowToast("Success", "User successfully updated", ToastType.Success);
+        ShowToast(@PortalResources.cSuccess, PortalResources.cUserSuccessUpdated, ToastType.Success);
     }
     
     private async Task OnSuccessCreateUser()
     {
         await _modal.HideAsync();
         await _grid.RefreshDataAsync();
-        ShowToast("Success", "User successfully created", ToastType.Success);
+        ShowToast(@PortalResources.cSuccess, @Resources.PortalResources.PortalResources.cUserSuccessCreated, ToastType.Success);
     }
     private async Task OnFail()
     {

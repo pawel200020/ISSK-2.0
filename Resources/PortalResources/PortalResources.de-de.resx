@@ -1,0 +1,134 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="Title" xml:space="preserve">
+        <value>Guten Morge</value>
+    </data>
+    <data name="Language" xml:space="preserve">
+        <value>Test</value>
+    </data>
+    <data name="Home" xml:space="preserve">
+        <value>Startseite</value>
+    </data>
+    <data name="cWeather" xml:space="preserve">
+        <value>Wetter</value>
+    </data>
+    <data name="cUserManagement" xml:space="preserve">
+        <value>Benutzerverwaltung</value>
+    </data>
+    <data name="cLogout" xml:space="preserve">
+        <value>Abmelden</value>
+    </data>
+    <data name="cName" xml:space="preserve">
+        <value>Vorname</value>
+    </data>
+    <data name="cLastName" xml:space="preserve">
+        <value>Nachname</value>
+    </data>
+    <data name="cPhone" xml:space="preserve">
+        <value>Telefonnummer</value>
+    </data>
+    <data name="cUserName" xml:space="preserve">
+        <value>Benutzername</value>
+    </data>
+    <data name="cEmail" xml:space="preserve">
+        <value>E-Mail</value>
+    </data>
+    <data name="cBirthDate" xml:space="preserve">
+        <value>Geburtsdatum</value>
+    </data>
+    <data name="cUserIdentity" xml:space="preserve">
+        <value>Benutzer-ID</value>
+    </data>
+    <data name="cAccountType" xml:space="preserve">
+        <value>Account-Typ</value>
+    </data>
+    <data name="cUserEdit" xml:space="preserve">
+        <value>Benutzer bearbeiten</value>
+    </data>
+    <data name="cIsActive" xml:space="preserve">
+        <value>Konto aktiv</value>
+    </data>
+    <data name="cDelete" xml:space="preserve">
+        <value>Löschen</value>
+    </data>
+    <data name="cSave" xml:space="preserve">
+        <value>Speichern</value>
+    </data>
+    <data name="cPassword" xml:space="preserve">
+        <value>Passwort</value>
+    </data>
+    <data name="cConfirmPassword" xml:space="preserve">
+        <value>Passwort bestätigen</value>
+    </data>
+    <data name="cCreate" xml:space="preserve">
+        <value>Erstellen</value>
+    </data>
+    <data name="cCreateUser" xml:space="preserve">
+        <value>Erstellen user</value>
+    </data>
+    <data name="cAddFirstNameNt" xml:space="preserve">
+        <value>Name eingeben</value>
+    </data>
+    <data name="cAddLastNameNt" xml:space="preserve">
+        <value>Vorname eingeben</value>
+    </data>
+    <data name="cAddEmailNt" xml:space="preserve">
+        <value>E-Mail eingeben</value>
+    </data>
+    <data name="cAddUserNameNt" xml:space="preserve">
+        <value>Benutzernamen eingeben</value>
+    </data>
+    <data name="cAddPhoneNt" xml:space="preserve">
+        <value>Telefonnummer eingeben</value>
+    </data>
+    <data name="cAddEnterPassNt" xml:space="preserve">
+        <value>Passwort eingeben</value>
+    </data>
+    <data name="cAddPassCfNt" xml:space="preserve">
+        <value>Passwort bestätigen</value>
+    </data>
+    <data name="cDeleteConfirmation" xml:space="preserve">
+        <value>Möchten Sie diesen Artikel wirklich löschen?</value>
+    </data>
+    <data name="cCancel" xml:space="preserve">
+        <value>Abbrechen</value>
+    </data>
+    <data name="cSuccess" xml:space="preserve">
+        <value>Erfolg</value>
+    </data>
+    <data name="cUserSuccessCreated" xml:space="preserve">
+        <value>Benutzer erfolgreich erstellt</value>
+    </data>
+    <data name="cUserSuccessUpdated" xml:space="preserve">
+        <value>Benutzer erfolgreich aktualisiert</value>
+    </data>
+    <data name="cRegister" xml:space="preserve">
+        <value>Registrieren</value>
+    </data>
+    <data name="cLogin" xml:space="preserve">
+        <value>Einloggen</value>
+    </data>
+    <data name="cForgotPassword" xml:space="preserve">
+        <value>Passwort vergessen?</value>
+    </data>
+    <data name="cRegisterAsNew" xml:space="preserve">
+        <value>Als neuer Benutzer registrieren</value>
+    </data>
+    <data name="cResendConfirmation" xml:space="preserve">
+        <value>E-Mail-Bestätigung erneut senden</value>
+    </data>
+    <data name="cExternalLoginServices" xml:space="preserve">
+        <value>Externe Anmeldedienste</value>
+    </data>
+</root>

@@ -1,0 +1,45 @@
+<div class="imagedropdown-container" @onmouseenter="ToggleDropdown" @onmouseleave="ToggleDropdown">
+    <div class="imagedropdown-header @(_isOpen ? "active" : "")"  >
+        @if (SelectedItem != null)
+        {
+            <div class="imagedropdown-selected-item">
+                <img class="imagedropdown-image"src="@SelectedItem.ImageUrl" alt="@SelectedItem.Name" />
+                <span>@SelectedItem.Name</span>
+            </div>
+        }
+        else
+        {
+            <span>@Placeholder</span>
+        }
+        <span class="imagedropdown-arrow">▼</span>
+    </div>
+    @if (_isOpen)
+    {
+        <div class="imagedropdown-menu">
+            @foreach (var item in Items)
+            {
+                <div class="imagedropdown-item @(SelectedItem?.Name == item.Name ? "selected" : "") " @onclick="() => SelectItem(item)" ValueChanged>
+                    <img class="imagedropdown-image" src="@item?.ImageUrl" alt="@item?.Name"/>
+                    <span>@item?.Name</span>
+                </div>
+            }
+        </div>
+    }
+</div>
+@code {
+    [Parameter] public required IEnumerable<BasicImageDropdownItem> Items { get; set; }
+    [Parameter] public BasicImageDropdownItem? SelectedItem { get; set; }
+    [Parameter] public EventCallback<BasicImageDropdownItem> SelectedItemChanged { get; set; }
+    [Parameter] public string Placeholder { get; set; } = "Select an item";
+    private bool _isOpen;
+    private void ToggleDropdown() => _isOpen = !_isOpen;
+
+    private async Task SelectItem(BasicImageDropdownItem item)
+    {
+        SelectedItem = item;
+        _isOpen = false;
+        await SelectedItemChanged.InvokeAsync(item);
+    }
+    
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+}

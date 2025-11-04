@@ -1,4 +1,3 @@
-using BlazorBootstrap;
 using Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +7,8 @@ using PortalBlazor.Components.Account;
 using Users;
 using Users.Models;
 using Blazored.Modal;
+using PortalBlazor.Extension;
+using PortalBlazor.Middlewares.Extension;
 using PortalBlazor.Toasts;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +19,7 @@ builder.Services.AddRazorComponents(options =>
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
 
+builder.Services.AddLocalization(options => options.ResourcesPath = "../Resources/PortalResources");
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectProcessor>();
@@ -25,6 +27,7 @@ builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuth
 builder.Services.AddSingleton<ToastMessageCreationService>();
 builder.Services.AddBlazoredModal();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddControllers();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -52,9 +55,12 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddUsers();
 builder.Services.AddBlazorBootstrap();
+builder.Services.AddMemoryCache();
+
+builder.Services.AddServices();
 
 var app = builder.Build();
-
+app.MapControllers();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -71,6 +77,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseCustomMiddleware();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

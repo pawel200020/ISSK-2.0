@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Abstract", "Abstract\Abstra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModels", "ViewModels\ViewModels.csproj", "{5AE3991F-5B1D-4495-976B-1183DD16C7F0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{B0678B4D-A33F-4651-9A69-EBC72907F52A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|x64 = Release|x64
@@ -42,5 +44,9 @@ Global
 		{5AE3991F-5B1D-4495-976B-1183DD16C7F0}.Debug|x64.Build.0 = Debug|x64
 		{5AE3991F-5B1D-4495-976B-1183DD16C7F0}.Release|x64.ActiveCfg = Debug|Any CPU
 		{5AE3991F-5B1D-4495-976B-1183DD16C7F0}.Release|x64.Build.0 = Debug|Any CPU
+		{B0678B4D-A33F-4651-9A69-EBC72907F52A}.Release|x64.ActiveCfg = Release|Any CPU
+		{B0678B4D-A33F-4651-9A69-EBC72907F52A}.Release|x64.Build.0 = Release|Any CPU
+		{B0678B4D-A33F-4651-9A69-EBC72907F52A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{B0678B4D-A33F-4651-9A69-EBC72907F52A}.Debug|x64.Build.0 = Debug|Any CPU
 	EndGlobalSection
 EndGlobal
