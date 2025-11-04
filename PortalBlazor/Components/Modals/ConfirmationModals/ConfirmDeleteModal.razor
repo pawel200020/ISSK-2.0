@@ -1,14 +1,13 @@
 ﻿<div class="row text-center">
-    <p>Are you sure you want to delete this item?</p>
+    <p>@Resources.PortalResources.PortalResources.cDeleteConfirmation</p>
 </div>
 
 <div class="row text-end">
     <div class="col-md-12 text-right">
-        <Button Color="ButtonColor.Danger" Class="float-end me-2" @onclick="OnDeleteClick">Delete</Button>
-        <Button Color="ButtonColor.Secondary" Class="float-end me-2" @onclick="OnCloseClick">Cancel</Button>
+        <Button Color="ButtonColor.Danger" Class="float-end me-2" @onclick="OnDeleteClick">@Resources.PortalResources.PortalResources.cDelete</Button>
+        <Button Color="ButtonColor.Secondary" Class="float-end me-2" @onclick="OnCloseClick">@Resources.PortalResources.PortalResources.cCancel</Button>
     </div>
 </div>
-
 
 @code {
     [Parameter] public EventCallback<MouseEventArgs> OnCloseClick { get; set; }

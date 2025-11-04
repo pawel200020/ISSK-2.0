@@ -1,6 +1,7 @@
 ﻿using Data;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Users;
+using Users.Models.Roles;
 
 #nullable disable
 

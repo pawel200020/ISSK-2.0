@@ -17,4 +17,118 @@
     <data name="Language" xml:space="preserve">
         <value>Język</value>
     </data>
+    <data name="Home" xml:space="preserve">
+        <value>Start</value>
+    </data>
+    <data name="cWeather" xml:space="preserve">
+        <value>Pogoda</value>
+    </data>
+    <data name="cUserManagement" xml:space="preserve">
+        <value>Zarządzanie użytkownikami</value>
+    </data>
+    <data name="cLogout" xml:space="preserve">
+        <value>Wyloguj</value>
+    </data>
+    <data name="cLastName" xml:space="preserve">
+        <value>Nazwisko</value>
+    </data>
+    <data name="cName" xml:space="preserve">
+        <value>Imię</value>
+    </data>
+    <data name="cPhone" xml:space="preserve">
+        <value>Numer telefonu</value>
+    </data>
+    <data name="cEmail" xml:space="preserve">
+        <value>E-Mail</value>
+    </data>
+    <data name="cUserName" xml:space="preserve">
+        <value>Nazwa użytkownika</value>
+    </data>
+    <data name="cBirthDate" xml:space="preserve">
+        <value>Data urodzenia</value>
+    </data>
+    <data name="cUserIdentity" xml:space="preserve">
+        <value>Id użytkownika</value>
+    </data>
+    <data name="cAccountType" xml:space="preserve">
+        <value>Typ konta</value>
+    </data>
+    <data name="cUserEdit" xml:space="preserve">
+        <value>Edycja użytkownika</value>
+    </data>
+    <data name="cIsActive" xml:space="preserve">
+        <value>Konto aktywne</value>
+    </data>
+    <data name="cDelete" xml:space="preserve">
+        <value>Usuń</value>
+    </data>
+    <data name="cSave" xml:space="preserve">
+        <value>Zapisz</value>
+    </data>
+    <data name="cPassword" xml:space="preserve">
+        <value>Hasło</value>
+    </data>
+    <data name="cConfirmPassword" xml:space="preserve">
+        <value>Potwierdź hasło</value>
+    </data>
+    <data name="cCreate" xml:space="preserve">
+        <value>Utwórz</value>
+    </data>
+    <data name="cCreateUser" xml:space="preserve">
+        <value>Dodaj użytkownika</value>
+    </data>
+    <data name="cAddFirstNameNt" xml:space="preserve">
+        <value>wpisz imię</value>
+    </data>
+    <data name="cAddEmailNt" xml:space="preserve">
+        <value>wpisz adres e-mail</value>
+    </data>
+    <data name="cAddLastNameNt" xml:space="preserve">
+        <value>wpisz nazwisko</value>
+    </data>
+    <data name="cAddPhoneNt" xml:space="preserve">
+        <value>wpisz numer telefonu</value>
+    </data>
+    <data name="cAddEnterPassNt" xml:space="preserve">
+        <value>wpisz hasło</value>
+    </data>
+    <data name="cAddUserNameNt" xml:space="preserve">
+        <value>wpisz nazwę użytkownika</value>
+    </data>
+    <data name="cAddPassCfNt" xml:space="preserve">
+        <value>wpisz ponownie hasło</value>
+    </data>
+    <data name="cCancel" xml:space="preserve">
+        <value>Anuluj</value>
+    </data>
+    <data name="cDeleteConfirmation" xml:space="preserve">
+        <value>Czy na pewno chcesz usunąć wybrany element?</value>
+    </data>
+    <data name="cUserSuccessCreated" xml:space="preserve">
+        <value>Użytkownik został dodany poprawnie</value>
+    </data>
+    <data name="cUserSuccessUpdated" xml:space="preserve">
+        <value>Użytkownik został zaaktualizowany poprawnie</value>
+    </data>
+    <data name="cSuccess" xml:space="preserve">
+        <value>Sukces</value>
+    </data>
+    <data name="cRegister" xml:space="preserve">
+        <value>Zarejestruj się</value>
+    </data>
+    <data name="cLogin" xml:space="preserve">
+        <value>Zaloguj się</value>
+    </data>
+    <data name="cForgotPassword" xml:space="preserve">
+        <value>Zapomniałeś hasła?</value>
+    </data>
+    <data name="cRegisterAsNew" xml:space="preserve">
+        <value>Zarejestruj nowego użytkownika</value>
+    </data>
+    <data name="cResendConfirmation" xml:space="preserve">
+        <value>Wyślij ponownie mail potwierdzający</value>
+    </data>
+    <data name="cExternalLoginServices" xml:space="preserve">
+        <value>Zewnętrzne serwisy logowania</value>
+    </data>
 </root>

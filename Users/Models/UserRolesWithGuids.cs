@@ -1,5 +1,7 @@
 ﻿namespace Users.Models;
 
+using Roles;
+
 public class UserRolesWithGuids
 {
     public static Dictionary<Guid, UserRole> RolesWithGuids = new()

@@ -1,7 +1,7 @@
-﻿@using Users.Models
-@using ViewModels.RazorPages.Users
-@using Users.Interfaces.Managers
+﻿@using ViewModels.RazorPages.Users
 @using AutoMapper
+@using global::Users.Interfaces.Managers
+@using global::Users.Models
 @using PortalBlazor.Components.Modals.ConfirmationModals
 @using ModalSize = BlazorBootstrap.ModalSize
 <Modal @ref="_modal" IsVerticallyCentered="true" Style="backdrop-filter: blur(10px)" Size="ModalSize.Small"/>
@@ -10,61 +10,61 @@
     <DataAnnotationsValidator/>
 
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">User guid: </label>
-        <div class="col-md-9">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserIdentity: </label>
+        <div class="col-md-7">
             <TextInput @bind-Value="@User.Id" Disabled="true"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">First Name: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
-            <TextInput @bind-Value="@User.FirstName" Placeholder="Enter first name"/>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cName: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.FirstName" Placeholder=@Resources.PortalResources.PortalResources.cAddFirstNameNt/>
             <ValidationMessage For="@(() => User.FirstName)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Last Name: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
-            <TextInput @bind-Value="@User.LastName" Placeholder="Enter last name"/>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cLastName: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.LastName" Placeholder=@Resources.PortalResources.PortalResources.cAddLastNameNt/>
             <ValidationMessage For="@(() => User.LastName)"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Email: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
-            <TextInput @bind-Value="@User.Email" Placeholder="Enter email"/>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cEmail: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.Email" Placeholder=@Resources.PortalResources.PortalResources.cAddEmailNt/>
             <ValidationMessage For="@(() => User.Email)"/>
         </div>
     </div>
     
     <div class="form-group row mb-3">
-            <label class="col-md-3 col-form-label">user name: <span class="text-danger">*</span></label>
-            <div class="col-md-9">
-                <TextInput @bind-Value="@User.UserName" Placeholder="Enter user name"/>
-                <ValidationMessage For="@(() => User.UserName)"/>
-            </div>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserName: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.UserName" Placeholder=@Resources.PortalResources.PortalResources.cAddUserNameNt/>
+            <ValidationMessage For="@(() => User.UserName)"/>
         </div>
+    </div>
     
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Phone: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
-            <TextInput @bind-Value="@User.PhoneNumber" Placeholder="Enter phone number"/>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cPhone: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.PhoneNumber" Placeholder=@Resources.PortalResources.PortalResources.cAddPhoneNt/>
             <ValidationMessage For="@(() => User.PhoneNumber)"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Birth date: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
-            <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate" Placeholder="Select birth date"/>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cBirthDate: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate"/>
             <ValidationMessage For="@(() => User.BirthDate)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Role: <span class="text-danger">*</span></label>
-        <div class="col-md-9">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cAccountType: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
             <InputSelect TValue="Guid" class="form-select" @bind-Value="@User.RoleId">
                 @foreach (var (guid, role) in UserRolesWithGuids.RolesWithGuids)
                 {
@@ -75,20 +75,18 @@
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-3 col-form-label">Is disabled:</label>
-        <div class="col-md-9">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsActive</label>
+        <div class="col-md-7">
             <CheckboxInput @bind-Value="@User.IsDisabled"/>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">Save</Button>
-            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="RemoveUser">Delete</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">@Resources.PortalResources.PortalResources.cSave</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="RemoveUser">@Resources.PortalResources.PortalResources.cDelete</Button>
         </div>
     </div>
-
 </EditForm>
-
 
 @code {
 

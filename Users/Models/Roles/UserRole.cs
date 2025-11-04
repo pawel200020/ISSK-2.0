@@ -1,4 +1,4 @@
-﻿namespace Users;
+﻿namespace Users.Models.Roles;
 /// <summary>
 /// This enum encapsulates roles stored in database every edit needs a migration
 /// </summary>

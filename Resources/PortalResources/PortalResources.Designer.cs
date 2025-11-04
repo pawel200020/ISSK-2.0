@@ -56,5 +56,233 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("Language", resourceCulture);
             }
         }
+        
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        public static string cWeather {
+            get {
+                return ResourceManager.GetString("cWeather", resourceCulture);
+            }
+        }
+        
+        public static string cUserManagement {
+            get {
+                return ResourceManager.GetString("cUserManagement", resourceCulture);
+            }
+        }
+        
+        public static string cLogout {
+            get {
+                return ResourceManager.GetString("cLogout", resourceCulture);
+            }
+        }
+        
+        public static string cName {
+            get {
+                return ResourceManager.GetString("cName", resourceCulture);
+            }
+        }
+        
+        public static string cLastName {
+            get {
+                return ResourceManager.GetString("cLastName", resourceCulture);
+            }
+        }
+        
+        public static string cPhone {
+            get {
+                return ResourceManager.GetString("cPhone", resourceCulture);
+            }
+        }
+        
+        public static string cUserName {
+            get {
+                return ResourceManager.GetString("cUserName", resourceCulture);
+            }
+        }
+        
+        public static string cEmail {
+            get {
+                return ResourceManager.GetString("cEmail", resourceCulture);
+            }
+        }
+        
+        public static string cBirthDate {
+            get {
+                return ResourceManager.GetString("cBirthDate", resourceCulture);
+            }
+        }
+        
+        public static string cUserIdentity {
+            get {
+                return ResourceManager.GetString("cUserIdentity", resourceCulture);
+            }
+        }
+        
+        public static string cAccountType {
+            get {
+                return ResourceManager.GetString("cAccountType", resourceCulture);
+            }
+        }
+        
+        public static string cUserEdit {
+            get {
+                return ResourceManager.GetString("cUserEdit", resourceCulture);
+            }
+        }
+        
+        public static string cIsActive {
+            get {
+                return ResourceManager.GetString("cIsActive", resourceCulture);
+            }
+        }
+        
+        public static string cDelete {
+            get {
+                return ResourceManager.GetString("cDelete", resourceCulture);
+            }
+        }
+        
+        public static string cSave {
+            get {
+                return ResourceManager.GetString("cSave", resourceCulture);
+            }
+        }
+        
+        public static string cPassword {
+            get {
+                return ResourceManager.GetString("cPassword", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmPassword {
+            get {
+                return ResourceManager.GetString("cConfirmPassword", resourceCulture);
+            }
+        }
+        
+        public static string cCreate {
+            get {
+                return ResourceManager.GetString("cCreate", resourceCulture);
+            }
+        }
+        
+        public static string cCreateUser {
+            get {
+                return ResourceManager.GetString("cCreateUser", resourceCulture);
+            }
+        }
+        
+        public static string cAddFirstNameNt {
+            get {
+                return ResourceManager.GetString("cAddFirstNameNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddLastNameNt {
+            get {
+                return ResourceManager.GetString("cAddLastNameNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddEmailNt {
+            get {
+                return ResourceManager.GetString("cAddEmailNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddUserNameNt {
+            get {
+                return ResourceManager.GetString("cAddUserNameNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddPhoneNt {
+            get {
+                return ResourceManager.GetString("cAddPhoneNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddEnterPassNt {
+            get {
+                return ResourceManager.GetString("cAddEnterPassNt", resourceCulture);
+            }
+        }
+        
+        public static string cAddPassCfNt {
+            get {
+                return ResourceManager.GetString("cAddPassCfNt", resourceCulture);
+            }
+        }
+        
+        public static string cDeleteConfirmation {
+            get {
+                return ResourceManager.GetString("cDeleteConfirmation", resourceCulture);
+            }
+        }
+        
+        public static string cCancel {
+            get {
+                return ResourceManager.GetString("cCancel", resourceCulture);
+            }
+        }
+        
+        public static string cSuccess {
+            get {
+                return ResourceManager.GetString("cSuccess", resourceCulture);
+            }
+        }
+        
+        public static string cUserSuccessCreated {
+            get {
+                return ResourceManager.GetString("cUserSuccessCreated", resourceCulture);
+            }
+        }
+        
+        public static string cUserSuccessUpdated {
+            get {
+                return ResourceManager.GetString("cUserSuccessUpdated", resourceCulture);
+            }
+        }
+        
+        public static string cRegister {
+            get {
+                return ResourceManager.GetString("cRegister", resourceCulture);
+            }
+        }
+        
+        public static string cLogin {
+            get {
+                return ResourceManager.GetString("cLogin", resourceCulture);
+            }
+        }
+        
+        public static string cForgotPassword {
+            get {
+                return ResourceManager.GetString("cForgotPassword", resourceCulture);
+            }
+        }
+        
+        public static string cRegisterAsNew {
+            get {
+                return ResourceManager.GetString("cRegisterAsNew", resourceCulture);
+            }
+        }
+        
+        public static string cResendConfirmation {
+            get {
+                return ResourceManager.GetString("cResendConfirmation", resourceCulture);
+            }
+        }
+        
+        public static string cExternalLoginServices {
+            get {
+                return ResourceManager.GetString("cExternalLoginServices", resourceCulture);
+            }
+        }
     }
 }
