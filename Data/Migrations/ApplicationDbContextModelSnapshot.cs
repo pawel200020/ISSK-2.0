@@ -17,6 +17,32 @@ namespace Event_Saver.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
+            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TsInsert")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TsUpdate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplicationParameters");
+                });
+
             modelBuilder.Entity("Data.Entites.Languages.SupportedLanguage", b =>
                 {
                     b.Property<int>("Id")

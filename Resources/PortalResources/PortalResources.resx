@@ -138,4 +138,10 @@
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>External log-in services</value>
     </data>
+    <data name="cAppConfig" xml:space="preserve">
+        <value>Application configuration</value>
+    </data>
+    <data name="cSettings" xml:space="preserve">
+        <value>Settings</value>
+    </data>
 </root>

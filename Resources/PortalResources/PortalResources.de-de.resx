@@ -131,4 +131,10 @@
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>Externe Anmeldedienste</value>
     </data>
+    <data name="cAppConfig" xml:space="preserve">
+        <value>Anwendungskonfiguration</value>
+    </data>
+    <data name="cSettings" xml:space="preserve">
+        <value>Einstellungen</value>
+    </data>
 </root>

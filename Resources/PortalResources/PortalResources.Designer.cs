@@ -284,5 +284,17 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cExternalLoginServices", resourceCulture);
             }
         }
+        
+        public static string cAppConfig {
+            get {
+                return ResourceManager.GetString("cAppConfig", resourceCulture);
+            }
+        }
+        
+        public static string cSettings {
+            get {
+                return ResourceManager.GetString("cSettings", resourceCulture);
+            }
+        }
     }
 }

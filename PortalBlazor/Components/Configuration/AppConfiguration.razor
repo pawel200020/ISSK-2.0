@@ -1,0 +1,41 @@
+@page "/appconfig"
+@using Microsoft.AspNetCore.Authorization
+@using Resources.PortalResources
+@using Users.Models.Roles
+
+@attribute [Authorize(Roles = nameof(UserRole.Administrator))]
+<h3>@PortalResources.cAppConfig</h3>
+
+<EditForm EditContext="@_editContext" OnSubmit="HandleOnSubmit" id="my-form-ref-2">
+
+</EditForm>
+
+@code {
+    
+    private EditContext? _editContext;
+    
+    
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(new object());
+        base.OnInitialized();
+    }
+    
+    public async Task HandleOnSubmit()
+    {
+        /*if (_editContext != null && !_editContext.Validate() || _editContext is null)
+        {
+            await OnFailCallback.InvokeAsync();
+            return;
+        }
+
+        var userFromRequest = (UserAdminViewModel)_editContext.Model;
+
+        if (await UsersUploader.EditUserAsync(Mapper.Map<AppUser>(userFromRequest)))
+            await OnSuccessCallback.InvokeAsync();
+        else
+            await OnFailCallback.InvokeAsync();*/
+    }
+    
+    
+}
