@@ -1,41 +1,144 @@
 @page "/appconfig"
+@using Abstract.Configuration.Entities
+@using Abstract.Configuration.Managers
+@using AutoMapper
 @using Microsoft.AspNetCore.Authorization
+@using PortalBlazor.Components.Controls
+@using PortalBlazor.Toasts
 @using Resources.PortalResources
 @using Users.Models.Roles
+@using ViewModels.RazorPages.Configuration
 
 @attribute [Authorize(Roles = nameof(UserRole.Administrator))]
 <h3>@PortalResources.cAppConfig</h3>
 
-<EditForm EditContext="@_editContext" OnSubmit="HandleOnSubmit" id="my-form-ref-2">
 
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+<EditForm Model="Input" method="post" OnValidSubmit="@HandleOnSubmitAsync" FormName="Configuration"
+          id="my-form-ref-44">
+
+    <div class="menu-topbar">
+        <Button Color="ButtonColor.Success" Type="ButtonType.Submit">
+            <Icon Name="IconName.Floppy"></Icon>
+            @PortalResources.cSave
+        </Button>
+        <Button Color="ButtonColor.Secondary" Type="@ButtonType.Submit" hidden="true">
+            <Icon Name="IconName.ArrowClockwise"></Icon>
+            @PortalResources.cRestoreDefault
+        </Button>
+    </div>
+    <hr/>
+    <div class="row">
+        <DataAnnotationsValidator/>
+
+        <div class="row mb-3">
+            <h5>@PortalResources.cBasicSettings</h5>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cAppName</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@Input.ApplicationName" Placeholder="@PortalResources.cAppNameWhiteText"/>
+                <TooltipInfo Content="@PortalResources.cAppNameTooltip"></TooltipInfo>
+            </div>
+            <ValidationMessage For="@(() => Input.ApplicationName)"/>
+        </div>
+        <hr/>
+        <div class="row mb-3">
+            <h5>@PortalResources.cModules</h5>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cWeather</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="Input.IsWeatherEnabled"/>
+                <TooltipInfo Content="@PortalResources.cWeatherTooltip"></TooltipInfo>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cRank</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="Input.IsRankingEnabled"/>
+                <TooltipInfo Content=@PortalResources.cRankDescription></TooltipInfo>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cAnonymusRegister</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="Input.IsSelfRegisterEnabled"/>
+                <TooltipInfo Content="@PortalResources.cAnonymusRegisterTooltip"></TooltipInfo>
+            </div>
+        </div>
+
+        <hr/>
+        <div class="row mb-3">
+            <h5>@PortalResources.cEmailConfig</h5>
+        </div>
+        <hr/>
+    </div>
 </EditForm>
 
+
 @code {
-    
-    private EditContext? _editContext;
-    
-    
-    protected override void OnInitialized()
+
+    private string? errorMessage;
+    private readonly List<ToastMessage> _messages = new();
+    [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private ApplicationConfigurationViewModel Input { get; set; } = new()
     {
-        _editContext = new EditContext(new object());
-        base.OnInitialized();
-    }
-    
-    public async Task HandleOnSubmit()
+        ApplicationName = ""
+    };
+
+    [Inject] private IMapper Mapper { get; set; } = null!;
+    [Inject] private IAppConfigurationGetter AppConfigurationGetter { get; set; } = null!;
+    [Inject] private IAppConfigurationSaver AppConfigurationSaver { get; set; } = null!;
+    [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
+    [Inject] protected PreloadService PreloadService { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
     {
-        /*if (_editContext != null && !_editContext.Validate() || _editContext is null)
+        try
         {
-            await OnFailCallback.InvokeAsync();
-            return;
+            Input = Mapper.Map<ApplicationConfigurationViewModel>(await AppConfigurationGetter.GetConfiguration());
+        }
+        catch (Exception ex)
+        {
+            ShowToast(@PortalResources.cError, ex.Message, ToastType.Danger);
         }
 
-        var userFromRequest = (UserAdminViewModel)_editContext.Model;
-
-        if (await UsersUploader.EditUserAsync(Mapper.Map<AppUser>(userFromRequest)))
-            await OnSuccessCallback.InvokeAsync();
-        else
-            await OnFailCallback.InvokeAsync();*/
+        await base.OnInitializedAsync();
     }
-    
-    
+
+    private void ShowToast(string title, string message, ToastType toastType)
+        => _messages.Add(ToastMessageCreationService.CreateToastMessage(title, message, toastType));
+
+    private void ShowFailToast()
+        => _messages.Add(ToastMessageCreationService.CreateUnknownErrorToastMessage());
+
+    private async Task HandleOnSubmitAsync()
+    {
+        var result = false;
+        try
+        {
+            PreloadService.Show(SpinnerColor.Light, "Loading data...");
+            result = await AppConfigurationSaver.SaveApplication(Mapper.Map<ApplicationConfiguration>(Input));
+        }
+        catch (Exception e)
+        {
+            ShowToast(@PortalResources.cError, e.Message, ToastType.Danger);
+        }
+        finally
+        {
+            PreloadService.Hide();
+        }
+        if (!result)
+            ShowFailToast();
+        else
+            ShowToast(PortalResources.cSuccess, PortalResources.cConfigurationSaved, ToastType.Success);
+    }
+
 }

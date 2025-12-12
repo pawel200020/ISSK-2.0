@@ -137,4 +137,46 @@
     <data name="cSettings" xml:space="preserve">
         <value>Ustawienia</value>
     </data>
+    <data name="cRestoreDefault" xml:space="preserve">
+        <value>Ustawienia domyślne</value>
+    </data>
+    <data name="cAppNameWhiteText" xml:space="preserve">
+        <value>wpisz nazwę aplikacji</value>
+    </data>
+    <data name="cAppName" xml:space="preserve">
+        <value>Nazwa aplikacji:</value>
+    </data>
+    <data name="cBasicSettings" xml:space="preserve">
+        <value>Podstawowe</value>
+    </data>
+    <data name="cAppNameTooltip" xml:space="preserve">
+        <value>Nazwa aplikacji jest wyświetlana na pasku bocznym aplikacji oraz jako tytuł strony.</value>
+    </data>
+    <data name="cModules" xml:space="preserve">
+        <value>Moduły aplikacji</value>
+    </data>
+    <data name="cWeatherTooltip" xml:space="preserve">
+        <value>Zaznaczenie tej opcji włącza moduł pogody, który pozwala każdemu użytkownikowi sprawdzić aktualną pogodę na stronie aplikacji.</value>
+    </data>
+    <data name="cRank" xml:space="preserve">
+        <value>Ranking</value>
+    </data>
+    <data name="cRankDescription" xml:space="preserve">
+        <value>Wybranie tej opcji włącza moduł rankingu, który pozwala zarejestrowanym użytkownikom  roli standard lub wyższej sprawdzić aktualną pozycję w rankingu wszystkich użytkowników.</value>
+    </data>
+    <data name="cAnonymusRegisterTooltip" xml:space="preserve">
+        <value>Zaznaczenie tej opcji spowoduje włączenie możliwości rejestracji dla każdej osoby mającej dostęp do aplikacji</value>
+    </data>
+    <data name="cAnonymusRegister" xml:space="preserve">
+        <value>Anonimowa rejestracja</value>
+    </data>
+    <data name="cEmailConfig" xml:space="preserve">
+        <value>Konfiguracja wysyłki wiadomości e-mail</value>
+    </data>
+    <data name="cError" xml:space="preserve">
+        <value>Błąd</value>
+    </data>
+    <data name="cConfigurationSaved" xml:space="preserve">
+        <value>Konfiguracja została zaktualizowana</value>
+    </data>
 </root>

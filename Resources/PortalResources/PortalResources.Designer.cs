@@ -296,5 +296,89 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cSettings", resourceCulture);
             }
         }
+        
+        public static string cRestoreDefault {
+            get {
+                return ResourceManager.GetString("cRestoreDefault", resourceCulture);
+            }
+        }
+        
+        public static string cAppName {
+            get {
+                return ResourceManager.GetString("cAppName", resourceCulture);
+            }
+        }
+        
+        public static string cAppNameWhiteText {
+            get {
+                return ResourceManager.GetString("cAppNameWhiteText", resourceCulture);
+            }
+        }
+        
+        public static string cBasicSettings {
+            get {
+                return ResourceManager.GetString("cBasicSettings", resourceCulture);
+            }
+        }
+        
+        public static string cAppNameTooltip {
+            get {
+                return ResourceManager.GetString("cAppNameTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cModules {
+            get {
+                return ResourceManager.GetString("cModules", resourceCulture);
+            }
+        }
+        
+        public static string cWeatherTooltip {
+            get {
+                return ResourceManager.GetString("cWeatherTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cRank {
+            get {
+                return ResourceManager.GetString("cRank", resourceCulture);
+            }
+        }
+        
+        public static string cRankDescription {
+            get {
+                return ResourceManager.GetString("cRankDescription", resourceCulture);
+            }
+        }
+        
+        public static string cAnonymusRegister {
+            get {
+                return ResourceManager.GetString("cAnonymusRegister", resourceCulture);
+            }
+        }
+        
+        public static string cAnonymusRegisterTooltip {
+            get {
+                return ResourceManager.GetString("cAnonymusRegisterTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cEmailConfig {
+            get {
+                return ResourceManager.GetString("cEmailConfig", resourceCulture);
+            }
+        }
+        
+        public static string cError {
+            get {
+                return ResourceManager.GetString("cError", resourceCulture);
+            }
+        }
+        
+        public static string cConfigurationSaved {
+            get {
+                return ResourceManager.GetString("cConfigurationSaved", resourceCulture);
+            }
+        }
     }
 }

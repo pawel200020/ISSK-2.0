@@ -28,6 +28,9 @@ namespace Event_Saver.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("ParameterTypeId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("TsInsert")
                         .HasColumnType("TEXT");
 
@@ -40,7 +43,24 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ParameterTypeId");
+
                     b.ToTable("ApplicationParameters");
+                });
+
+            modelBuilder.Entity("Data.Entites.Configuration.DictParameterType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DictParameterTypes");
                 });
 
             modelBuilder.Entity("Data.Entites.Languages.SupportedLanguage", b =>
@@ -270,6 +290,17 @@ namespace Event_Saver.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+                {
+                    b.HasOne("Data.Entites.Configuration.DictParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("ParameterTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

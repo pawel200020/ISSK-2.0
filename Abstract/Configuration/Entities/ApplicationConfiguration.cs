@@ -1,6 +1,6 @@
-namespace ViewModels.RazorPages.Configuration;
+namespace Abstract.Configuration.Entities;
 
-public class ApplicationConfigurationViewModel
+public class ApplicationConfiguration : IApplicationConfiguration
 {
     public required string ApplicationName { get; set; }
     public bool IsWeatherEnabled { get; set; }

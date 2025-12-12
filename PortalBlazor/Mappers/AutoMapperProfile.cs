@@ -1,5 +1,7 @@
-﻿using AutoMapper;
+﻿using Abstract.Configuration.Entities;
+using AutoMapper;
 using Users.Models;
+using ViewModels.RazorPages.Configuration;
 using ViewModels.RazorPages.Users;
 
 namespace PortalBlazor.Mappers;
@@ -10,5 +12,6 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<AppUser, UserAdminViewModel>().ReverseMap();
         CreateMap<AppUser, UserAdminCreateViewModel>().ReverseMap();
+        CreateMap<ApplicationConfiguration, ApplicationConfigurationViewModel>().ReverseMap();
     }
 }

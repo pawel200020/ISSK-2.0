@@ -137,4 +137,46 @@
     <data name="cSettings" xml:space="preserve">
         <value>Einstellungen</value>
     </data>
+    <data name="cRestoreDefault" xml:space="preserve">
+        <value>Standardeinstellungen wiederherstellen</value>
+    </data>
+    <data name="cAppName" xml:space="preserve">
+        <value>Anwendungsname:</value>
+    </data>
+    <data name="cAppNameWhiteText" xml:space="preserve">
+        <value>App-Namen eingeben</value>
+    </data>
+    <data name="cBasicSettings" xml:space="preserve">
+        <value>Grundeinstellungen</value>
+    </data>
+    <data name="cAppNameTooltip" xml:space="preserve">
+        <value>Der Name der Anwendung wird in der Seitenleiste der App und als Seitentitel angezeigt.</value>
+    </data>
+    <data name="cModules" xml:space="preserve">
+        <value>Module</value>
+    </data>
+    <data name="cWeatherTooltip" xml:space="preserve">
+        <value>Durch Auswahl dieser Option wird das Wettermodul aktiviert, mit dem jeder Benutzer das aktuelle Wetter auf der Anwendungsseite abrufen kann.</value>
+    </data>
+    <data name="cRank" xml:space="preserve">
+        <value>Ranking</value>
+    </data>
+    <data name="cRankDescription" xml:space="preserve">
+        <value>Durch Auswahl dieser Option wird das Ranking-Modul aktiviert, mit dem registrierte Benutzer mit Standardrolle oder höher ihre aktuelle Position im Ranking aller Benutzer überprüfen können.</value>
+    </data>
+    <data name="cAnonymusRegister" xml:space="preserve">
+        <value>Anonyme Registrierung</value>
+    </data>
+    <data name="cAnonymusRegisterTooltip" xml:space="preserve">
+        <value>Wenn Sie diese Option aktivieren, wird die Registrierungsmöglichkeit für jede Person freigeschaltet, die Zugriff auf die Anwendung hat.</value>
+    </data>
+    <data name="cEmailConfig" xml:space="preserve">
+        <value>Konfiguration des E-Mail-Versands</value>
+    </data>
+    <data name="cError" xml:space="preserve">
+        <value>Fehler</value>
+    </data>
+    <data name="cConfigurationSaved" xml:space="preserve">
+        <value>Die Konfiguration wurde erfolgreich aktualisiert</value>
+    </data>
 </root>

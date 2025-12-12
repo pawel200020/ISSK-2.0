@@ -1,11 +1,14 @@
-﻿@using Resources.PortalResources
+﻿@using Abstract.Configuration
+@using Abstract.Configuration.AppParameters.Managers
+@using Resources.PortalResources
 @using Users.Models.Roles
 @implements IDisposable
 
 @inject NavigationManager NavigationManager
+@inject IAppParameterGetter AppParamsGetter
 
 <div class="top-row ps-2 navbar navbar-dark">
-    <a class="navbar-brand" href="">Krakowska Linia Muzealna</a>
+    <a class="navbar-brand" href=""> @applicationName </a>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
@@ -17,13 +20,15 @@
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @PortalResources.Home
             </NavLink>
         </div>
+        @if (_isWeatherEnabled)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="weather">
+                    <span class="bi bi-cloud-weather-nav-menu" aria-hidden="true"></span> @PortalResources.cWeather
+                </NavLink>
+            </div>
+        }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-cloud-weather-nav-menu" aria-hidden="true"></span> @PortalResources.cWeather
-            </NavLink>
-        </div>
-        
         <AuthorizeView Roles="@nameof(UserRole.Administrator)">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="/usersmanager">
@@ -75,11 +80,15 @@
 
 @code {
     private string? currentUrl;
+    private string applicationName;
+    private bool _isWeatherEnabled;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+        applicationName = await AppParamsGetter.GetStringParameterValue(ApplicationParameter.ApplicationName);
+        _isWeatherEnabled = await AppParamsGetter.GetBoolParameterValue(ApplicationParameter.IsWeatherEnabled);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

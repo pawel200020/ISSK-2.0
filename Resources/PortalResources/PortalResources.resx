@@ -144,4 +144,46 @@
     <data name="cSettings" xml:space="preserve">
         <value>Settings</value>
     </data>
+    <data name="cRestoreDefault" xml:space="preserve">
+        <value>Restore defaults</value>
+    </data>
+    <data name="cAppName" xml:space="preserve">
+        <value>Application name:</value>
+    </data>
+    <data name="cAppNameWhiteText" xml:space="preserve">
+        <value>Enter app name</value>
+    </data>
+    <data name="cBasicSettings" xml:space="preserve">
+        <value>Basic settings</value>
+    </data>
+    <data name="cAppNameTooltip" xml:space="preserve">
+        <value>Application name is displayed in app sidebar and as a page title</value>
+    </data>
+    <data name="cModules" xml:space="preserve">
+        <value>Modules</value>
+    </data>
+    <data name="cWeatherTooltip" xml:space="preserve">
+        <value>Selecting this options enables weather module which allows any user to check current weater on the application page.</value>
+    </data>
+    <data name="cRank" xml:space="preserve">
+        <value>Ranking</value>
+    </data>
+    <data name="cRankDescription" xml:space="preserve">
+        <value>Selecting this options enables ranking module which allows registered user with standard role or higher to check current position in ranking of all users.</value>
+    </data>
+    <data name="cAnonymusRegister" xml:space="preserve">
+        <value>Anonymus registration</value>
+    </data>
+    <data name="cAnonymusRegisterTooltip" xml:space="preserve">
+        <value>Selecting this option will enable registration for anyone with access to the application.</value>
+    </data>
+    <data name="cEmailConfig" xml:space="preserve">
+        <value>E-mail sending configuration</value>
+    </data>
+    <data name="cError" xml:space="preserve">
+        <value>Error</value>
+    </data>
+    <data name="cConfigurationSaved" xml:space="preserve">
+        <value>Configuration has been successfully updated</value>
+    </data>
 </root>
