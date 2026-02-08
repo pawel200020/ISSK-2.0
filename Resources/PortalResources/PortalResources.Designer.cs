@@ -380,5 +380,59 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cConfigurationSaved", resourceCulture);
             }
         }
+        
+        public static string cLoginExternal {
+            get {
+                return ResourceManager.GetString("cLoginExternal", resourceCulture);
+            }
+        }
+        
+        public static string cLoginEmailBlankText {
+            get {
+                return ResourceManager.GetString("cLoginEmailBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordEmailBlankText {
+            get {
+                return ResourceManager.GetString("cPasswordEmailBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cMailtrapSenderEmail {
+            get {
+                return ResourceManager.GetString("cMailtrapSenderEmail", resourceCulture);
+            }
+        }
+        
+        public static string cMailtrapEmailSenderBlankText {
+            get {
+                return ResourceManager.GetString("cMailtrapEmailSenderBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cMaitrapTokenBlankText {
+            get {
+                return ResourceManager.GetString("cMaitrapTokenBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cLoading {
+            get {
+                return ResourceManager.GetString("cLoading", resourceCulture);
+            }
+        }
+        
+        public static string cNone {
+            get {
+                return ResourceManager.GetString("cNone", resourceCulture);
+            }
+        }
+        
+        public static string cRequiredField {
+            get {
+                return ResourceManager.GetString("cRequiredField", resourceCulture);
+            }
+        }
     }
 }

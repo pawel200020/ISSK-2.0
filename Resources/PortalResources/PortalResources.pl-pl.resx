@@ -179,4 +179,31 @@
     <data name="cConfigurationSaved" xml:space="preserve">
         <value>Konfiguracja została zaktualizowana</value>
     </data>
+    <data name="cLoginExternal" xml:space="preserve">
+        <value>Login</value>
+    </data>
+    <data name="cLoginEmailBlankText" xml:space="preserve">
+        <value>Wprowadź login do konta e-mail</value>
+    </data>
+    <data name="cPasswordEmailBlankText" xml:space="preserve">
+        <value>Wprowadź hasło do konta e-mail</value>
+    </data>
+    <data name="cMailtrapSenderEmail" xml:space="preserve">
+        <value>Adres e-mail nadawcy</value>
+    </data>
+    <data name="cMailtrapEmailSenderBlankText" xml:space="preserve">
+        <value>Wprowadź adres e-mail nadawcy aplikacji</value>
+    </data>
+    <data name="cMaitrapTokenBlankText" xml:space="preserve">
+        <value>Wprowadź prywatny token</value>
+    </data>
+    <data name="cLoading" xml:space="preserve">
+        <value>Wczytywanie daynch...</value>
+    </data>
+    <data name="cNone" xml:space="preserve">
+        <value>Brak</value>
+    </data>
+    <data name="cRequiredField" xml:space="preserve">
+        <value>to pole jest wymagane</value>
+    </data>
 </root>

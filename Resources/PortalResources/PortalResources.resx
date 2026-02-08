@@ -186,4 +186,31 @@
     <data name="cConfigurationSaved" xml:space="preserve">
         <value>Configuration has been successfully updated</value>
     </data>
+    <data name="cLoginExternal" xml:space="preserve">
+        <value>Login</value>
+    </data>
+    <data name="cLoginEmailBlankText" xml:space="preserve">
+        <value>Enter login for e-mail account</value>
+    </data>
+    <data name="cPasswordEmailBlankText" xml:space="preserve">
+        <value>Enter password for e-mail account</value>
+    </data>
+    <data name="cMailtrapSenderEmail" xml:space="preserve">
+        <value>Sender e-mail</value>
+    </data>
+    <data name="cMailtrapEmailSenderBlankText" xml:space="preserve">
+        <value>Enter sender app email address</value>
+    </data>
+    <data name="cMaitrapTokenBlankText" xml:space="preserve">
+        <value>Enter a private token </value>
+    </data>
+    <data name="cLoading" xml:space="preserve">
+        <value>Loading...</value>
+    </data>
+    <data name="cNone" xml:space="preserve">
+        <value>None</value>
+    </data>
+    <data name="cRequiredField" xml:space="preserve">
+        <value>This field is required</value>
+    </data>
 </root>
