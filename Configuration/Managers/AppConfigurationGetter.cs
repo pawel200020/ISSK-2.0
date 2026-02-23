@@ -19,6 +19,9 @@ internal class AppConfigurationGetter : IAppConfigurationGetter
         {
             ApplicationName = await _appParameterGetter.GetStringParameterValue(ApplicationParameter.ApplicationName),
             IsWeatherEnabled = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsWeatherEnabled),
-            IsRankingEnabled = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsRankEnabled)
+            IsRankingEnabled = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsRankEnabled),
+            IsAnonymousRegisterEnabled = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsAnonymousRegisterEnabled),
+            EmailLogin = await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailLogin),
+            EmailSendMode = await _appParameterGetter.GetIntParameterValue(ApplicationParameter.EmailMode),
         };
 }

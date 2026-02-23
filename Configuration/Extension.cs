@@ -1,5 +1,6 @@
 using Abstract.Configuration.Managers;
 using Configuration.AppParameters.Managers.Extension;
+using Configuration.Encryption;
 using Configuration.Managers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,5 +11,6 @@ public static class Extension
     public static IServiceCollection AddConfiguration(this IServiceCollection builder)
         => builder.AddAppParameters()
             .AddScoped<IAppConfigurationGetter, AppConfigurationGetter>()
-            .AddScoped<IAppConfigurationSaver, AppConfigurationSaver>();
+            .AddScoped<IAppConfigurationSaver, AppConfigurationSaver>()
+            .AddSingleton<IEncryptionManager,EncryptionManager>();
 }

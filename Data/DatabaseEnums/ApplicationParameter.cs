@@ -1,5 +1,8 @@
-namespace Abstract.Configuration;
+namespace Data.DatabaseEnums;
 
+/// <summary>
+/// Database Enum, do not modify without database migration
+/// </summary>
 public enum ApplicationParameter
 {
     ApplicationName = 0,

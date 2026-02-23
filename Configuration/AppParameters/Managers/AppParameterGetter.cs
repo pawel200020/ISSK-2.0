@@ -16,7 +16,7 @@ internal class AppParameterGetter : IAppParameterGetter
         _appParameterRepository = appParameterRepository ?? throw new ArgumentNullException(nameof(appParameterRepository));
     }
     
-    public async Task<string> GetStringParameterValue(ApplicationParameter parameter)
+    public async Task<string?> GetStringParameterValue(ApplicationParameter parameter)
     {
         var cachedValue = _memoryCache.Get<string>(Enum.GetName(parameter)!);
         if (cachedValue == null)

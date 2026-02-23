@@ -24,8 +24,6 @@ public class ApplicationConfigurationViewModel :IValidatableObject
         {
             if(string.IsNullOrWhiteSpace(EmailLogin))
                 yield return new ValidationResult(PortalResources.cRequiredField, [nameof(EmailLogin)]);
-            if(string.IsNullOrWhiteSpace(EmailPassword))
-                yield return new ValidationResult(PortalResources.cRequiredField, [nameof(EmailPassword)]);
         }
     }
 }
