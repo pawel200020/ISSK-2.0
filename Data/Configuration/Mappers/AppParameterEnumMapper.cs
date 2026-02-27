@@ -1,16 +1,17 @@
 using Data.DatabaseEnums;
+using ConfigurationShared = Configuration.Shared;
 
 namespace Data.Configuration.Mappers;
 
-internal class AppParameterEnumMapper : IAppParameterEnumMapper //Tests!!
+internal class AppParameterEnumMapper : IAppParameterEnumMapper
 {
-    public Abstract.Configuration.ApplicationParameter MapFromDatabaseEnum(ApplicationParameter parameter)
+    public ConfigurationShared.ApplicationParameter MapFromDatabaseEnum(ApplicationParameter parameter)
     {
         var intValue = (int)parameter;
-        return (Abstract.Configuration.ApplicationParameter)intValue;
+        return (ConfigurationShared.ApplicationParameter)intValue;
     }
 
-    public ApplicationParameter MapToDatabaseEnum(Abstract.Configuration.ApplicationParameter parameter)
+    public ApplicationParameter MapToDatabaseEnum(ConfigurationShared.ApplicationParameter parameter)
     {
         var intValue = (int)parameter;
         return (ApplicationParameter)intValue;

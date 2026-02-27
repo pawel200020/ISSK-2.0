@@ -31,9 +31,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Configuration\Configuration.csproj" />
+      <ProjectReference Include="..\Configuration.Core\Configuration.Core.csproj" />
       <ProjectReference Include="..\Core\Core.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
+      <ProjectReference Include="..\Notifications.Core\Notifications.Core.csproj" />
       <ProjectReference Include="..\Resources\Resources.csproj" />
       <ProjectReference Include="..\Users\Users.csproj" />
       <ProjectReference Include="..\ViewModels\ViewModels.csproj" />

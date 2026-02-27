@@ -2,7 +2,7 @@ using System.Globalization;
 using Data.Configuration.Mappers;
 using Data.DatabaseEnums;
 using Microsoft.EntityFrameworkCore;
-using ApplicationParameter = Abstract.Configuration.ApplicationParameter;
+using ApplicationParameter = Configuration.Shared.ApplicationParameter;
 
 namespace Data.Configuration;
 

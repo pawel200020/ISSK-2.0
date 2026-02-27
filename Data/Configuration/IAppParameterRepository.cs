@@ -1,4 +1,4 @@
-using Abstract.Configuration;
+using Configuration.Shared;
 
 namespace Data.Configuration;
 

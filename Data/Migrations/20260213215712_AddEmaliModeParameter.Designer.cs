@@ -20,7 +20,7 @@ namespace Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+            modelBuilder.Entity("Data.Entites.Configuration.Core.ApplicationParameter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,7 +51,7 @@ namespace Data.Migrations
                     b.ToTable("ApplicationParameters");
                 });
 
-            modelBuilder.Entity("Data.Entites.Configuration.DictParameterType", b =>
+            modelBuilder.Entity("Data.Entites.Configuration.Core.DictParameterType", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("INTEGER");
@@ -295,9 +295,9 @@ namespace Data.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+            modelBuilder.Entity("Data.Entites.Configuration.Core.ApplicationParameter", b =>
                 {
-                    b.HasOne("Data.Entites.Configuration.DictParameterType", "ParameterType")
+                    b.HasOne("Data.Entites.Configuration.Core.DictParameterType", "ParameterType")
                         .WithMany()
                         .HasForeignKey("ParameterTypeId")
                         .OnDelete(DeleteBehavior.Cascade)

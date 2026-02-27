@@ -1,5 +1,5 @@
-﻿using Abstract.Configuration.Entities;
-using AutoMapper;
+﻿using AutoMapper;
+using Configuration.Shared.Entities;
 using Users.Models;
 using ViewModels.RazorPages.Configuration;
 using ViewModels.RazorPages.Users;

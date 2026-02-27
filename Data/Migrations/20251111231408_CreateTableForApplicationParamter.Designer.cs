@@ -20,7 +20,7 @@ namespace Event_Saver.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
-            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+            modelBuilder.Entity("Data.Entites.Configuration.Core.ApplicationParameter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()

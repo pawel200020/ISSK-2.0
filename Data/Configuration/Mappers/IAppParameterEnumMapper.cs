@@ -1,9 +1,10 @@
 using Data.DatabaseEnums;
+using ConfigurationShared = Configuration.Shared;
 
 namespace Data.Configuration.Mappers;
 
 internal interface IAppParameterEnumMapper
 {
-    Abstract.Configuration.ApplicationParameter MapFromDatabaseEnum(ApplicationParameter parameter);
-    ApplicationParameter MapToDatabaseEnum(Abstract.Configuration.ApplicationParameter parameter);
+    ConfigurationShared.ApplicationParameter MapFromDatabaseEnum(ApplicationParameter parameter);
+    ApplicationParameter MapToDatabaseEnum(ConfigurationShared.ApplicationParameter parameter);
 }

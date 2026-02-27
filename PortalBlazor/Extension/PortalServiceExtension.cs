@@ -1,6 +1,7 @@
 using Configuration;
 using Core.Extension;
 using Data.Extension;
+using Notifications.Core;
 
 namespace PortalBlazor.Extension;
 
@@ -10,5 +11,6 @@ internal static class PortalServiceExtension
         => builder
             .AddData()
             .AddCore()
-            .AddConfiguration();
+            .AddConfiguration()
+            .AddNotifications();
 }

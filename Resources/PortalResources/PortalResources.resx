@@ -184,7 +184,7 @@
         <value>Error</value>
     </data>
     <data name="cConfigurationSaved" xml:space="preserve">
-        <value>Configuration has been successfully updated</value>
+        <value>Configuration.Core has been successfully updated</value>
     </data>
     <data name="cLoginExternal" xml:space="preserve">
         <value>Login</value>
