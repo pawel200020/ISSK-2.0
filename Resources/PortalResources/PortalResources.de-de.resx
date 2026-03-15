@@ -206,4 +206,34 @@
     <data name="cRequiredField" xml:space="preserve">
         <value>Dieses Feld ist erforderlich</value>
     </data>
+    <data name="cUseSsl" xml:space="preserve">
+        <value>Verwenden Sie eine SSL-Verbindung:</value>
+    </data>
+    <data name="cUseSslInfo" xml:space="preserve">
+        <value>Aktiviert die Verschlüsselung der zwischen der Anwendung und dem Server übertragenen Daten und schützt so den Benutzernamen, das Passwort und den Inhalt der Nachrichten vor dem Abfangen.</value>
+    </data>
+    <data name="cSendTestEmail" xml:space="preserve">
+        <value>Test-E-Mail senden</value>
+    </data>
+    <data name="cSend" xml:space="preserve">
+        <value>Senden</value>
+    </data>
+    <data name="cEmailRecipent" xml:space="preserve">
+        <value>E-Mail-Empfänger</value>
+    </data>
+    <data name="cTestEmailBody" xml:space="preserve">
+        <value>Dies ist eine &lt;strong&gt;Test-E-Mail&lt;/strong&gt;, die von Ihrer Anwendung gesendet wurde, um zu überprüfen, ob Ihre E-Mail-Konfiguration korrekt funktioniert.</value>
+    </data>
+    <data name="cTestEmailFooter" xml:space="preserve">
+        <value>Wenn Sie diese Nachricht erhalten haben, funktioniert Ihre E-Mail-Konfiguration erfolgreich.</value>
+    </data>
+    <data name="cAutomatedEmail" xml:space="preserve">
+        <value>Dies ist eine automatisierte Testnachricht.</value>
+    </data>
+    <data name="cTestEmail" xml:space="preserve">
+        <value>E-Mail-Test</value>
+    </data>
+    <data name="cSendEmailSuccess" xml:space="preserve">
+        <value>Die Nachricht wurde erfolgreich versendet</value>
+    </data>
 </root>

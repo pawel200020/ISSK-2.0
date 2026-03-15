@@ -3,6 +3,7 @@ using Configuration.Shared.AppParameters.Managers;
 using Configuration.Shared.Entities;
 using Configuration.Shared.Managers;
 using Configuration.Shared.Notifications;
+using Newtonsoft.Json;
 
 namespace Configuration.Managers;
 
@@ -24,5 +25,14 @@ internal class AppConfigurationGetter : IAppConfigurationGetter
             IsAnonymousRegisterEnabled = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsAnonymousRegisterEnabled),
             EmailLogin = await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailLogin),
             EmailSendMode = (EmailSendMode) await _appParameterGetter.GetIntParameterValue(ApplicationParameter.EmailMode),
+            SmtpConfiguration = JsonConvert.DeserializeObject<SmtpConfiguration>( await _appParameterGetter.GetStringParameterValue(ApplicationParameter.SmtpConfiguration)?? "") ?? new SmtpConfiguration(),
         };
+    public async Task<string> GetSavedEmailLogin() => (await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailLogin)) ?? "";
+
+    public async Task<ISmtpConfiguration?> GetSmtpConfiguration() =>
+        JsonConvert.DeserializeObject<SmtpConfiguration>(
+                await _appParameterGetter.GetStringParameterValue(ApplicationParameter.SmtpConfiguration) ?? "");
+
+    public async Task<string> GetApplicationName() 
+        => (await _appParameterGetter.GetStringParameterValue(ApplicationParameter.ApplicationName))!;
 } 

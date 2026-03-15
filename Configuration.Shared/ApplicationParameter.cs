@@ -9,4 +9,5 @@ public enum ApplicationParameter
     EmailLogin = 4,
     EmailPassword = 5,
     EmailMode = 6,
+    SmtpConfiguration = 7
 }

@@ -434,5 +434,65 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cRequiredField", resourceCulture);
             }
         }
+        
+        public static string cUseSsl {
+            get {
+                return ResourceManager.GetString("cUseSsl", resourceCulture);
+            }
+        }
+        
+        public static string cUseSslInfo {
+            get {
+                return ResourceManager.GetString("cUseSslInfo", resourceCulture);
+            }
+        }
+        
+        public static string cSendTestEmail {
+            get {
+                return ResourceManager.GetString("cSendTestEmail", resourceCulture);
+            }
+        }
+        
+        public static string cSend {
+            get {
+                return ResourceManager.GetString("cSend", resourceCulture);
+            }
+        }
+        
+        public static string cEmailRecipent {
+            get {
+                return ResourceManager.GetString("cEmailRecipent", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmailBody {
+            get {
+                return ResourceManager.GetString("cTestEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmailFooter {
+            get {
+                return ResourceManager.GetString("cTestEmailFooter", resourceCulture);
+            }
+        }
+        
+        public static string cAutomatedEmail {
+            get {
+                return ResourceManager.GetString("cAutomatedEmail", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmail {
+            get {
+                return ResourceManager.GetString("cTestEmail", resourceCulture);
+            }
+        }
+        
+        public static string cSendEmailSuccess {
+            get {
+                return ResourceManager.GetString("cSendEmailSuccess", resourceCulture);
+            }
+        }
     }
 }

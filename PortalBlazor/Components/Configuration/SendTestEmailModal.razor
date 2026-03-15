@@ -1,0 +1,40 @@
+@using Notifications.Shared.Email
+@using PortalBlazor.Toasts
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
+<EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
+    <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">@Resources.PortalResources.PortalResources.cEmailRecipent:</label>
+        <div class="col-md-8">
+            <TextInput @bind-Value="@Email"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" Class="float-end me-2"><Icon Name="IconName.EnvelopeAt"/> @Resources.PortalResources.PortalResources.cSend</Button>
+        </div>
+    </div>
+   
+</EditForm>
+@code {
+    public string Email { get; set; } = new(string.Empty);
+    private EditContext? _editContext = new("");
+    [Parameter] public EventCallback<string> OnFailEventCallback { get; set; }
+    [Parameter] public EventCallback OnSuccessEventCallback { get; set; }
+    [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
+    private readonly List<ToastMessage> _messages = new();
+    [Inject] IEmailService EmailService { get; set; }
+    public async void HandleOnSubmit()
+    {
+        try
+        {
+            await EmailService.SendTestEmail(Email);
+            await OnSuccessEventCallback.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+           await OnFailEventCallback.InvokeAsync(ex.Message);
+        }
+        
+    }
+}

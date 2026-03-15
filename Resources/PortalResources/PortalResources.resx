@@ -213,4 +213,34 @@
     <data name="cRequiredField" xml:space="preserve">
         <value>This field is required</value>
     </data>
+    <data name="cUseSsl" xml:space="preserve">
+        <value>Use SSL connection:</value>
+    </data>
+    <data name="cUseSslInfo" xml:space="preserve">
+        <value>Enables encryption of data sent between the application and the server, protecting your login, password, and message content from interception.</value>
+    </data>
+    <data name="cSendTestEmail" xml:space="preserve">
+        <value>Send test E-mail</value>
+    </data>
+    <data name="cSend" xml:space="preserve">
+        <value>Send</value>
+    </data>
+    <data name="cEmailRecipent" xml:space="preserve">
+        <value>E-Mail recipent</value>
+    </data>
+    <data name="cTestEmailBody" xml:space="preserve">
+        <value>This is a &lt;strong&gt;test email&lt;/strong&gt; sent from your application to confirm that your email configuration is working correctly.</value>
+    </data>
+    <data name="cTestEmailFooter" xml:space="preserve">
+        <value>If you received this message, your e-mail configuration is working successfully.</value>
+    </data>
+    <data name="cAutomatedEmail" xml:space="preserve">
+        <value>This is an automated test message.</value>
+    </data>
+    <data name="cTestEmail" xml:space="preserve">
+        <value>Test E-mail</value>
+    </data>
+    <data name="cSendEmailSuccess" xml:space="preserve">
+        <value>Email has been send successfully</value>
+    </data>
 </root>

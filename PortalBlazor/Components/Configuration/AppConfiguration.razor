@@ -14,6 +14,7 @@
 
 
 <Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight"/>
+<Modal @ref="_modal"/>
 <EditForm Model="DataSource" method="post" OnValidSubmit="@HandleOnSubmitAsync" FormName="Configuration.Core"
           id="my-form-ref-44">
 
@@ -102,14 +103,50 @@
                 <ValidationMessage For="@(() => DataSource.EmailLogin)"/>
             </div>
         </div>
-        
+
         <div class="form-group row mb-3">
             <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cPassword:</label>
             <div class="col-md-4 col-sm-6 row-flex-item">
-                <PasswordInput @bind-Value="@DataSource.EmailPassword" Placeholder="********" />
+                <PasswordInput @bind-Value="@DataSource.EmailPassword" Placeholder="********"/>
             </div>
             <div class="col-md-4 col-sm-6 row-flex-item">
                 <ValidationMessage For="@(() => DataSource.EmailPassword)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">SMTP server:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@DataSource.SmtpConfiguration.SmtpServerAddress" Placeholder="smtp.server.com"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.SmtpConfiguration.SmtpServerAddress)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">SMTP port:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <InputNumber @bind-Value="DataSource.SmtpConfiguration.SmtpServerPort" class="form-control"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.SmtpConfiguration.SmtpServerPort)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cUseSsl</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="DataSource.SmtpConfiguration.UseSsl"/>
+                <TooltipInfo Content="@PortalResources.cUseSslInfo"></TooltipInfo>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Button Color="ButtonColor.Primary" @onclick="SendEmail">
+                    <Icon Name="IconName.EnvelopeAt"/> @PortalResources.cSendTestEmail</Button>
+
             </div>
         </div>
     }
@@ -118,17 +155,18 @@
         <div class="form-group row mb-3">
             <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cMailtrapSenderEmail:</label>
             <div class="col-md-4 col-sm-6 row-flex-item">
-                <TextInput @bind-Value="@DataSource.EmailLogin" Placeholder="@PortalResources.cMailtrapEmailSenderBlankText"/>
+                <TextInput @bind-Value="DataSource.EmailLogin"
+                           Placeholder="@PortalResources.cMailtrapEmailSenderBlankText"/>
             </div>
             <div class="col-md-4 col-sm-6 row-flex-item">
                 <ValidationMessage For="@(() => DataSource.EmailLogin)"/>
             </div>
         </div>
-        
+
         <div class="form-group row mb-3">
             <label class="col-sm-3 col-md-2 col-form-label">Token:</label>
             <div class="col-md-4 col-sm-6 row-flex-item">
-                <PasswordInput @bind-Value="@DataSource.EmailPassword" Placeholder="********"/>
+                <PasswordInput @bind-Value="DataSource.EmailPassword" Placeholder="********"/>
             </div>
             <div class="col-md-4 col-sm-6 row-flex-item">
                 <ValidationMessage For="@(() => DataSource.EmailPassword)"/>
@@ -140,14 +178,18 @@
 
 @code {
     [CascadingParameter] private HttpContext HttpContext { get; set; } = null!;
-    [SupplyParameterFromForm] private ApplicationConfigurationViewModel DataSource { get; set; } 
+
+    [SupplyParameterFromForm]
+    private ApplicationConfigurationViewModel DataSource { get; set; }
         = new() { ApplicationName = "" };
+
     private readonly List<ToastMessage> _messages = new();
     [Inject] private IMapper Mapper { get; set; } = null!;
     [Inject] private IAppConfigurationGetter AppConfigurationGetter { get; set; } = null!;
     [Inject] private IAppConfigurationSaver AppConfigurationSaver { get; set; } = null!;
     [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
     [Inject] protected PreloadService PreloadService { get; set; } = default!;
+    private Modal _modal = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -161,6 +203,20 @@
         }
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task SendEmail()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("OnSuccessEventCallback", EventCallback.Factory.Create(this, async () =>
+        {
+            ShowToast(PortalResources.cSuccess, PortalResources.cSendEmailSuccess, ToastType.Success);
+            await _modal.HideAsync();
+        }));
+        parameters.Add("OnFailEventCallback", EventCallback.Factory.Create(this, (string errorMessage) => 
+            ShowToast(PortalResources.cError, errorMessage, ToastType.Danger)));
+        
+        await _modal.ShowAsync<SendTestEmailModal>(PortalResources.cSendTestEmail, parameters: parameters);
     }
 
     private void ShowToast(string title, string message, ToastType toastType)
@@ -194,9 +250,12 @@
 
     private void OnMailTypeValueChanged()
     {
-        if(DataSource.EmailLogin!=null)
+        if (DataSource.EmailLogin != null)
             DataSource.EmailLogin = string.Empty;
-        if(DataSource.EmailPassword!=null)
+        if (DataSource.EmailPassword != null)
             DataSource.EmailPassword = string.Empty;
+        if (DataSource.SmtpConfiguration != null)
+            DataSource.SmtpConfiguration = new SmtpConfigurationViewModel();
     }
+
 }

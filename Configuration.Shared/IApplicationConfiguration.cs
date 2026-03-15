@@ -11,4 +11,5 @@ public interface IApplicationConfiguration
     string? EmailLogin { get; set; }
     string? EmailPassword { get; set; }
     EmailSendMode EmailSendMode { get; set; }
+    ISmtpConfiguration? SmtpConfiguration { get; set; }
 }

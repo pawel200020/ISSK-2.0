@@ -12,4 +12,5 @@ public class ApplicationConfiguration : IApplicationConfiguration
     public string? EmailPassword { get; set; }
     public bool IsSelfRegisterEnabled { get; set; }
     public EmailSendMode EmailSendMode { get; set; }
+    public ISmtpConfiguration? SmtpConfiguration { get; set; }
 }

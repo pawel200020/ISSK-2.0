@@ -9,10 +9,11 @@
     <ItemGroup>
       <ProjectReference Include="..\Configuration.Shared\Configuration.Shared.csproj" />
       <ProjectReference Include="..\Notifications.Shared\Notifications.Shared.csproj" />
+      <ProjectReference Include="..\Resources\Resources.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MailKit" Version="4.15.0" />
+      <PackageReference Include="MailKit" Version="4.15.1" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.1" />
     </ItemGroup>
 

@@ -5,7 +5,6 @@ namespace ViewModels.RazorPages.Configuration;
 
 public class ApplicationConfigurationViewModel :IValidatableObject
 {
-    //[Required(ErrorMessageResourceType = typeof(PortalResources), ErrorMessageResourceName = "cRequiredField")]
     public required string ApplicationName { get; set; }
     public bool IsWeatherEnabled { get; set; }
     public bool IsRankingEnabled { get; set; }
@@ -13,7 +12,9 @@ public class ApplicationConfigurationViewModel :IValidatableObject
     public int EmailSendMode { get; set; }
     public string? EmailLogin { get; set; }
     public string? EmailPassword { get; set; }
-    
+    public SmtpConfigurationViewModel? SmtpConfiguration { get; set; }
+
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if(string.IsNullOrWhiteSpace(ApplicationName))

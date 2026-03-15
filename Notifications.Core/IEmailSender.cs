@@ -1,4 +1,4 @@
-namespace Notifications.Shared.Email;
+namespace Notifications.Core;
 
 public interface IEmailSender
 {
