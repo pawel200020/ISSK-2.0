@@ -2,7 +2,7 @@
 using Configuration.Shared;
 using Configuration.Shared.Entities;
 using Configuration.Shared.Notifications;
-using Users.Models;
+using Users.Shared.Models;
 using ViewModels.RazorPages.Configuration;
 using ViewModels.RazorPages.Users;
 

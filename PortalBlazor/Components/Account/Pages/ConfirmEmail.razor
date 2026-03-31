@@ -1,13 +1,13 @@
 ﻿@page "/Account/ConfirmEmail"
 
 @using System.Text
-@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
-@using Users
-@using Users.Models
+@using Users.Shared.Managers
+@using Users.Shared.Managers.Read
 
-@inject UserManager<ApplicationUser> UserManager
 @inject IdentityRedirectProcessor RedirectProcessor
+@inject IUsersDownloader UsersDownloader
+@inject IUserEmailConfirmation UserEmailConfirmation;
 
 <PageTitle>Confirm email</PageTitle>
 
@@ -30,7 +30,7 @@
             RedirectProcessor.RedirectTo("");
         }
 
-        var user = await UserManager.FindByIdAsync(UserId);
+        var user = await UsersDownloader.GetUserById(new Guid(UserId));
         if (user is null)
         {
             HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -39,8 +39,8 @@
         else
         {
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
-            var result = await UserManager.ConfirmEmailAsync(user, code);
-            statusMessage = result.Succeeded ? "Thank you for confirming your email." : "Error confirming your email.";
+            var result = await UserEmailConfirmation.ConfirmEmailAsync(user, code);
+            statusMessage = result? "Thank you for confirming your email." : "Error confirming your email.";
         }
     }
 

@@ -236,4 +236,133 @@
     <data name="cSendEmailSuccess" xml:space="preserve">
         <value>Wiadomość została wysłana poprawnie</value>
     </data>
+    <data name="cCorrectEmailFormat" xml:space="preserve">
+        <value>Podaj poprawny adres E-mail</value>
+    </data>
+    <data name="cChangePassword" xml:space="preserve">
+        <value>Zaaktualizuj hasło</value>
+    </data>
+    <data name="cInvalidOldPassword" xml:space="preserve">
+        <value>Aktualne hasło jest niepoprawne</value>
+    </data>
+    <data name="cUserNotFound" xml:space="preserve">
+        <value>Nie znaleziono użytkownika</value>
+    </data>
+    <data name="cUserAlreadyExists" xml:space="preserve">
+        <value>Użytkownik już istnieje</value>
+    </data>
+    <data name="cInvalidEmail" xml:space="preserve">
+        <value>Nieprawidłowy adres e-mail</value>
+    </data>
+    <data name="cPasswordTooShort" xml:space="preserve">
+        <value>Hasło jest za krótkie</value>
+    </data>
+    <data name="cPasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jeden znak niealfanumeryczny</value>
+    </data>
+    <data name="cPasswordRequiresDigit" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną cyfrę</value>
+    </data>
+    <data name="cPasswordRequiresLower" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną małą literę</value>
+    </data>
+    <data name="cPasswordRequiresUpper" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną wielką literę</value>
+    </data>
+    <data name="cPasswordRequiresUniqueChars" xml:space="preserve">
+        <value>Hasło musi zawierać wystarczającą liczbę unikalnych znaków</value>
+    </data>
+    <data name="cUnknownError" xml:space="preserve">
+        <value>Wystąpił nieznany błąd</value>
+    </data>
+    <data name="cOldPasswordLabel" xml:space="preserve">
+        <value>Aktualne hasło</value>
+    </data>
+    <data name="cOldPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź swoje aktualne hasło.</value>
+    </data>
+    <data name="cNewPasswordLabel" xml:space="preserve">
+        <value>Nowe hasło</value>
+    </data>
+    <data name="cNewPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź nowe hasło.</value>
+    </data>
+    <data name="cConfirmPasswordLabel" xml:space="preserve">
+        <value>Potwierdź hasło</value>
+    </data>
+    <data name="cConfirmPasswordPlaceholder" xml:space="preserve">
+        <value>Potwierdź nowe hasło.</value>
+    </data>
+    <data name="cUpdatePassword" xml:space="preserve">
+        <value>Zaktualizuj hasło</value>
+    </data>
+    <data name="cPasswordConfirmMismatch" xml:space="preserve">
+        <value>Nowe hasło i potwierdzenie hasła nie są zgodne.</value>
+    </data>
+    <data name="cPasswordChanged" xml:space="preserve">
+        <value>Twoje hasło zostało zmienione</value>
+    </data>
+    <data name="cInvalidPassword" xml:space="preserve">
+        <value>Niepoprawne hasło</value>
+    </data>
+    <data name="cDeletePersonalDataTitle" xml:space="preserve">
+        <value>Usuń dane osobowe</value>
+    </data>
+    <data name="cDeletePersonalDataWarning" xml:space="preserve">
+        <value>Usunięcie tych danych spowoduje trwałe usunięcie Twojego konta i nie będzie możliwości przywrócenia.</value>
+    </data>
+    <data name="cPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź swoje hasło.</value>
+    </data>
+    <data name="cDeletePersonalDataButton" xml:space="preserve">
+        <value>Usuń dane i zamknij moje konto</value>
+    </data>
+    <data name="cConfirmEmailChange" xml:space="preserve">
+        <value>Potwierdzenie adresu email</value>
+    </data>
+    <data name="cConfirmEmailCaption" xml:space="preserve">
+        <value>Adres e-mail został pomyślnie potwierdzony </value>
+    </data>
+    <data name="cDisableTwoFactorSuccessMessage" xml:space="preserve">
+        <value>2FA zostało wyłączone. Możesz ponownie włączyć 2FA podczas konfigurowania aplikacji uwierzytelniającej.</value>
+    </data>
+    <data name="cDisableTwoFactorTitle" xml:space="preserve">
+        <value>Wyłącz uwierzytelnianie dwuskładnikowe (2FA)</value>
+    </data>
+    <data name="cDisableTwoFactorOnly" xml:space="preserve">
+        <value>Ta czynność jedynie wyłącza 2FA.</value>
+    </data>
+    <data name="cDisableTwoFactorDescription" xml:space="preserve">
+        <value>Wyłączenie 2FA nie zmienia kluczy używanych w aplikacjach uwierzytelniających. Jeśli chcesz zmienić klucz używany w aplikacji uwierzytelniającej, powinieneś &lt;a href='Account/Manage/ResetAuthenticator'&gt;zresetować klucze uwierzytelniające&lt;/a&gt;.</value>
+    </data>
+    <data name="cDisableTwoFactorButton" xml:space="preserve">
+        <value>Wyłącz 2FA</value>
+    </data>
+    <data name="cManageEmail" xml:space="preserve">
+        <value>Zarządzaj pocztą e-mail</value>
+    </data>
+    <data name="cSendVerificationEmail" xml:space="preserve">
+        <value>Wyślij wiadomość weryfikacyjną</value>
+    </data>
+    <data name="cNewEmail" xml:space="preserve">
+        <value>Nowy adres e-mail</value>
+    </data>
+    <data name="cChangeEmail" xml:space="preserve">
+        <value>Zmień adres e-mail</value>
+    </data>
+    <data name="cPleaseEnterEmail" xml:space="preserve">
+        <value>Wpisz swój adres e-mail.</value>
+    </data>
+    <data name="cPleaseEnterNewEmail" xml:space="preserve">
+        <value>Wpisz nowy adres e-mail.</value>
+    </data>
+    <data name="cEmailUnchanged" xml:space="preserve">
+        <value>Twój adres e-mail nie uległ zmianie.</value>
+    </data>
+    <data name="cConfirmationLinkSent" xml:space="preserve">
+        <value>Link potwierdzający zmianę adresu e-mail został wysłany. Sprawdź swoją pocztę e-mail.</value>
+    </data>
+    <data name="cVerificationEmailSent" xml:space="preserve">
+        <value>Wiadomość weryfikacyjna została wysłana. Sprawdź swoją pocztę e-mail.</value>
+    </data>
 </root>

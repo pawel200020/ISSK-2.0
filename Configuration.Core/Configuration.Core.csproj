@@ -12,7 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Abstract\Abstract.csproj" />
       <ProjectReference Include="..\Configuration.Shared\Configuration.Shared.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
     </ItemGroup>

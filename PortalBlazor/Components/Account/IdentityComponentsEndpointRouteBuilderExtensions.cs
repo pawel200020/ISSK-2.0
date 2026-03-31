@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using PortalBlazor.Components.Account.Pages;
 using PortalBlazor.Components.Account.Pages.Manage;
-using Users.Models;
+using Users.Shared.Models;
 
 namespace PortalBlazor.Components.Account;
 

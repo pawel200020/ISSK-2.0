@@ -243,4 +243,133 @@
     <data name="cSendEmailSuccess" xml:space="preserve">
         <value>Email has been send successfully</value>
     </data>
+    <data name="cCorrectEmailFormat" xml:space="preserve">
+        <value>Please enter a valid email address</value>
+    </data>
+    <data name="cChangePassword" xml:space="preserve">
+        <value>Change password</value>
+    </data>
+    <data name="cInvalidOldPassword" xml:space="preserve">
+        <value>Current password is incorrect</value>
+    </data>
+    <data name="cOldPasswordLabel" xml:space="preserve">
+        <value>Old password</value>
+    </data>
+    <data name="cOldPasswordPlaceholder" xml:space="preserve">
+        <value>Please enter your current password.</value>
+    </data>
+    <data name="cNewPasswordLabel" xml:space="preserve">
+        <value>New password</value>
+    </data>
+    <data name="cNewPasswordPlaceholder" xml:space="preserve">
+        <value>Please enter your new password.</value>
+    </data>
+    <data name="cConfirmPasswordLabel" xml:space="preserve">
+        <value>Confirm password</value>
+    </data>
+    <data name="cConfirmPasswordPlaceholder" xml:space="preserve">
+        <value>Please confirm your new password.</value>
+    </data>
+    <data name="cUpdatePassword" xml:space="preserve">
+        <value>Update password</value>
+    </data>
+    <data name="cPasswordConfirmMismatch" xml:space="preserve">
+        <value>The new password and confirmation password do not match.</value>
+    </data>
+    <data name="cPasswordChanged" xml:space="preserve">
+        <value>Your password has been changed</value>
+    </data>
+    <data name="cUserNotFound" xml:space="preserve">
+        <value>User not found</value>
+    </data>
+    <data name="cUserAlreadyExists" xml:space="preserve">
+        <value>User already exists</value>
+    </data>
+    <data name="cInvalidEmail" xml:space="preserve">
+        <value>Invalid e-mail address</value>
+    </data>
+    <data name="cPasswordTooShort" xml:space="preserve">
+        <value>Password is too short</value>
+    </data>
+    <data name="cPasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Password must contain at least one non-alphanumeric character</value>
+    </data>
+    <data name="cPasswordRequiresDigit" xml:space="preserve">
+        <value>Password must contain at least one digit</value>
+    </data>
+    <data name="cPasswordRequiresLower" xml:space="preserve">
+        <value>Password must contain at least one lowercase letter</value>
+    </data>
+    <data name="cPasswordRequiresUpper" xml:space="preserve">
+        <value>Password must contain at least one uppercase letter</value>
+    </data>
+    <data name="cPasswordRequiresUniqueChars" xml:space="preserve">
+        <value>Password must contain enough unique characters</value>
+    </data>
+    <data name="cUnknownError" xml:space="preserve">
+        <value>An unknown error occurred</value>
+    </data>
+    <data name="cDeletePersonalDataTitle" xml:space="preserve">
+        <value>Delete personal data</value>
+    </data>
+    <data name="cDeletePersonalDataWarning" xml:space="preserve">
+        <value>Deleting this data will permanently remove your account, and this cannot be recovered.</value>
+    </data>
+    <data name="cPasswordPlaceholder" xml:space="preserve">
+        <value>Please enter your password.</value>
+    </data>
+    <data name="cDeletePersonalDataButton" xml:space="preserve">
+        <value>Delete data and close my account</value>
+    </data>
+    <data name="cInvalidPassword" xml:space="preserve">
+        <value>Invalid password</value>
+    </data>
+    <data name="cConfirmEmailChange" xml:space="preserve">
+        <value>Confirm email change</value>
+    </data>
+    <data name="cConfirmEmailCaption" xml:space="preserve">
+        <value>An E-mail has been sucessfullyconfirmed </value>
+    </data>
+    <data name="cDisableTwoFactorTitle" xml:space="preserve">
+        <value>Disable two-factor authentication (2FA)</value>
+    </data>
+    <data name="cDisableTwoFactorOnly" xml:space="preserve">
+        <value>This action only disables 2FA.</value>
+    </data>
+    <data name="cDisableTwoFactorDescription" xml:space="preserve">
+        <value>Disabling 2FA does not change the keys used in authenticator apps. If you wish to change the key used in an authenticator app you should &lt;a href='Account/Manage/ResetAuthenticator'&gt;reset your authenticator keys.&lt;/a&gt;</value>
+    </data>
+    <data name="cDisableTwoFactorButton" xml:space="preserve">
+        <value>Disable 2FA</value>
+    </data>
+    <data name="cDisableTwoFactorSuccessMessage" xml:space="preserve">
+        <value>2fa has been disabled. You can reenable 2fa when you setup an authenticator app</value>
+    </data>
+    <data name="cManageEmail" xml:space="preserve">
+        <value>Manage email</value>
+    </data>
+    <data name="cSendVerificationEmail" xml:space="preserve">
+        <value>Send verification email</value>
+    </data>
+    <data name="cNewEmail" xml:space="preserve">
+        <value>New email</value>
+    </data>
+    <data name="cChangeEmail" xml:space="preserve">
+        <value>Change email</value>
+    </data>
+    <data name="cPleaseEnterEmail" xml:space="preserve">
+        <value>Enter your email.</value>
+    </data>
+    <data name="cPleaseEnterNewEmail" xml:space="preserve">
+        <value>Enter new email.</value>
+    </data>
+    <data name="cEmailUnchanged" xml:space="preserve">
+        <value>Your email is unchanged.</value>
+    </data>
+    <data name="cConfirmationLinkSent" xml:space="preserve">
+        <value>Confirmation link to change email sent. Please check your email.</value>
+    </data>
+    <data name="cVerificationEmailSent" xml:space="preserve">
+        <value>Verification email sent. Please check your email.</value>
+    </data>
 </root>

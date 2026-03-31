@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PortalBlazor.Components;
 using PortalBlazor.Components.Account;
-using Users;
-using Users.Models;
+using Users.Core;
 using Blazored.Modal;
 using PortalBlazor.Extension;
 using PortalBlazor.Middlewares.Extension;
 using PortalBlazor.Toasts;
+using Users.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +21,7 @@ builder.Services.AddRazorComponents(options =>
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "../Resources/PortalResources");
 builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<IdentityUserAccessor>();
+builder.Services.AddScoped<CurrentUserProvider>();
 builder.Services.AddScoped<IdentityRedirectProcessor>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddSingleton<ToastMessageCreationService>();

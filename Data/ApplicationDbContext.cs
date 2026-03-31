@@ -3,7 +3,7 @@ using Data.Entites.Languages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Users.Models;
+using Users.Shared.Models;
 
 namespace Data;
 

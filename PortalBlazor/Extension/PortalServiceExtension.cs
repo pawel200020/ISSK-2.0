@@ -1,5 +1,4 @@
 using Configuration;
-using Core.Extension;
 using Data.Extension;
 using Notifications.Core;
 
@@ -10,7 +9,6 @@ internal static class PortalServiceExtension
     public static IServiceCollection AddServices(this IServiceCollection builder)
         => builder
             .AddData()
-            .AddCore()
             .AddConfiguration()
             .AddNotifications();
 }
