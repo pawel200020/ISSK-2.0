@@ -20,8 +20,4 @@
       <ProjectReference Include="..\Users.Core\Users.Core.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\Users\Users.csproj" />
-    </ItemGroup>
-
 </Project>

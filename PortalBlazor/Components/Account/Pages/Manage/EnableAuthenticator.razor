@@ -21,6 +21,8 @@
 }
 else
 {
+    <script type="text/javascript" src="~/lib/qrcode.js"></script>
+    <script type="text/javascript" src="~/js/qr.js"></script>
     <StatusMessage Message="@message"/>
     <h3>Configure authenticator app</h3>
     <div>
@@ -39,8 +41,8 @@ else
             <li>
                 <p>Scan the QR Code or enter this key <kbd>@sharedKey</kbd> into your two factor authenticator app. Spaces and casing do not matter.</p>
                 <div class="alert alert-info">Learn how to <a href="https://go.microsoft.com/fwlink/?Linkid=852423">enable QR code generation</a>.</div>
-                <div></div>
-                <div data-url="@authenticatorUri"></div>
+                <div id ="qrCode"></div>
+                <div id="qrCodeData" data-url="@authenticatorUri"></div>
             </li>
             <li>
                 <p>
@@ -65,7 +67,6 @@ else
         </ol>
     </div>
 }
-
 @code {
     private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
@@ -74,6 +75,7 @@ else
     private string? sharedKey;
     private string? authenticatorUri;
     private IEnumerable<string>? recoveryCodes;
+    private bool qrCodeGenerated = false;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
@@ -168,5 +170,4 @@ else
         [Display(Name = "Verification Code")]
         public string Code { get; set; } = "";
     }
-
 }
