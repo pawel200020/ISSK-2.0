@@ -362,4 +362,57 @@
     <data name="cVerificationEmailSent" xml:space="preserve">
         <value>Bestätigungs-E-Mail gesendet. Bitte überprüfen Sie Ihre E-Mail.</value>
     </data>
+    <data name="cConfigureAuthenticatorTitle" xml:space="preserve">
+        <value>Authentifizierungs-App konfigurieren</value>
+    </data>
+    <data name="cAuthenticatorSteps" xml:space="preserve">
+        <value>Um eine Authentifizierungs-App zu verwenden, gehen Sie durch die folgenden Schritte:</value>
+    </data>
+    <data name="cScanQRCode" xml:space="preserve">
+        <value>Scannen Sie den QR-Code oder geben Sie diesen Schlüssel ein</value>
+    </data>
+    <data name="cQRCodeInfo" xml:space="preserve">
+        <value>in Ihre Zwei-Faktor-Authentifizierungs-App. Leerzeichen und Groß-/Kleinschreibung spielen keine Rolle.</value>
+    </data>
+    <data name="cVerifyCodeInfo" xml:space="preserve">
+        <value>Nachdem Sie den QR-Code gescannt oder den oben angegebenen Schlüssel eingegeben haben, stellt Ihnen Ihre Authentifizierungs-App einen eindeutigen Code zur Verfügung. Geben Sie den Code in das Bestätigungsfeld unten ein.</value>
+    </data>
+    <data name="cEnterCodePlaceholder" xml:space="preserve">
+        <value>Bitte geben Sie den Code ein.</value>
+    </data>
+    <data name="cVerificationCodeLabel" xml:space="preserve">
+        <value>Bestätigungscode</value>
+    </data>
+    <data name="cVerifyButton" xml:space="preserve">
+        <value>Bestätigen</value>
+    </data>
+    <data name="cInvalidVerificationCode" xml:space="preserve">
+        <value>Fehler: Bestätigungscode ist ungültig.</value>
+    </data>
+    <data name="cAuthenticatorVerified" xml:space="preserve">
+        <value>Ihre Authentifizierungs-App wurde bestätigt.</value>
+    </data>
+    <data name="cAuthenticatorDownloadLinks" xml:space="preserve">
+        <value>Laden Sie eine Zwei-Faktor-Authentifizierungs-App wie Microsoft Authenticator herunter für &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825072"&gt;Android&lt;/a&gt; und &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825073"&gt;iOS&lt;/a&gt; oder
+Google Authenticator für &lt;a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en"&gt;Android&lt;/a&gt; und &lt;a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8"&gt;iOS&lt;/a&gt;</value>
+    </data>
+    <data name="cConfirmationEmailTitle" xml:space="preserve">
+        <value>E-Mail-Adresse bestätigen</value>
+    </data>
+    <data name="cConfirmationEmailBody" xml:space="preserve">
+        <value>Dies ist eine Bestätigungs-E-Mail, die von Ihrer Anwendung gesendet wurde.
+Um Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den Bestätigungslink: {0}.</value>
+    </data>
+    <data name="cRedirectAllEmails" xml:space="preserve">
+        <value>Alle E-Mails</value>
+    </data>
+    <data name="cRedirectedEmailAddress" xml:space="preserve">
+        <value>E-Mail</value>
+    </data>
+    <data name="cEmailAlreadyRegistered" xml:space="preserve">
+        <value>Ein Konto ist bereits für diese E-Mail-Adresse registriert</value>
+    </data>
+    <data name="cFirstName" xml:space="preserve">
+        <value>Vorname</value>
+    </data>
 </root>

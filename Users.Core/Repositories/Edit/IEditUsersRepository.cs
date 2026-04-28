@@ -7,11 +7,12 @@ namespace Users.Core.Repositories.Edit;
 internal interface IEditUsersRepository
 {
     Task<IUserCreationResult> CreateUser(IUser user);
-    Task<string> Disable2FaAuthentication(Guid userGuid);
     Task<bool> EditUserAsync(IUser user);
     Task<bool> RemoveUserAsync(Guid userId);
     Task<UserOperationResult> ChangePasswordAsync(Guid userId, string oldPassword, string newPassword);
     Task<bool> ChangeEmailAsync(Guid userId, string newEmail, string token);
     Task<string> GenerateChangeEmailTokenAsync(Guid userId, string newEmail);
     Task<bool> ConfirmEmailAsync(ApplicationUser user, string token);
+    Task<string> GenerateEmailConfirmationTokenAsync(Guid userId);
+
 }

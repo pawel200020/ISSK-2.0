@@ -1,15 +1,9 @@
 ﻿@page "/Account/RegisterConfirmation"
 
-@using System.Text
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using Users.Core
-@using Users.Shared
-@using Users.Shared.Models
+@using Users.Shared.Managers
+@using Users.Shared.Managers.Read
 
-@inject UserManager<ApplicationUser> UserManager
-@inject IEmailSender<ApplicationUser> EmailSender
-@inject NavigationManager NavigationManager
+@inject IUserMetadataGetter UserMetadataGetter
 @inject IdentityRedirectProcessor RedirectProcessor
 
 <PageTitle>Register confirmation</PageTitle>
@@ -18,23 +12,14 @@
 
 <StatusMessage Message="@statusMessage"/>
 
-@if (emailConfirmationLink is not null)
-{
-    <p>
-        This app does not currently have a real email sender registered, see <a href="https://aka.ms/aspaccountconf">these docs</a> for how to configure a real email sender.
-        Normally this would be emailed: <a href="@emailConfirmationLink">Click here to confirm your account</a>
-    </p>
-}
-else
-{
-    <p>Please check your email to confirm your account.</p>
-}
+<p>Please check your email to confirm your account.</p>
 
 @code {
     private string? emailConfirmationLink;
     private string? statusMessage;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
+    [Inject] private IUserEmailConfirmation UserEmailConfirmation { get; set; } = default!;
 
     [SupplyParameterFromQuery] private string? Email { get; set; }
 
@@ -43,26 +28,16 @@ else
     protected override async Task OnInitializedAsync()
     {
         if (Email is null)
-        {
             RedirectProcessor.RedirectTo("");
-        }
 
-        var user = await UserManager.FindByEmailAsync(Email);
-        if (user is null)
+        try
         {
-            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            statusMessage = "Error finding user for unspecified email";
+            var userMetadata = await UserMetadataGetter.GetUserMetadataAsync(Email);
+            await UserEmailConfirmation.SendConfirmationEmailAccountWithReturnUrlAndGenerateToken(userMetadata.Id, Email, ReturnUrl);
         }
-        else if (EmailSender is IIdentityNoOpEmailSender)
+        catch (Exception ex)
         {
-            // Once you add a real email sender, you should remove this code that lets you confirm the account
-            var userId = await UserManager.GetUserIdAsync(user);
-            var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            emailConfirmationLink = NavigationManager.GetUriWithQueryParameters(
-                NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+            statusMessage = $"Error confirming your account: {ex.Message}";
         }
     }
-
 }

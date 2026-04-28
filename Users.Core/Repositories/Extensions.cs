@@ -8,5 +8,7 @@ internal static class Extensions
 {
     public static IServiceCollection AddRepositories(this IServiceCollection services) =>
         services.AddScoped<IEditUsersRepository, EditUserRepository>()
-            .AddScoped<IReadUsersRepository, ReadUsersRepository>();
+            .AddScoped<IReadUsersRepository, ReadUsersRepository>()
+            .AddScoped<IEditTwoFactorAuthUserRepository,EditTwoFactorAuthUserRepository>()
+            .AddScoped<IReadTwoFactorAuthUserRepository, ReadTwoFactorAuthUserRepository>();
 }

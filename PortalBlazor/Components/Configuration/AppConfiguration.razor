@@ -141,14 +141,6 @@
                 <TooltipInfo Content="@PortalResources.cUseSslInfo"></TooltipInfo>
             </div>
         </div>
-
-        <div class="form-group row mb-3">
-            <div class="col-md-4 col-sm-4 row-flex-item">
-                <Button Color="ButtonColor.Primary" @onclick="SendEmail">
-                    <Icon Name="IconName.EnvelopeAt"/> @PortalResources.cSendTestEmail</Button>
-
-            </div>
-        </div>
     }
     @if (DataSource.EmailSendMode == (int)EmailSendMode.MailTrap)
     {
@@ -170,6 +162,31 @@
             </div>
             <div class="col-md-4 col-sm-6 row-flex-item">
                 <ValidationMessage For="@(() => DataSource.EmailPassword)"/>
+            </div>
+        </div>
+    }
+    @if (DataSource.EmailSendMode != (int)EmailSendMode.None)
+    {
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cRedirectAllEmails:</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="DataSource.IsEmailRedirect" @bind-Value:after="EraseRedirectEmail"/>
+                <TooltipInfo Content="@PortalResources.cWeatherTooltip"></TooltipInfo>
+            </div>
+        </div>
+        <div class="form-group row mb-3" >
+            <label class="col-sm-3 col-md-2 col-form-label" disabled="@(!DataSource.IsEmailRedirect)">@PortalResources.cRedirectedEmailAddress:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="DataSource.EmailRedirectAddress" Placeholder="" Disabled="@(!DataSource.IsEmailRedirect)"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailRedirectAddress)"/>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Button Color="ButtonColor.Primary" @onclick="SendEmail">
+                    <Icon Name="IconName.EnvelopeAt"/> @PortalResources.cSendTestEmail</Button>
             </div>
         </div>
     }
@@ -213,9 +230,9 @@
             ShowToast(PortalResources.cSuccess, PortalResources.cSendEmailSuccess, ToastType.Success);
             await _modal.HideAsync();
         }));
-        parameters.Add("OnFailEventCallback", EventCallback.Factory.Create(this, (string errorMessage) => 
+        parameters.Add("OnFailEventCallback", EventCallback.Factory.Create(this, (string errorMessage) =>
             ShowToast(PortalResources.cError, errorMessage, ToastType.Danger)));
-        
+
         await _modal.ShowAsync<SendTestEmailModal>(PortalResources.cSendTestEmail, parameters: parameters);
     }
 
@@ -257,5 +274,10 @@
         if (DataSource.SmtpConfiguration != null)
             DataSource.SmtpConfiguration = new SmtpConfigurationViewModel();
     }
-
+    
+    private void EraseRedirectEmail()
+    {
+        if (!DataSource.IsEmailRedirect)
+            DataSource.EmailRedirectAddress = string.Empty;
+    }
 }

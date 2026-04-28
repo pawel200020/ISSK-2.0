@@ -12,6 +12,8 @@ public class ApplicationConfigurationViewModel :IValidatableObject
     public int EmailSendMode { get; set; }
     public string? EmailLogin { get; set; }
     public string? EmailPassword { get; set; }
+    public bool IsEmailRedirect { get; set; }
+    public string ? EmailRedirectAddress { get; set; }
     public SmtpConfigurationViewModel? SmtpConfiguration { get; set; }
 
 
@@ -25,6 +27,11 @@ public class ApplicationConfigurationViewModel :IValidatableObject
         {
             if(string.IsNullOrWhiteSpace(EmailLogin))
                 yield return new ValidationResult(PortalResources.cRequiredField, [nameof(EmailLogin)]);
+        }
+
+        if (IsEmailRedirect && string.IsNullOrWhiteSpace(EmailRedirectAddress))
+        {
+            yield return new ValidationResult(PortalResources.cRequiredField, [nameof(EmailRedirectAddress)]);
         }
     }
 }

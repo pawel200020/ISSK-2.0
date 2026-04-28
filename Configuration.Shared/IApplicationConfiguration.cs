@@ -10,6 +10,8 @@ public interface IApplicationConfiguration
     bool IsAnonymousRegisterEnabled { get; set; }
     string? EmailLogin { get; set; }
     string? EmailPassword { get; set; }
+    bool IsEmailRedirect { get; set; }
+    string? EmailRedirectAddress { get; set; }
     EmailSendMode EmailSendMode { get; set; }
     ISmtpConfiguration? SmtpConfiguration { get; set; }
 }

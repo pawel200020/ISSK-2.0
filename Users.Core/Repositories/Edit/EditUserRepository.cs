@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Resources.PortalResources;
 using Users.Core.Entities;
 using Users.Core.Repositories.Read;
 using Users.Shared.Exceptions;
@@ -35,6 +36,16 @@ internal class EditUserRepository : IEditUsersRepository
 
         await _userStore.SetUserNameAsync(dbUser, user.UserName, CancellationToken.None);
         var emailStore = GetEmailStore();
+        var userSameEmail = await _userManager.FindByEmailAsync(user.Email);
+        var isUniqueEmail = userSameEmail == null;
+        if (!isUniqueEmail)
+        {
+            return new UserCreationResult()
+            {
+                Errors = new List<IdentityError>()
+                    { new() { Code = "", Description = PortalResources.cEmailAlreadyRegistered } }
+            };
+        }
         await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
         var result = await _userManager.CreateAsync(dbUser, user.Password);
 
@@ -42,7 +53,7 @@ internal class EditUserRepository : IEditUsersRepository
             return new UserCreationResult() { Errors = result.Errors };
 
         await _userManager.AddToRoleAsync(dbUser, Enum.GetName(UserRolesWithGuids.RolesWithGuids[user.RoleId])!);
-
+        
         _logger.LogInformation("User created a new account with password.");
 
         var userId = await _userManager.GetUserIdAsync(dbUser);
@@ -52,27 +63,6 @@ internal class EditUserRepository : IEditUsersRepository
             UserId = userId, Code = code, CreatedUser = dbUser,
             RequireConfirmedAccount = _userManager.Options.SignIn.RequireConfirmedAccount
         };
-    }
-
-    public async Task<string> Disable2FaAuthentication(Guid userGuid)
-    {
-        if (!await _readUsersRepository.HasUser2FaEnabled(userGuid))
-        {
-            await Task.Yield();
-            throw new InvalidOperationException($"User {userGuid} does not have 2fa authentication.");
-        }
-
-        var user = await _readUsersRepository.GetUserById(userGuid);
-        var result = await _userManager.SetTwoFactorEnabledAsync(user, false);
-        if (!result.Succeeded)
-        {
-            var message = result.Errors.Select(e => e.Description);
-            _logger.LogError(
-                $"User {userGuid} disabled 2fa authentication with failure. Errors: {string.Join(", ", message)}");
-            return string.Join(", ", message);
-        }
-
-        return "";
     }
 
     private ApplicationUser CreateDbUser(IUser user)
@@ -194,6 +184,12 @@ internal class EditUserRepository : IEditUsersRepository
     {
         var user = await _readUsersRepository.GetUserById(userId);
         return await _userManager.GenerateChangeEmailTokenAsync(user, newEmail);
+    }
+    
+    public async Task<string> GenerateEmailConfirmationTokenAsync(Guid userId)
+    {
+        var user = await _readUsersRepository.GetUserById(userId);
+        return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 
     public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token) =>

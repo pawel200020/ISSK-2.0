@@ -752,5 +752,107 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cVerificationEmailSent", resourceCulture);
             }
         }
+        
+        public static string cConfigureAuthenticatorTitle {
+            get {
+                return ResourceManager.GetString("cConfigureAuthenticatorTitle", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorSteps {
+            get {
+                return ResourceManager.GetString("cAuthenticatorSteps", resourceCulture);
+            }
+        }
+        
+        public static string cScanQRCode {
+            get {
+                return ResourceManager.GetString("cScanQRCode", resourceCulture);
+            }
+        }
+        
+        public static string cQRCodeInfo {
+            get {
+                return ResourceManager.GetString("cQRCodeInfo", resourceCulture);
+            }
+        }
+        
+        public static string cVerifyCodeInfo {
+            get {
+                return ResourceManager.GetString("cVerifyCodeInfo", resourceCulture);
+            }
+        }
+        
+        public static string cEnterCodePlaceholder {
+            get {
+                return ResourceManager.GetString("cEnterCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationCodeLabel {
+            get {
+                return ResourceManager.GetString("cVerificationCodeLabel", resourceCulture);
+            }
+        }
+        
+        public static string cVerifyButton {
+            get {
+                return ResourceManager.GetString("cVerifyButton", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("cInvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorVerified {
+            get {
+                return ResourceManager.GetString("cAuthenticatorVerified", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorDownloadLinks {
+            get {
+                return ResourceManager.GetString("cAuthenticatorDownloadLinks", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmationEmailTitle {
+            get {
+                return ResourceManager.GetString("cConfirmationEmailTitle", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmationEmailBody {
+            get {
+                return ResourceManager.GetString("cConfirmationEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cRedirectAllEmails {
+            get {
+                return ResourceManager.GetString("cRedirectAllEmails", resourceCulture);
+            }
+        }
+        
+        public static string cRedirectedEmailAddress {
+            get {
+                return ResourceManager.GetString("cRedirectedEmailAddress", resourceCulture);
+            }
+        }
+        
+        public static string cEmailAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("cEmailAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        public static string cFirstName {
+            get {
+                return ResourceManager.GetString("cFirstName", resourceCulture);
+            }
+        }
     }
 }

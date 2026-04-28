@@ -79,7 +79,7 @@
             return;
         }
 
-        await UserEmailConfirmation.SendConfirmationNewEmail(_userId, _currentEmail);
+        await UserEmailConfirmation.SendConfirmationNewEmailAndGenerateToken(_userId, _currentEmail);
         _message = PortalResources.cConfirmationLinkSent;
     }
 
@@ -88,7 +88,7 @@
         if (_currentEmail is null)
             return;
 
-        await UserEmailConfirmation.SendConfirmationCurrentEmail(_userId);
+        await UserEmailConfirmation.SendConfirmationCurrentEmailAndGenerateToken(_userId);
         _message = PortalResources.cVerificationEmailSent;
     }
 }

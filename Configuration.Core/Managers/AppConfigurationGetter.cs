@@ -26,6 +26,8 @@ internal class AppConfigurationGetter : IAppConfigurationGetter
             EmailLogin = await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailLogin),
             EmailSendMode = (EmailSendMode) await _appParameterGetter.GetIntParameterValue(ApplicationParameter.EmailMode),
             SmtpConfiguration = JsonConvert.DeserializeObject<SmtpConfiguration>( await _appParameterGetter.GetStringParameterValue(ApplicationParameter.SmtpConfiguration)?? "") ?? new SmtpConfiguration(),
+            IsEmailRedirect = await _appParameterGetter.GetBoolParameterValue(ApplicationParameter.IsRedirectEmailEnabled),
+            EmailRedirectAddress = await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailRedirectAddress),
         };
     public async Task<string> GetSavedEmailLogin() => (await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailLogin)) ?? "";
 
@@ -35,4 +37,9 @@ internal class AppConfigurationGetter : IAppConfigurationGetter
 
     public async Task<string> GetApplicationName() 
         => (await _appParameterGetter.GetStringParameterValue(ApplicationParameter.ApplicationName))!;
+
+    public async Task<string?> GetOverridenEmailReceiver()
+    {
+        return await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailRedirectAddress);
+    }
 } 

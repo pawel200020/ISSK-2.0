@@ -11,7 +11,7 @@
 
 @inject ILogger<UsersManager> Logger
 @inject NavigationManager NavigationManager
-@inject IUsersUploader UsersUploader
+@inject IUsersCreator UsersCreator
 @inject IEmailSender<ApplicationUser> EmailSender
 @inject IMapper Mapper;
 
@@ -136,7 +136,7 @@
         var userFromRequest = (UserAdminCreateViewModel)_editContext.Model;
         var user = Mapper.Map<AppUser>(userFromRequest);
     
-        var creationResult = await UsersUploader.RegisterUser(user);
+        var creationResult = await UsersCreator.RegisterUser(user);
     
         if (creationResult.Errors is not null)
         {

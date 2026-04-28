@@ -22,6 +22,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6"/>
+        <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +45,18 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bower.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index-svg.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\LICENSE" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\qrcode.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\qrcode.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\README.md" />
     </ItemGroup>
 
 </Project>

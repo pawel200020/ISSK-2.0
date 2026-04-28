@@ -1,6 +1,6 @@
 using Resources.PortalResources;
 
-namespace Notifications.Core.Email.Templates;
+namespace Notifications.Shared.Templates;
 
 public static class StandardEmailTemplate
 {

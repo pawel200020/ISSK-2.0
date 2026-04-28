@@ -28,6 +28,7 @@
       </Reference>
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Notifications.Shared\Notifications.Shared.csproj" />
       <ProjectReference Include="..\Resources\Resources.csproj" />
       <ProjectReference Include="..\Users.Shared\Users.Shared.csproj" />
     </ItemGroup>

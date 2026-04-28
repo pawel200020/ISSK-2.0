@@ -16,6 +16,12 @@ internal class UserMetadataGetter : IUserMetadataGetter
     public async Task<ApplicationUserMetadata> GetUserMetadataAsync(Guid userId)
     {
         var user = await _editUsersRepository.GetUserById(userId);
-        return new ApplicationUserMetadata(user.Email!, user.FirstName, user.LastName, user.EmailConfirmed);
+        return new ApplicationUserMetadata(userId, user.Email!, user.FirstName, user.LastName, user.EmailConfirmed);
+    }
+    
+    public async Task<ApplicationUserMetadata> GetUserMetadataAsync(string email)
+    {
+        var user = await _editUsersRepository.TryGetUserByEmail(email);
+        return new ApplicationUserMetadata(new Guid(user.Id), user.Email!, user.FirstName, user.LastName, user.EmailConfirmed);
     }
 }

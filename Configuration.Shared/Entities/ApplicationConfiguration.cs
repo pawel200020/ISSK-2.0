@@ -10,6 +10,8 @@ public class ApplicationConfiguration : IApplicationConfiguration
     public bool IsAnonymousRegisterEnabled { get; set; }
     public string? EmailLogin { get; set; }
     public string? EmailPassword { get; set; }
+    public bool IsEmailRedirect { get; set; }
+    public string? EmailRedirectAddress { get; set; }
     public bool IsSelfRegisterEnabled { get; set; }
     public EmailSendMode EmailSendMode { get; set; }
     public ISmtpConfiguration? SmtpConfiguration { get; set; }
