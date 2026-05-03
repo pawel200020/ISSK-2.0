@@ -425,4 +425,22 @@ To verify an e-mail address click verification link: {0}.</value>
     <data name="cFirstName" xml:space="preserve">
         <value>Name</value>
     </data>
+    <data name="cRegisterConfirmationTitle" xml:space="preserve">
+        <value>Register confirmation</value>
+    </data>
+    <data name="cRegisterConfirmationDescription" xml:space="preserve">
+        <value>Please check your email to confirm your account. If you do not receive email in 5 minutes please try resend confirmation link clicking button below.</value>
+    </data>
+    <data name="cResendConfirmationEmail" xml:space="preserve">
+        <value>Resend confirmation email</value>
+    </data>
+    <data name="cVerificationEmailSend" xml:space="preserve">
+        <value>Verification email sent. Please check your email.</value>
+    </data>
+    <data name="cVerificationEmailSuccess" xml:space="preserve">
+        <value>Thank you for confirming your email.</value>
+    </data>
+    <data name="cVerificationEmailFail" xml:space="preserve">
+        <value>Error confirming your email.</value>
+    </data>
 </root>

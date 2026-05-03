@@ -418,4 +418,22 @@ Aby zweryfikować adres e-mail, kliknij link weryfikacyjny: {0}.</value>
     <data name="cFirstName" xml:space="preserve">
         <value>Imię</value>
     </data>
+    <data name="cRegisterConfirmationTitle" xml:space="preserve">
+        <value>Potwierdzenie rejestracji</value>
+    </data>
+    <data name="cRegisterConfirmationDescription" xml:space="preserve">
+        <value>Sprawdź swoją skrzynkę e-mailową, aby potwierdzić swoje konto. Jeśli nie otrzymasz wiadomości e-mail w ciągu 5 minut, spróbuj ponownie wysłać link potwierdzający, klikając przycisk poniżej.</value>
+    </data>
+    <data name="cResendConfirmationEmail" xml:space="preserve">
+        <value>Wyślij ponownie E-mail potwierdzający</value>
+    </data>
+    <data name="cVerificationEmailSend" xml:space="preserve">
+        <value>Wysłaliśmy wiadomość e-mail z linkiem weryfikacyjnym. Sprawdź swoją skrzynkę pocztową.</value>
+    </data>
+    <data name="cVerificationEmailSuccess" xml:space="preserve">
+        <value>Dziękujemy za potwierdzenie adresu e-mail.</value>
+    </data>
+    <data name="cVerificationEmailFail" xml:space="preserve">
+        <value>Wystąpił błąd podczas potwierdzania adresu e-mail.</value>
+    </data>
 </root>

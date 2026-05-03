@@ -2,46 +2,50 @@
 
 @using System.Text
 @using Microsoft.AspNetCore.WebUtilities
+@using Resources.PortalResources
+@using Users.Shared.Exceptions
 @using Users.Shared.Managers
-@using Users.Shared.Managers.Read
 
 @inject IdentityRedirectProcessor RedirectProcessor
-@inject IUsersDownloader UsersDownloader
 @inject IUserEmailConfirmation UserEmailConfirmation;
 
 <PageTitle>Confirm email</PageTitle>
 
 <h1>Confirm email</h1>
-<StatusMessage Message="@statusMessage"/>
+
+<Alert Color="AlertColor.Success" Dismissable="true" hidden="@string.IsNullOrEmpty(_message)">
+    <Icon Name="IconName.CheckCircleFill" class="me-2"></Icon> @_message </Alert>
+
+<Alert Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(_errorMessage)">
+    <Icon Name="IconName.ExclamationTriangleFill" class="me-2"></Icon>  @_errorMessage </Alert>
 
 @code {
-    private string? statusMessage;
+    private string? _message;
+    private string? _errorMessage;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-
     [SupplyParameterFromQuery] private string? UserId { get; set; }
-
     [SupplyParameterFromQuery] private string? Code { get; set; }
+    [Inject] ILogger<ConfirmEmail> Logger { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserId is null || Code is null)
-        {
             RedirectProcessor.RedirectTo("");
-        }
-
-        var user = await UsersDownloader.GetUserById(new Guid(UserId));
-        if (user is null)
-        {
-            HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
-            statusMessage = $"Error loading user with ID {UserId}";
-        }
-        else
+        try
         {
             var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(Code));
-            var result = await UserEmailConfirmation.ConfirmEmailAsync(user, code);
-            statusMessage = result? "Thank you for confirming your email." : "Error confirming your email.";
+            var result = await UserEmailConfirmation.ConfirmEmailAsync(new Guid(UserId), code);
+            _message = result ? PortalResources.cVerificationEmailSuccess : PortalResources.cVerificationEmailFail;
+        }
+        catch (UserNotFoundException)
+        {
+            _message = PortalResources.cVerificationEmailSuccess;
+        }
+        catch (Exception ex)
+        {
+            _errorMessage = PortalResources.cVerificationEmailFail;
+            Logger.LogError(ex, "Error confirming email for user with id {UserId}", UserId);
         }
     }
-
 }

@@ -28,8 +28,11 @@ internal class UserEmailConfirmation : IUserEmailConfirmation
         _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
     }
 
-    public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token)
-        => (await _editUsersRepository.ConfirmEmailAsync(user, token));
+    public async Task<bool> ConfirmEmailAsync(Guid userId, string token)
+    {
+        var user = await _readUsersRepository.GetUserById(userId);
+        return (await _editUsersRepository.ConfirmEmailAsync(user, token));
+    }
 
     public async Task<bool> SendConfirmationNewEmailAndGenerateToken(Guid userId, string email)
     {

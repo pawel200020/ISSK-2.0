@@ -1,43 +1,26 @@
 ﻿@page "/Account/RegisterConfirmation"
 
-@using Users.Shared.Managers
-@using Users.Shared.Managers.Read
+@using Resources.PortalResources
 
-@inject IUserMetadataGetter UserMetadataGetter
 @inject IdentityRedirectProcessor RedirectProcessor
 
-<PageTitle>Register confirmation</PageTitle>
+<PageTitle>@PortalResources.cRegisterConfirmationTitle</PageTitle>
 
-<h1>Register confirmation</h1>
+<h1>@PortalResources.cRegisterConfirmationTitle</h1>
 
-<StatusMessage Message="@statusMessage"/>
-
-<p>Please check your email to confirm your account.</p>
+<p>@PortalResources.cRegisterConfirmationDescription</p>
+<a href="Account/ResendEmailConfirmation?Email=@Email">@PortalResources.cResendConfirmation</a>
 
 @code {
-    private string? emailConfirmationLink;
-    private string? statusMessage;
-
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
-    [Inject] private IUserEmailConfirmation UserEmailConfirmation { get; set; } = default!;
 
     [SupplyParameterFromQuery] private string? Email { get; set; }
 
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         if (Email is null)
             RedirectProcessor.RedirectTo("");
-
-        try
-        {
-            var userMetadata = await UserMetadataGetter.GetUserMetadataAsync(Email);
-            await UserEmailConfirmation.SendConfirmationEmailAccountWithReturnUrlAndGenerateToken(userMetadata.Id, Email, ReturnUrl);
-        }
-        catch (Exception ex)
-        {
-            statusMessage = $"Error confirming your account: {ex.Message}";
-        }
     }
 }

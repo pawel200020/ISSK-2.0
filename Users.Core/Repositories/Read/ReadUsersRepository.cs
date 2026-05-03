@@ -31,14 +31,13 @@ internal class ReadUsersRepository : IReadUsersRepository
         throw new UserNotFoundException();
     }
 
-    public async Task<ApplicationUser> TryGetUserByEmail(string email)
+    public async Task<ApplicationUser?> TryGetUserByEmail(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
         if (user is not null) 
             return user;
         
-        await Task.Yield();
-        throw new UserNotFoundException();
+        return null;
     }
 
 

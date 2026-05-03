@@ -415,4 +415,22 @@ Um Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den Bestätigungsli
     <data name="cFirstName" xml:space="preserve">
         <value>Vorname</value>
     </data>
+    <data name="cRegisterConfirmationTitle" xml:space="preserve">
+        <value>Anmeldebestätigung</value>
+    </data>
+    <data name="cRegisterConfirmationDescription" xml:space="preserve">
+        <value>Bitte überprüfen Sie Ihren E-Mail-Posteingang, um Ihr Konto zu bestätigen. Sollten Sie innerhalb von 5 Minuten keine E-Mail erhalten haben, klicken Sie bitte auf die Schaltfläche unten, um den Bestätigungslink erneut anzufordern.</value>
+    </data>
+    <data name="cResendConfirmationEmail" xml:space="preserve">
+        <value>Bestätigungs-E-Mail erneut senden</value>
+    </data>
+    <data name="cVerificationEmailSend" xml:space="preserve">
+        <value>Die Bestätigungs-E-Mail wurde versendet. Bitte überprüfen Sie Ihren E-Mail-Posteingang.</value>
+    </data>
+    <data name="cVerificationEmailSuccess" xml:space="preserve">
+        <value>Vielen Dank für die Bestätigung Ihrer E-Mail-Adresse.</value>
+    </data>
+    <data name="cVerificationEmailFail" xml:space="preserve">
+        <value>Fehler beim Bestätigen Ihrer E-Mail-Adresse.</value>
+    </data>
 </root>

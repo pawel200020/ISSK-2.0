@@ -1,4 +1,5 @@
-﻿@if (!string.IsNullOrEmpty(DisplayMessage))
+﻿@using System.Runtime.InteropServices
+@if (!string.IsNullOrEmpty(DisplayMessage))
 {
     var statusMessageClass = DisplayMessage.StartsWith("Error") ? "danger" : "success";
     <div class="alert alert-@statusMessageClass" role="alert">
@@ -10,19 +11,20 @@
     private string? messageFromCookie;
 
     [Parameter] public string? Message { get; set; }
+    [Inject] private AuthenticationStateProvider _authenticationStateProvider { get; set; } = default!;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
     private string? DisplayMessage => Message ?? messageFromCookie;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        messageFromCookie = HttpContext.Request.Cookies[IdentityRedirectProcessor.StatusCookieName];
+
+       HttpContext.Request.Cookies.TryGetValue(IdentityRedirectProcessor.StatusCookieName, out messageFromCookie );
 
         if (messageFromCookie is not null)
         {
             HttpContext.Response.Cookies.Delete(IdentityRedirectProcessor.StatusCookieName);
         }
     }
-
 }

@@ -854,5 +854,41 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cFirstName", resourceCulture);
             }
         }
+        
+        public static string cRegisterConfirmationTitle {
+            get {
+                return ResourceManager.GetString("cRegisterConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        public static string cRegisterConfirmationDescription {
+            get {
+                return ResourceManager.GetString("cRegisterConfirmationDescription", resourceCulture);
+            }
+        }
+        
+        public static string cResendConfirmationEmail {
+            get {
+                return ResourceManager.GetString("cResendConfirmationEmail", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailSend {
+            get {
+                return ResourceManager.GetString("cVerificationEmailSend", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailSuccess {
+            get {
+                return ResourceManager.GetString("cVerificationEmailSuccess", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailFail {
+            get {
+                return ResourceManager.GetString("cVerificationEmailFail", resourceCulture);
+            }
+        }
     }
 }
