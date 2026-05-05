@@ -1,6 +1,6 @@
 using Configuration.Shared.Managers;
+using Notifications.Core.Templates;
 using Notifications.Shared.Email;
-using Notifications.Shared.Templates;
 using static Resources.PortalResources.PortalResources;
 
 namespace Notifications.Core.Email;
@@ -20,7 +20,6 @@ internal class EmailService : IEmailService
     public async Task<bool> SendTestEmail(string recipientEmail)
     {
         var emailSender = await _emailSenderFactory.GetEmailSender();
-        var overridenRecipient = await _appConfigurationGetter.GetOverridenEmailReceiver();
 
         await emailSender.SendEmail(
             await GetEmailRecipient(recipientEmail),
@@ -34,7 +33,10 @@ internal class EmailService : IEmailService
     public async Task SendEmail(string recipientEmail, string subject, string body)
     {
         var emailSender = await _emailSenderFactory.GetEmailSender();
-        await emailSender.SendEmail(await GetEmailRecipient(recipientEmail), subject, body);
+        await emailSender.SendEmail(await GetEmailRecipient(recipientEmail),
+            subject, 
+            StandardEmailTemplate.AutomatedEmailHtmlTemplate(subject, body,
+                await _appConfigurationGetter.GetApplicationName()));
     }
 
     private async Task<string> GetEmailRecipient(string email)

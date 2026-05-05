@@ -126,9 +126,6 @@
     <data name="cLogin" xml:space="preserve">
         <value>Login</value>
     </data>
-    <data name="cForgotPassword" xml:space="preserve">
-        <value>Forgot your password?</value>
-    </data>
     <data name="cRegisterAsNew" xml:space="preserve">
         <value>Register as a new user</value>
     </data>
@@ -276,6 +273,12 @@
     <data name="cPasswordConfirmMismatch" xml:space="preserve">
         <value>The new password and confirmation password do not match.</value>
     </data>
+    <data name="cPasswordLengthError" xml:space="preserve">
+        <value>The {0} must be at least {2} and at max {1} characters long.</value>
+    </data>
+    <data name="cPasswordMismatchError" xml:space="preserve">
+        <value>The password and confirmation password do not match.</value>
+    </data>
     <data name="cPasswordChanged" xml:space="preserve">
         <value>Your password has been changed</value>
     </data>
@@ -328,7 +331,7 @@
         <value>Confirm email change</value>
     </data>
     <data name="cConfirmEmailCaption" xml:space="preserve">
-        <value>An E-mail has been sucessfullyconfirmed </value>
+        <value>An E-mail has been sucessfully confirmed </value>
     </data>
     <data name="cDisableTwoFactorTitle" xml:space="preserve">
         <value>Disable two-factor authentication (2FA)</value>
@@ -442,5 +445,51 @@ To verify an e-mail address click verification link: {0}.</value>
     </data>
     <data name="cVerificationEmailFail" xml:space="preserve">
         <value>Error confirming your email.</value>
+    </data>
+    <data name="cResetPassword" xml:space="preserve">
+        <value>Reset password</value>
+    </data>
+    <data name="cResetPasswordEmailSubject" xml:space="preserve">
+        <value>Password Change Request</value>
+    </data>
+    <data name="cResetPasswordEmailBody" xml:space="preserve">
+        <value>Hello,
+
+We received a request to change the password for your account.
+
+If you made this request, please click the link below to set a new password:
+{0}
+
+This link will expire in 30 minutes for security reasons.
+
+If you did not request a password change, you can safely ignore this email. Your account will remain secure, and no changes will be made.
+
+For additional security, we recommend reviewing your account activity and ensuring your password is strong and unique.
+
+If you need assistance, please contact our support team.</value>
+    </data>
+    <data name="cForgotPasswordTitle" xml:space="preserve">
+        <value>Forgot your password?</value>
+    </data>
+    <data name="cForgotPasswordConfirmation" xml:space="preserve">
+        <value>Forgot password confirmation</value>
+    </data>
+    <data name="cConfirmEmailSend" xml:space="preserve">
+        <value>Reset email send confirmation</value>
+    </data>
+    <data name="cCheckEmail" xml:space="preserve">
+        <value>Please check your email to reset your password.</value>
+    </data>
+    <data name="cResetButton" xml:space="preserve">
+        <value>Reset</value>
+    </data>
+    <data name="cResetPasswordConfirmationMessage" xml:space="preserve">
+        <value>Your password has been reset. Please</value>
+    </data>
+    <data name="cClickHereToLogin" xml:space="preserve">
+        <value>click here to log in</value>
+    </data>
+    <data name="cConfirmEmail" xml:space="preserve">
+        <value>Confirm email</value>
     </data>
 </root>

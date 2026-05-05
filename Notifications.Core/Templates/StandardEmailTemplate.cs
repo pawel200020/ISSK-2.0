@@ -1,6 +1,6 @@
 using Resources.PortalResources;
 
-namespace Notifications.Shared.Templates;
+namespace Notifications.Core.Templates;
 
 public static class StandardEmailTemplate
 {
@@ -77,7 +77,6 @@ body{{
 <div class=""footer"">
 © {DateTime.Now.Year} {appName} • {PortalResources.cAutomatedEmail}
 </div>
-
 </div>
 
 </body>

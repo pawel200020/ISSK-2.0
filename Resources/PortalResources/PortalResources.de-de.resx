@@ -119,9 +119,6 @@
     <data name="cLogin" xml:space="preserve">
         <value>Einloggen</value>
     </data>
-    <data name="cForgotPassword" xml:space="preserve">
-        <value>Passwort vergessen?</value>
-    </data>
     <data name="cRegisterAsNew" xml:space="preserve">
         <value>Als neuer Benutzer registrieren</value>
     </data>
@@ -299,8 +296,11 @@
     <data name="cPasswordConfirmMismatch" xml:space="preserve">
         <value>Das neue Passwort und die Bestätigung stimmen nicht überein.</value>
     </data>
-    <data name="cPasswordChanged" xml:space="preserve">
-        <value>Ihr Passwort wurde geändert</value>
+    <data name="cPasswordLengthError" xml:space="preserve">
+        <value>Das {0} muss mindestens {2} und maximal {1} Zeichen lang sein.</value>
+    </data>
+    <data name="cPasswordMismatchError" xml:space="preserve">
+        <value>Das Passwort und das Bestätigungspasswort stimmen nicht überein.</value>
     </data>
     <data name="cDeletePersonalDataTitle" xml:space="preserve">
         <value>Persönliche Daten löschen</value>
@@ -432,5 +432,54 @@ Um Ihre E-Mail-Adresse zu bestätigen, klicken Sie bitte auf den Bestätigungsli
     </data>
     <data name="cVerificationEmailFail" xml:space="preserve">
         <value>Fehler beim Bestätigen Ihrer E-Mail-Adresse.</value>
+    </data>
+    <data name="cResetPassword" xml:space="preserve">
+        <value>Passwort zurücksetzen</value>
+    </data>
+    <data name="cResetPasswordEmailSubject" xml:space="preserve">
+        <value>Anfrage zur Passwortänderung</value>
+    </data>
+    <data name="cResetPasswordEmailBody" xml:space="preserve">
+        <value>Hallo,
+
+wir haben eine Anfrage zur Änderung des Passworts für Ihr Konto erhalten.
+
+Wenn Sie diese Anfrage gestellt haben, klicken Sie bitte auf den folgenden Link, um ein neues Passwort festzulegen:
+{0}
+
+Dieser Link ist aus Sicherheitsgründen 30 Minuten lang gültig.
+
+Falls Sie keine Passwortänderung angefordert haben, können Sie diese E-Mail ignorieren. Ihr Konto bleibt sicher und es werden keine Änderungen vorgenommen.
+
+Zur zusätzlichen Sicherheit empfehlen wir, Ihre Kontoaktivitäten zu überprüfen und ein starkes, einzigartiges Passwort zu verwenden.
+
+Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
+    </data>
+    <data name="cForgotPasswordTitle" xml:space="preserve">
+        <value>Passwort vergessen?</value>
+    </data>
+    <data name="cInvalidPassword" xml:space="preserve">
+        <value>Nie pamiętasz hasła?</value>
+    </data>
+    <data name="cForgotPasswordConfirmation" xml:space="preserve">
+        <value>Bestätigung des vergessenen Passworts</value>
+    </data>
+    <data name="cConfirmEmailSend" xml:space="preserve">
+        <value>Bestätigungs-E-Mail zum Zurücksetzen</value>
+    </data>
+    <data name="cCheckEmail" xml:space="preserve">
+        <value>Bitte überprüfen Sie Ihren E-Mails, um Ihr Passwort zurückzusetzen.</value>
+    </data>
+    <data name="cResetPasswordConfirmationMessage" xml:space="preserve">
+        <value>Ihr Passwort wurde zurückgesetzt. Bitte</value>
+    </data>
+    <data name="cClickHereToLogin" xml:space="preserve">
+        <value>klicken Sie hier, um sich anzumelden</value>
+    </data>
+    <data name="cResetButton" xml:space="preserve">
+        <value>Zurücksetzen</value>
+    </data>
+    <data name="cConfirmEmail" xml:space="preserve">
+        <value>E-Mail bestätigen</value>
     </data>
 </root>

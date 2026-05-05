@@ -124,47 +124,7 @@ internal class EditUserRepository : IEditUsersRepository
                 { IsSuccess = false, Messages = [new Error() { Code = ErrorReason.UserNotFound }] };
 
         var result = await _userManager.ChangePasswordAsync(user, oldPassword, newPassword);
-        if (!result.Succeeded)
-        {
-            _logger.LogError(
-                $"User {userId} changed their password with failure. Errors: {string.Join(", ", result.Errors.Select(e => e.Description))}");
-
-            // If any of the errors indicate the current password was incorrect, map to WrongPassword
-            var pwdMismatchCode = _errorDescriber.PasswordMismatch().Code;
-            if (result.Errors.Any(e => string.Equals(e.Code, pwdMismatchCode, StringComparison.OrdinalIgnoreCase)))
-            {
-                return new UserOperationResult()
-                    { IsSuccess = false, Messages = [new Error() { Code = ErrorReason.WrongPassword }] };
-            }
-
-            var mapped = result.Errors.Select(e => new Error()
-            {
-                Code = e.Code switch
-                {
-                    var c when string.Equals(c,
-                        _errorDescriber.PasswordTooShort(_userManager.Options.Password.RequiredLength).Code,
-                        StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordTooShort,
-                    var c when string.Equals(c, _errorDescriber.PasswordRequiresNonAlphanumeric().Code,
-                        StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresNonAlphanumeric,
-                    var c when string.Equals(c, _errorDescriber.PasswordRequiresDigit().Code,
-                        StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresDigit,
-                    var c when string.Equals(c, _errorDescriber.PasswordRequiresLower().Code,
-                        StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresLower,
-                    var c when string.Equals(c, _errorDescriber.PasswordRequiresUpper().Code,
-                        StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresUpper,
-                    var c when string.Equals(c,
-                        _errorDescriber.PasswordRequiresUniqueChars(_userManager.Options.Password.RequiredUniqueChars)
-                            .Code, StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresUniqueChars,
-                    _ => ErrorReason.Unknown
-                },
-                Description = e.Description
-            }).ToList();
-
-            return new UserOperationResult() { IsSuccess = false, Messages = mapped };
-        }
-
-        _logger.LogInformation("User changed their password successfully.");
-        return new UserOperationResult() { IsSuccess = true };
+        return ParseUserChangePasswordResult(result, userId);
     }
 
     public async Task<bool> ChangeEmailAsync(Guid userId, string newEmail, string token)
@@ -192,6 +152,12 @@ internal class EditUserRepository : IEditUsersRepository
         return await _userManager.GenerateEmailConfirmationTokenAsync(user);
     }
 
+    public async Task<string> GeneratePasswordResetTokenAsync(Guid userId)
+    {
+        var user = await _readUsersRepository.GetUserById(userId);
+        return await _userManager.GeneratePasswordResetTokenAsync(user);
+    }
+
     public async Task<bool> ConfirmEmailAsync(ApplicationUser user, string token) =>
         (await _userManager.ConfirmEmailAsync(user, token)).Succeeded;
 
@@ -214,6 +180,18 @@ internal class EditUserRepository : IEditUsersRepository
             throw;
         }
     }
+    
+    public async Task<UserOperationResult> ResetPasswordAsync(Guid userId, string token, string newPassword)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null)
+            return new UserOperationResult()
+                { IsSuccess = false, Messages = [new Error() { Code = ErrorReason.UserNotFound }] };
+
+        var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+        return ParseUserChangePasswordResult(result, userId);
+        
+    }
 
     private IUserEmailStore<ApplicationUser> GetEmailStore()
     {
@@ -221,5 +199,51 @@ internal class EditUserRepository : IEditUsersRepository
             throw new NotSupportedException("The default UI requires a user store with email support.");
 
         return (IUserEmailStore<ApplicationUser>)_userStore;
+    }
+    
+    private UserOperationResult ParseUserChangePasswordResult(IdentityResult result, Guid userId)
+    {
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("User {UserId} changed their password successfully.", userId);
+            return new UserOperationResult() { IsSuccess = true };
+        }
+
+        _logger.LogError(
+            "User {UserId} failed to change their password. Errors: {Errors}",
+            userId,
+            string.Join(", ", result.Errors.Select(e => e.Description)));
+
+        var pwdMismatchCode = _errorDescriber.PasswordMismatch().Code;
+        if (result.Errors.Any(e => string.Equals(e.Code, pwdMismatchCode, StringComparison.OrdinalIgnoreCase)))
+        {
+            return new UserOperationResult()
+                { IsSuccess = false, Messages = [new Error() { Code = ErrorReason.WrongPassword }] };
+        }
+
+        var mappedErrors = result.Errors.Select(e => new Error()
+        {
+            Code = e.Code switch
+            {
+                var c when string.Equals(c,
+                    _errorDescriber.PasswordTooShort(_userManager.Options.Password.RequiredLength).Code,
+                    StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordTooShort,
+                var c when string.Equals(c, _errorDescriber.PasswordRequiresNonAlphanumeric().Code,
+                    StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresNonAlphanumeric,
+                var c when string.Equals(c, _errorDescriber.PasswordRequiresDigit().Code,
+                    StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresDigit,
+                var c when string.Equals(c, _errorDescriber.PasswordRequiresLower().Code,
+                    StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresLower,
+                var c when string.Equals(c, _errorDescriber.PasswordRequiresUpper().Code,
+                    StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresUpper,
+                var c when string.Equals(c,
+                    _errorDescriber.PasswordRequiresUniqueChars(_userManager.Options.Password.RequiredUniqueChars)
+                        .Code, StringComparison.OrdinalIgnoreCase) => ErrorReason.PasswordRequiresUniqueChars,
+                _ => ErrorReason.Unknown
+            },
+            Description = e.Description
+        }).ToList();
+
+        return new UserOperationResult() { IsSuccess = false, Messages = mappedErrors };
     }
 }

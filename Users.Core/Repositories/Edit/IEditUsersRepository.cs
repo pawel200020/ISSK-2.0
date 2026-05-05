@@ -14,5 +14,7 @@ internal interface IEditUsersRepository
     Task<string> GenerateChangeEmailTokenAsync(Guid userId, string newEmail);
     Task<bool> ConfirmEmailAsync(ApplicationUser user, string token);
     Task<string> GenerateEmailConfirmationTokenAsync(Guid userId);
+    Task<string> GeneratePasswordResetTokenAsync(Guid userId);
+    Task<UserOperationResult> ResetPasswordAsync(Guid userId, string token, string newPassword);
 
 }

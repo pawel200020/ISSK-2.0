@@ -261,12 +261,6 @@ namespace Resources.PortalResources {
             }
         }
         
-        public static string cForgotPassword {
-            get {
-                return ResourceManager.GetString("cForgotPassword", resourceCulture);
-            }
-        }
-        
         public static string cRegisterAsNew {
             get {
                 return ResourceManager.GetString("cRegisterAsNew", resourceCulture);
@@ -558,6 +552,18 @@ namespace Resources.PortalResources {
         public static string cPasswordConfirmMismatch {
             get {
                 return ResourceManager.GetString("cPasswordConfirmMismatch", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordLengthError {
+            get {
+                return ResourceManager.GetString("cPasswordLengthError", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordMismatchError {
+            get {
+                return ResourceManager.GetString("cPasswordMismatchError", resourceCulture);
             }
         }
         
@@ -888,6 +894,72 @@ namespace Resources.PortalResources {
         public static string cVerificationEmailFail {
             get {
                 return ResourceManager.GetString("cVerificationEmailFail", resourceCulture);
+            }
+        }
+        
+        public static string cResetPassword {
+            get {
+                return ResourceManager.GetString("cResetPassword", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordEmailSubject {
+            get {
+                return ResourceManager.GetString("cResetPasswordEmailSubject", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordEmailBody {
+            get {
+                return ResourceManager.GetString("cResetPasswordEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cForgotPasswordTitle {
+            get {
+                return ResourceManager.GetString("cForgotPasswordTitle", resourceCulture);
+            }
+        }
+        
+        public static string cForgotPasswordConfirmation {
+            get {
+                return ResourceManager.GetString("cForgotPasswordConfirmation", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmailSend {
+            get {
+                return ResourceManager.GetString("cConfirmEmailSend", resourceCulture);
+            }
+        }
+        
+        public static string cCheckEmail {
+            get {
+                return ResourceManager.GetString("cCheckEmail", resourceCulture);
+            }
+        }
+        
+        public static string cResetButton {
+            get {
+                return ResourceManager.GetString("cResetButton", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordConfirmationMessage {
+            get {
+                return ResourceManager.GetString("cResetPasswordConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        public static string cClickHereToLogin {
+            get {
+                return ResourceManager.GetString("cClickHereToLogin", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmail {
+            get {
+                return ResourceManager.GetString("cConfirmEmail", resourceCulture);
             }
         }
     }
