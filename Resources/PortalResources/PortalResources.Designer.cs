@@ -962,5 +962,41 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cConfirmEmail", resourceCulture);
             }
         }
+        
+        public static string cRememberMe {
+            get {
+                return ResourceManager.GetString("cRememberMe", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("cInvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        public static string cLockedOut {
+            get {
+                return ResourceManager.GetString("cLockedOut", resourceCulture);
+            }
+        }
+        
+        public static string cLockedOutMessage {
+            get {
+                return ResourceManager.GetString("cLockedOutMessage", resourceCulture);
+            }
+        }
+        
+        public static string cIsDisabled {
+            get {
+                return ResourceManager.GetString("cIsDisabled", resourceCulture);
+            }
+        }
+        
+        public static string cIsEmailConfirmed {
+            get {
+                return ResourceManager.GetString("cIsEmailConfirmed", resourceCulture);
+            }
+        }
     }
 }

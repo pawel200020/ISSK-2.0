@@ -482,4 +482,22 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cConfirmEmail" xml:space="preserve">
         <value>E-Mail bestätigen</value>
     </data>
+    <data name="cRememberMe" xml:space="preserve">
+        <value>Angemeldet bleiben</value>
+    </data>
+    <data name="cInvalidLoginAttempt" xml:space="preserve">
+        <value>Ungültiger Anmeldeversuch</value>
+    </data>
+    <data name="cLockedOut" xml:space="preserve">
+        <value>Gesperrt</value>
+    </data>
+    <data name="cLockedOutMessage" xml:space="preserve">
+        <value>Dieses Konto wurde gesperrt, bitte versuchen Sie es später erneut.</value>
+    </data>
+    <data name="cIsDisabled" xml:space="preserve">
+        <value>Konto deaktiviert</value>
+    </data>
+    <data name="cIsEmailConfirmed" xml:space="preserve">
+        <value>E-Mail-Adresse bestätigt</value>
+    </data>
 </root>

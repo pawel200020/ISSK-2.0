@@ -8,5 +8,6 @@ public interface IAppConfigurationGetter
     Task<string> GetSavedEmailLogin();
     Task<ISmtpConfiguration?> GetSmtpConfiguration();
     Task<string> GetApplicationName();
+    Task<bool> IsAnonymousRegisterEnabled();
     Task<string?> GetOverridenEmailReceiver();
 }

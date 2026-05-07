@@ -75,9 +75,15 @@
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsActive</label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsDisabled:</label>
         <div class="col-md-7">
-            <CheckboxInput @bind-Value="@User.IsDisabled"/>
+            <CheckboxInput @bind-Value="@User.IsAccountDisabled"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsEmailConfirmed:</label>
+        <div class="col-md-7">
+            <CheckboxInput @bind-Value="@User.IsEmailConfirmed" Disabled="true"/>
         </div>
     </div>
     <div class="row">

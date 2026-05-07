@@ -17,14 +17,14 @@
 <div class="row">
     <div class="col-md-4">
         <section>
-            <StatusMessage Message="@errorMessage"/>
+            <Alert Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(errorMessage)"> <Icon Name="IconName.ExclamationTriangleFill" class="me-2"></Icon>@errorMessage </Alert>
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator/>
                 <hr/>
                 <ValidationSummary class="text-danger" role="alert"/>
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
-                    <label for="user login" class="form-label">@PortalResources.cLogin</label>
+                    <label for="user login" class="form-label">Login</label>
                     <ValidationMessage For="() => Input.UserName" class="text-danger"/>
                 </div>
                 <div class="form-floating mb-3">
@@ -35,7 +35,7 @@
                 <div class="checkbox mb-3">
                     <label class="form-label">
                         <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input"/>
-                        Remember me
+                        @PortalResources.cRememberMe
                     </label>
                 </div>
                 <div>
@@ -55,13 +55,13 @@
             </EditForm>
         </section>
     </div>
-    <div class="col-md-6 col-md-offset-2">
+    @*<div class="col-md-6 col-md-offset-2">
         <section>
             <h3>@PortalResources.cExternalLoginServices</h3>
             <hr/>
             <ExternalLoginPicker/>
         </section>
-    </div>
+    </div>*@
 </div>
 
 @code {
@@ -105,7 +105,7 @@
         }
         else
         {
-            errorMessage = "Error: Invalid login attempt.";
+            errorMessage = @PortalResources.cInvalidLoginAttempt;
         }
     }
 }

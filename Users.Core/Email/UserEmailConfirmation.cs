@@ -40,27 +40,29 @@ internal class UserEmailConfirmation : IUserEmailConfirmation
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
         return await SendConfirmationEmail(email, "ConfirmEmailChange",
-            new Dictionary<string, object?> { ["userId"] = userId, ["email"] = email, ["code"] = code } );
+            new Dictionary<string, object?> { ["userId"] = userId, ["email"] = email, ["code"] = code });
     }
-    
-    public async Task<bool> SendConfirmationEmailAccountWithReturnUrlAndGenerateToken(Guid userId, string email, string returnUrl)
+
+    public async Task<bool> SendConfirmationEmailAccountWithReturnUrlAndGenerateToken(Guid userId, string email,
+        string returnUrl)
     {
         var token = await _editUsersRepository.GenerateEmailConfirmationTokenAsync(userId);
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
         return await SendConfirmationEmail(email, "ConfirmEmail",
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = returnUrl });
-
     }
 
-    public async Task<bool> SendConfirmEmailWithReturnUrl(Guid userId, string email, string token, string returnUrl)
+    public async Task<bool> SendConfirmEmailWithReturnUrl(Guid userId, string email, string token, string? returnUrl)
     {
         var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-        return await SendConfirmationEmail(email, "ConfirmEmail",
-            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = returnUrl });
+        return returnUrl is not null
+            ? await SendConfirmationEmail(email, "ConfirmEmail",
+                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = returnUrl })
+            : await SendConfirmationEmail(email, "ConfirmEmail",
+                new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
     }
-
 
     public async Task<bool> SendConfirmationCurrentEmailAndGenerateToken(Guid userId)
     {
@@ -71,13 +73,14 @@ internal class UserEmailConfirmation : IUserEmailConfirmation
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
     }
 
-    private async Task<bool> SendConfirmationEmail( string email, string confirmationUri,
+    private async Task<bool> SendConfirmationEmail(string email, string confirmationUri,
         IReadOnlyDictionary<string, object?> parameters)
     {
         var callbackUrl = _navigationManager.GetUriWithQueryParameters(
             _navigationManager.ToAbsoluteUri($"Account/{confirmationUri}").AbsoluteUri, parameters);
 
-        await _emailService.SendEmail(email,PortalResources.cConfirmationEmailTitle, string.Format(PortalResources.cConfirmationEmailBody, HtmlEncoder.Default.Encode(callbackUrl)));
+        await _emailService.SendEmail(email, PortalResources.cConfirmationEmailTitle,
+            string.Format(PortalResources.cConfirmationEmailBody, HtmlEncoder.Default.Encode(callbackUrl)));
         return true;
     }
 }

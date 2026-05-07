@@ -83,33 +83,45 @@ internal class EditUserRepository : IEditUsersRepository
         }
     }
 
-    private void UpdateDbUser(IUser user, ApplicationUser dbUser)
-    {
-        dbUser.FirstName = user.FirstName;
-        dbUser.LastName = user.LastName;
-        dbUser.BirthDate = user.BirthDate;
-        dbUser.UserName = user.UserName;
-        dbUser.PhoneNumber = user.PhoneNumber;
-    }
-
     public async Task<bool> EditUserAsync(IUser user)
     {
         var dbUser = await _userManager.Users.Include(x => x.UserRoles)
+            .ThenInclude(x => x.Role)
             .FirstOrDefaultAsync(x => x.Id == user.Id.ToString());
         if (dbUser is null)
             return false;
 
         await _userStore.SetUserNameAsync(dbUser, user.UserName, CancellationToken.None);
-        var emailStore = GetEmailStore();
-        await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
-
-        if (dbUser.UserRoles.First().RoleId != user.RoleId.ToString())
+        if (dbUser.Email != user.Email)
         {
-            await _userManager.RemoveFromRoleAsync(dbUser, dbUser.UserRoles.First().Role.ToString());
+            var emailStore = GetEmailStore();
+            await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
+            await emailStore.SetEmailConfirmedAsync(dbUser, false, CancellationToken.None);
+        }
+        
+        dbUser.BirthDate = user.BirthDate;
+        dbUser.PhoneNumber = user.PhoneNumber;
+        dbUser.FirstName = user.FirstName;
+        dbUser.LastName = user.LastName;
+
+        // Handle role change safely
+        if (dbUser.UserRoles != null && dbUser.UserRoles.Count > 0)
+        {
+            var currentUserRole = dbUser.UserRoles.First();
+            if (currentUserRole.RoleId != user.RoleId.ToString())
+            {
+                var currentRoleName = currentUserRole.Role?.Name ?? GetUserRoleNameByGuid(Guid.Parse(currentUserRole.RoleId));
+                await _userManager.RemoveFromRoleAsync(dbUser, currentRoleName);
+                await _userManager.AddToRoleAsync(dbUser, GetUserRoleNameByGuid(user.RoleId));
+            }
+        }
+        else
+        {
+            // If no role exists, add the new role
             await _userManager.AddToRoleAsync(dbUser, GetUserRoleNameByGuid(user.RoleId));
         }
-
-        UpdateDbUser(user, dbUser);
+        
+        await SetUserLockout(dbUser, user.IsAccountDisabled);
         await _userManager.UpdateAsync(dbUser);
 
         _logger.LogInformation("User successfully edited.");
@@ -246,4 +258,20 @@ internal class EditUserRepository : IEditUsersRepository
 
         return new UserOperationResult() { IsSuccess = false, Messages = mappedErrors };
     }
+    
+    private async Task SetUserLockout(ApplicationUser user, bool lockout)
+    {
+        if (lockout)
+        {
+            await _userManager.SetLockoutEnabledAsync(user, true);
+            await _userManager.SetLockoutEndDateAsync(user, DateTimeOffset.MaxValue);
+        }
+        else
+        {
+            await _userManager.SetLockoutEnabledAsync(user, false);
+            await _userManager.SetLockoutEndDateAsync(user, null); //bug in MS do not update state
+            user.LockoutEnd = null;
+        }
+    }
+    
 }

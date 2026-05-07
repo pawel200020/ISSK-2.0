@@ -492,4 +492,22 @@ If you need assistance, please contact our support team.</value>
     <data name="cConfirmEmail" xml:space="preserve">
         <value>Confirm email</value>
     </data>
+    <data name="cRememberMe" xml:space="preserve">
+        <value>Remember me</value>
+    </data>
+    <data name="cInvalidLoginAttempt" xml:space="preserve">
+        <value>Invalid login attempt</value>
+    </data>
+    <data name="cLockedOut" xml:space="preserve">
+        <value>Account locked out</value>
+    </data>
+    <data name="cLockedOutMessage" xml:space="preserve">
+        <value>This account has been locked out, please try again later.</value>
+    </data>
+    <data name="cIsDisabled" xml:space="preserve">
+        <value>Account disabled</value>
+    </data>
+    <data name="cIsEmailConfirmed" xml:space="preserve">
+        <value>Email confirmed</value>
+    </data>
 </root>

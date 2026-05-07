@@ -40,7 +40,6 @@ internal class ReadUsersRepository : IReadUsersRepository
         return null;
     }
 
-
     public IUsersPaginatedList GetUsersPagedWithFilters(int page, int pageSize,
         IEnumerable<FilterItem> filters)
     {
@@ -57,6 +56,7 @@ internal class ReadUsersRepository : IReadUsersRepository
                     Email = user.Email!,
                     Id = new Guid(user.Id),
                     IsAccountDisabled = user.LockoutEnabled,
+                    IsEmailConfirmed = user.EmailConfirmed,
                     PhoneNumber = user.PhoneNumber!,
                     UserName = user.UserName!,
                     Password = string.Empty,

@@ -16,10 +16,8 @@ internal class UsersCreator : IUsersCreator
         _editUsersRepository = editUsersRepository ?? throw new ArgumentNullException(nameof(editUsersRepository));
         _userEmailConfirmation = userEmailConfirmation ?? throw new ArgumentNullException(nameof(userEmailConfirmation));
     }
-
-    public async Task<IUserCreationResult> RegisterUser(IUser user) => await _editUsersRepository.CreateUser(user);
-
-    public async Task<IUserCreationResult> RegisterUser(IUser user, string returnUrl)
+    
+    public async Task<IUserCreationResult> RegisterUser(IUser user, string? returnUrl)
    {
        var createdUser =  await _editUsersRepository.CreateUser(user);
        if(createdUser.Errors != null && createdUser.Errors.Any())

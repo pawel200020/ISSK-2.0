@@ -1,4 +1,5 @@
 ﻿@page "/Account/Register"
+@using global::Configuration.Shared.Managers
 @using Microsoft.AspNetCore.Identity
 @using Resources.PortalResources
 @using Users.Shared.Managers
@@ -10,69 +11,76 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject IUsersCreator UsersCreator
+@inject IAppConfigurationGetter AppConfigurationGetter
 <PageTitle>@PortalResources.cRegister</PageTitle>
+@if (!AppConfigurationGetter.IsAnonymousRegisterEnabled().GetAwaiter().GetResult())
+{
+    <p>Not found</p>
+}
+else
+{
+    <h1>@PortalResources.cRegister</h1>
 
-<h1>@PortalResources.cRegister</h1>
-
-<div class="row">
-    <div class="col-md-6">
-        <Alert Show="@(!string.IsNullOrEmpty(Message))" Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(Message)"> <Icon Name="@IconName.ExclamationTriangleFill" class="me-2"></Icon> @Message </Alert>
-        <EditForm Model="UserCreate" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-            <DataAnnotationsValidator/>
-            <hr/>
-            <ValidationSummary class="text-danger" role="alert"/>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="nick"/>
-                <label for="nickName">@PortalResources.cUserName</label>
-                <ValidationMessage For="() => UserCreate.UserName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
-                <label for="email">@PortalResources.cEmail</label>
-                <ValidationMessage For="() => UserCreate.Email" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>
-                <label for="firstName">@PortalResources.cFirstName</label>
-                <ValidationMessage For="() => UserCreate.FirstName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
-                <label for="lastName">@PortalResources.cLastName</label>
-                <ValidationMessage For="() => UserCreate.LastName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
-                <label for="phoneNumber">@PortalResources.cPhone</label>
-                <ValidationMessage For="() => UserCreate.PhoneNumber" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputDate TValue="DateOnly?" @bind-Value="UserCreate.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
-                <label for="date">@PortalResources.cBirthDate</label>
-                <ValidationMessage For="() => UserCreate.BirthDate" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="UserCreate.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-                <label for="password">@PortalResources.cPassword</label>
-                <ValidationMessage For="() => UserCreate.Password" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="UserCreate.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-                <label for="confirm-password">@PortalResources.cConfirmPassword</label>
-                <ValidationMessage For="() => UserCreate.ConfirmPassword" class="text-danger"/>
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
-        </EditForm>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="row">
+        <div class="col-md-6">
+            <Alert Show="@(!string.IsNullOrEmpty(Message))" Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(Message)"> <Icon Name="@IconName.ExclamationTriangleFill" class="me-2"></Icon> @Message </Alert>
+            <EditForm Model="UserCreate" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
+                <DataAnnotationsValidator/>
+                <hr/>
+                <ValidationSummary class="text-danger" role="alert"/>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="nick"/>
+                    <label for="nickName">@PortalResources.cUserName</label>
+                    <ValidationMessage For="() => UserCreate.UserName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
+                    <label for="email">@PortalResources.cEmail</label>
+                    <ValidationMessage For="() => UserCreate.Email" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>
+                    <label for="firstName">@PortalResources.cFirstName</label>
+                    <ValidationMessage For="() => UserCreate.FirstName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
+                    <label for="lastName">@PortalResources.cLastName</label>
+                    <ValidationMessage For="() => UserCreate.LastName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
+                    <label for="phoneNumber">@PortalResources.cPhone</label>
+                    <ValidationMessage For="() => UserCreate.PhoneNumber" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputDate TValue="DateOnly?" @bind-Value="UserCreate.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
+                    <label for="date">@PortalResources.cBirthDate</label>
+                    <ValidationMessage For="() => UserCreate.BirthDate" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText type="password" @bind-Value="UserCreate.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                    <label for="password">@PortalResources.cPassword</label>
+                    <ValidationMessage For="() => UserCreate.Password" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText type="password" @bind-Value="UserCreate.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                    <label for="confirm-password">@PortalResources.cConfirmPassword</label>
+                    <ValidationMessage For="() => UserCreate.ConfirmPassword" class="text-danger"/>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
+            </EditForm>
+        </div>
+        @*<div class="col-md-6 col-md-offset-2">
         <section>
             <h3>@PortalResources.cExternalLoginServices</h3>
             <hr/>
             <ExternalLoginPicker/>
         </section>
+    </div>*@
     </div>
-</div>
-<br/>
+    <br/>
+
 
 @code {
     private IEnumerable<IdentityError>? _identityErrors;
@@ -117,4 +125,5 @@
         await SignInManager.SignInAsync(creationResult.CreatedUser, isPersistent: false);
         RedirectProcessor.RedirectTo(ReturnUrl);
     }
+}
 }

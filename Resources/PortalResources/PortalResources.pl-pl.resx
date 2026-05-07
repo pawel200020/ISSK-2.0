@@ -485,4 +485,22 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cConfirmEmail" xml:space="preserve">
         <value>Potwierdzenie adresu E-mail</value>
     </data>
+    <data name="cRememberMe" xml:space="preserve">
+        <value>Zapamiętaj mnie</value>
+    </data>
+    <data name="cInvalidLoginAttempt" xml:space="preserve">
+        <value>Nieudana próba logowania</value>
+    </data>
+    <data name="cLockedOut" xml:space="preserve">
+        <value>Konto zablokowane</value>
+    </data>
+    <data name="cLockedOutMessage" xml:space="preserve">
+        <value>To konto zostało zablokowane, spróbuj ponownie później.</value>
+    </data>
+    <data name="cIsDisabled" xml:space="preserve">
+        <value>Konto zablokowane</value>
+    </data>
+    <data name="cIsEmailConfirmed" xml:space="preserve">
+        <value>Zweryfikowany E-mail</value>
+    </data>
 </root>

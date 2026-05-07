@@ -29,7 +29,8 @@ public class UserAdminViewModel
     [DataType(DataType.Date)]
     public DateOnly? BirthDate { get; set; }    
     
-    public bool IsDisabled { get; set; }
+    public bool IsAccountDisabled { get; set; }
+    public bool IsEmailConfirmed { get; set; }
     
     [Required]
     [Phone]

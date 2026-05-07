@@ -2,15 +2,15 @@
 
 public interface IUser
 {
-    Guid Id { get; set; }
-    string FirstName { get; set; }
-    public string LastName { get; set; }
-    public DateOnly BirthDate { get; set; }
-    string UserName { get; set; }
-    string Email { get; set; }
-    string PhoneNumber { get; set; }
-    bool IsEmailConfirmed { get; set; }
-    bool IsAccountDisabled { get; set; }
-    string Password { get; set; }
-    Guid RoleId { get; set; }
+    Guid Id { get; }
+    string FirstName { get; }
+    public string LastName { get; }
+    public DateOnly BirthDate { get; }
+    string UserName { get; }
+    string Email { get; }
+    string PhoneNumber { get; }
+    bool IsAccountDisabled { get; }
+    bool IsEmailConfirmed { get; }
+    string Password { get; }
+    Guid RoleId { get; }
 }
