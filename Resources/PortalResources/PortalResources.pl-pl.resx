@@ -119,9 +119,6 @@
     <data name="cLogin" xml:space="preserve">
         <value>Zaloguj się</value>
     </data>
-    <data name="cForgotPassword" xml:space="preserve">
-        <value>Zapomniałeś hasła?</value>
-    </data>
     <data name="cRegisterAsNew" xml:space="preserve">
         <value>Zarejestruj nowego użytkownika</value>
     </data>
@@ -130,5 +127,380 @@
     </data>
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>Zewnętrzne serwisy logowania</value>
+    </data>
+    <data name="cAppConfig" xml:space="preserve">
+        <value>Konfiguracja aplikacji</value>
+    </data>
+    <data name="cSettings" xml:space="preserve">
+        <value>Ustawienia</value>
+    </data>
+    <data name="cRestoreDefault" xml:space="preserve">
+        <value>Ustawienia domyślne</value>
+    </data>
+    <data name="cAppNameWhiteText" xml:space="preserve">
+        <value>wpisz nazwę aplikacji</value>
+    </data>
+    <data name="cAppName" xml:space="preserve">
+        <value>Nazwa aplikacji:</value>
+    </data>
+    <data name="cBasicSettings" xml:space="preserve">
+        <value>Podstawowe</value>
+    </data>
+    <data name="cAppNameTooltip" xml:space="preserve">
+        <value>Nazwa aplikacji jest wyświetlana na pasku bocznym aplikacji oraz jako tytuł strony.</value>
+    </data>
+    <data name="cModules" xml:space="preserve">
+        <value>Moduły aplikacji</value>
+    </data>
+    <data name="cWeatherTooltip" xml:space="preserve">
+        <value>Zaznaczenie tej opcji włącza moduł pogody, który pozwala każdemu użytkownikowi sprawdzić aktualną pogodę na stronie aplikacji.</value>
+    </data>
+    <data name="cRank" xml:space="preserve">
+        <value>Ranking</value>
+    </data>
+    <data name="cRankDescription" xml:space="preserve">
+        <value>Wybranie tej opcji włącza moduł rankingu, który pozwala zarejestrowanym użytkownikom  roli standard lub wyższej sprawdzić aktualną pozycję w rankingu wszystkich użytkowników.</value>
+    </data>
+    <data name="cAnonymusRegisterTooltip" xml:space="preserve">
+        <value>Zaznaczenie tej opcji spowoduje włączenie możliwości rejestracji dla każdej osoby mającej dostęp do aplikacji</value>
+    </data>
+    <data name="cAnonymusRegister" xml:space="preserve">
+        <value>Anonimowa rejestracja</value>
+    </data>
+    <data name="cEmailConfig" xml:space="preserve">
+        <value>Konfiguracja wysyłki wiadomości e-mail</value>
+    </data>
+    <data name="cError" xml:space="preserve">
+        <value>Błąd</value>
+    </data>
+    <data name="cConfigurationSaved" xml:space="preserve">
+        <value>Konfiguracja została zaktualizowana</value>
+    </data>
+    <data name="cLoginExternal" xml:space="preserve">
+        <value>Login</value>
+    </data>
+    <data name="cLoginEmailBlankText" xml:space="preserve">
+        <value>Wprowadź login do konta e-mail</value>
+    </data>
+    <data name="cPasswordEmailBlankText" xml:space="preserve">
+        <value>Wprowadź hasło do konta e-mail</value>
+    </data>
+    <data name="cMailtrapSenderEmail" xml:space="preserve">
+        <value>Adres e-mail nadawcy</value>
+    </data>
+    <data name="cMailtrapEmailSenderBlankText" xml:space="preserve">
+        <value>Wprowadź adres e-mail nadawcy aplikacji</value>
+    </data>
+    <data name="cMaitrapTokenBlankText" xml:space="preserve">
+        <value>Wprowadź prywatny token</value>
+    </data>
+    <data name="cLoading" xml:space="preserve">
+        <value>Wczytywanie daynch...</value>
+    </data>
+    <data name="cNone" xml:space="preserve">
+        <value>Brak</value>
+    </data>
+    <data name="cRequiredField" xml:space="preserve">
+        <value>to pole jest wymagane</value>
+    </data>
+    <data name="cUseSsl" xml:space="preserve">
+        <value>Użyj połączenia SSL:</value>
+    </data>
+    <data name="cUseSslInfo" xml:space="preserve">
+        <value>Włącza szyfrowanie danych przesyłanych między aplikacją a serwerem, chroniąc login, hasło i treść wiadomości przed przechwyceniem.</value>
+    </data>
+    <data name="cSendTestEmail" xml:space="preserve">
+        <value>Wyślij testowy E-mail</value>
+    </data>
+    <data name="cSend" xml:space="preserve">
+        <value>Wyślij</value>
+    </data>
+    <data name="cEmailRecipent" xml:space="preserve">
+        <value>Odbiorca E-mail</value>
+    </data>
+    <data name="cTestEmailBody" xml:space="preserve">
+        <value>To jest &lt;strong&gt;wiadomość testowa&lt;/strong&gt; wysłana z Twojej aplikacji w celu potwierdzenia, że konfiguracja poczty e-mail działa poprawnie.</value>
+    </data>
+    <data name="cTestEmailFooter" xml:space="preserve">
+        <value>Jeśli otrzymałeś tę wiadomość, oznacza to, że konfiguracja poczty e-mail działa poprawnie.</value>
+    </data>
+    <data name="cAutomatedEmail" xml:space="preserve">
+        <value>Wiadomość została wygenerowana automatycznie.</value>
+    </data>
+    <data name="cTestEmail" xml:space="preserve">
+        <value>Testowa wiadomość E-mail</value>
+    </data>
+    <data name="cSendEmailSuccess" xml:space="preserve">
+        <value>Wiadomość została wysłana poprawnie</value>
+    </data>
+    <data name="cCorrectEmailFormat" xml:space="preserve">
+        <value>Podaj poprawny adres E-mail</value>
+    </data>
+    <data name="cChangePassword" xml:space="preserve">
+        <value>Zaaktualizuj hasło</value>
+    </data>
+    <data name="cInvalidOldPassword" xml:space="preserve">
+        <value>Aktualne hasło jest niepoprawne</value>
+    </data>
+    <data name="cUserNotFound" xml:space="preserve">
+        <value>Nie znaleziono użytkownika</value>
+    </data>
+    <data name="cUserAlreadyExists" xml:space="preserve">
+        <value>Użytkownik już istnieje</value>
+    </data>
+    <data name="cInvalidEmail" xml:space="preserve">
+        <value>Nieprawidłowy adres e-mail</value>
+    </data>
+    <data name="cPasswordTooShort" xml:space="preserve">
+        <value>Hasło jest za krótkie</value>
+    </data>
+    <data name="cPasswordRequiresNonAlphanumeric" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jeden znak niealfanumeryczny</value>
+    </data>
+    <data name="cPasswordRequiresDigit" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną cyfrę</value>
+    </data>
+    <data name="cPasswordRequiresLower" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną małą literę</value>
+    </data>
+    <data name="cPasswordRequiresUpper" xml:space="preserve">
+        <value>Hasło musi zawierać przynajmniej jedną wielką literę</value>
+    </data>
+    <data name="cPasswordRequiresUniqueChars" xml:space="preserve">
+        <value>Hasło musi zawierać wystarczającą liczbę unikalnych znaków</value>
+    </data>
+    <data name="cUnknownError" xml:space="preserve">
+        <value>Wystąpił nieznany błąd</value>
+    </data>
+    <data name="cOldPasswordLabel" xml:space="preserve">
+        <value>Aktualne hasło</value>
+    </data>
+    <data name="cOldPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź swoje aktualne hasło.</value>
+    </data>
+    <data name="cNewPasswordLabel" xml:space="preserve">
+        <value>Nowe hasło</value>
+    </data>
+    <data name="cNewPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź nowe hasło.</value>
+    </data>
+    <data name="cConfirmPasswordLabel" xml:space="preserve">
+        <value>Potwierdź hasło</value>
+    </data>
+    <data name="cConfirmPasswordPlaceholder" xml:space="preserve">
+        <value>Potwierdź nowe hasło.</value>
+    </data>
+    <data name="cUpdatePassword" xml:space="preserve">
+        <value>Zaktualizuj hasło</value>
+    </data>
+    <data name="cPasswordConfirmMismatch" xml:space="preserve">
+        <value>Nowe hasło i potwierdzenie hasła nie są zgodne.</value>
+    </data>
+    <data name="cPasswordLengthError" xml:space="preserve">
+        <value>{0} musi mieć co najmniej {2} i maksymalnie {1} znaków.</value>
+    </data>
+    <data name="cPasswordMismatchError" xml:space="preserve">
+        <value>Hasło i potwierdzenie hasła nie są zgodne.</value>
+    </data>
+    <data name="cPasswordChanged" xml:space="preserve">
+        <value>Twoje hasło zostało zmienione</value>
+    </data>
+    <data name="cInvalidPassword" xml:space="preserve">
+        <value>Niepoprawne hasło</value>
+    </data>
+    <data name="cDeletePersonalDataTitle" xml:space="preserve">
+        <value>Usuń dane osobowe</value>
+    </data>
+    <data name="cDeletePersonalDataWarning" xml:space="preserve">
+        <value>Usunięcie tych danych spowoduje trwałe usunięcie Twojego konta i nie będzie możliwości przywrócenia.</value>
+    </data>
+    <data name="cPasswordPlaceholder" xml:space="preserve">
+        <value>Wprowadź swoje hasło.</value>
+    </data>
+    <data name="cDeletePersonalDataButton" xml:space="preserve">
+        <value>Usuń dane i zamknij moje konto</value>
+    </data>
+    <data name="cConfirmEmailChange" xml:space="preserve">
+        <value>Potwierdzenie adresu email</value>
+    </data>
+    <data name="cConfirmEmailCaption" xml:space="preserve">
+        <value>Adres e-mail został pomyślnie potwierdzony </value>
+    </data>
+    <data name="cDisableTwoFactorSuccessMessage" xml:space="preserve">
+        <value>2FA zostało wyłączone. Możesz ponownie włączyć 2FA podczas konfigurowania aplikacji uwierzytelniającej.</value>
+    </data>
+    <data name="cDisableTwoFactorTitle" xml:space="preserve">
+        <value>Wyłącz uwierzytelnianie dwuskładnikowe (2FA)</value>
+    </data>
+    <data name="cDisableTwoFactorOnly" xml:space="preserve">
+        <value>Ta czynność jedynie wyłącza 2FA.</value>
+    </data>
+    <data name="cDisableTwoFactorDescription" xml:space="preserve">
+        <value>Wyłączenie 2FA nie zmienia kluczy używanych w aplikacjach uwierzytelniających. Jeśli chcesz zmienić klucz używany w aplikacji uwierzytelniającej, powinieneś &lt;a href='Account/Manage/ResetAuthenticator'&gt;zresetować klucze uwierzytelniające&lt;/a&gt;.</value>
+    </data>
+    <data name="cDisableTwoFactorButton" xml:space="preserve">
+        <value>Wyłącz 2FA</value>
+    </data>
+    <data name="cManageEmail" xml:space="preserve">
+        <value>Zarządzaj pocztą e-mail</value>
+    </data>
+    <data name="cSendVerificationEmail" xml:space="preserve">
+        <value>Wyślij wiadomość weryfikacyjną</value>
+    </data>
+    <data name="cNewEmail" xml:space="preserve">
+        <value>Nowy adres e-mail</value>
+    </data>
+    <data name="cChangeEmail" xml:space="preserve">
+        <value>Zmień adres e-mail</value>
+    </data>
+    <data name="cPleaseEnterEmail" xml:space="preserve">
+        <value>Wpisz swój adres e-mail.</value>
+    </data>
+    <data name="cPleaseEnterNewEmail" xml:space="preserve">
+        <value>Wpisz nowy adres e-mail.</value>
+    </data>
+    <data name="cEmailUnchanged" xml:space="preserve">
+        <value>Twój adres e-mail nie uległ zmianie.</value>
+    </data>
+    <data name="cConfirmationLinkSent" xml:space="preserve">
+        <value>Link potwierdzający zmianę adresu e-mail został wysłany. Sprawdź swoją pocztę e-mail.</value>
+    </data>
+    <data name="cVerificationEmailSent" xml:space="preserve">
+        <value>Wiadomość weryfikacyjna została wysłana. Sprawdź swoją pocztę e-mail.</value>
+    </data>
+    <data name="cConfigureAuthenticatorTitle" xml:space="preserve">
+        <value>Skonfiguruj aplikację uwierzytelniającą</value>
+    </data>
+    <data name="cAuthenticatorSteps" xml:space="preserve">
+        <value>Aby używać aplikacji uwierzytelniającej, przejdź przez następujące kroki:</value>
+    </data>
+    <data name="cScanQRCode" xml:space="preserve">
+        <value>Zeskanuj kod QR lub wpisz ten klucz</value>
+    </data>
+    <data name="cQRCodeInfo" xml:space="preserve">
+        <value>do aplikacji uwierzytelniającej dwuskładnikowej. Spacje i wielkość liter nie mają znaczenia.</value>
+    </data>
+    <data name="cVerifyCodeInfo" xml:space="preserve">
+        <value>Po zeskanowaniu kodu QR lub wpisaniu klucza powyżej, aplikacja uwierzytelniająca dostarczy Ci unikalny kod. Wpisz kod w polu potwierdzenia poniżej.</value>
+    </data>
+    <data name="cEnterCodePlaceholder" xml:space="preserve">
+        <value>Wpisz kod.</value>
+    </data>
+    <data name="cVerificationCodeLabel" xml:space="preserve">
+        <value>Kod weryfikacyjny</value>
+    </data>
+    <data name="cVerifyButton" xml:space="preserve">
+        <value>Weryfikuj</value>
+    </data>
+    <data name="cInvalidVerificationCode" xml:space="preserve">
+        <value>Błąd: kod weryfikacyjny jest nieprawidłowy.</value>
+    </data>
+    <data name="cAuthenticatorVerified" xml:space="preserve">
+        <value>Twoja aplikacja uwierzytelniająca została zweryfikowana.</value>
+    </data>
+    <data name="cAuthenticatorDownloadLinks" xml:space="preserve">
+        <value>Pobierz aplikację uwierzytelniającą dwuskładnikową, taką jak Microsoft Authenticator dla &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825072"&gt;Android&lt;/a&gt; i &lt;a href="https://go.microsoft.com/fwlink/?Linkid=825073"&gt;iOS&lt;/a&gt; lub
+Google Authenticator dla &lt;a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&amp;hl=en"&gt;Android&lt;/a&gt; i &lt;a href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8"&gt;iOS&lt;/a&gt;</value>
+    </data>
+    <data name="cConfirmationEmailTitle" xml:space="preserve">
+        <value>Weryfikacja adresu E-mail</value>
+    </data>
+    <data name="cConfirmationEmailBody" xml:space="preserve">
+        <value>To jest wiadomość &lt;strong&gt; e-mail z linkiem weryfikacyjnym&lt;/strong&gt;. wysłana przez aplikację.
+Aby zweryfikować adres e-mail, kliknij link weryfikacyjny: {0}.</value>
+    </data>
+    <data name="cRedirectAllEmails" xml:space="preserve">
+        <value>Przekieruj E-maile</value>
+    </data>
+    <data name="cRedirectedEmailAddress" xml:space="preserve">
+        <value>Adres E-mail</value>
+    </data>
+    <data name="cEmailAlreadyRegistered" xml:space="preserve">
+        <value>Na ten adres e-mail jest już zarejestrowane konto</value>
+    </data>
+    <data name="cFirstName" xml:space="preserve">
+        <value>Imię</value>
+    </data>
+    <data name="cRegisterConfirmationTitle" xml:space="preserve">
+        <value>Potwierdzenie rejestracji</value>
+    </data>
+    <data name="cRegisterConfirmationDescription" xml:space="preserve">
+        <value>Sprawdź swoją skrzynkę e-mailową, aby potwierdzić swoje konto. Jeśli nie otrzymasz wiadomości e-mail w ciągu 5 minut, spróbuj ponownie wysłać link potwierdzający, klikając przycisk poniżej.</value>
+    </data>
+    <data name="cResendConfirmationEmail" xml:space="preserve">
+        <value>Wyślij ponownie E-mail potwierdzający</value>
+    </data>
+    <data name="cVerificationEmailSend" xml:space="preserve">
+        <value>Wysłaliśmy wiadomość e-mail z linkiem weryfikacyjnym. Sprawdź swoją skrzynkę pocztową.</value>
+    </data>
+    <data name="cVerificationEmailSuccess" xml:space="preserve">
+        <value>Dziękujemy za potwierdzenie adresu e-mail.</value>
+    </data>
+    <data name="cVerificationEmailFail" xml:space="preserve">
+        <value>Wystąpił błąd podczas potwierdzania adresu e-mail.</value>
+    </data>
+    <data name="cResetPassword" xml:space="preserve">
+        <value>Resetowanie hasła</value>
+    </data>
+    <data name="cResetPasswordEmailSubject" xml:space="preserve">
+        <value>Żądanie zmiany hasła</value>
+    </data>
+    <data name="cResetPasswordEmailBody" xml:space="preserve">
+        <value>Dzień dobry,
+
+otrzymaliśmy prośbę o zmianę hasła do Twojego konta.
+
+Jeśli to Ty złożyłeś tę prośbę, kliknij poniższy link, aby ustawić nowe hasło:
+{0}
+
+Ze względów bezpieczeństwa link jest ważny przez 30 minut.
+
+Jeśli nie prosiłeś o zmianę hasła, możesz zignorować tę wiadomość. Twoje konto pozostaje bezpieczne i nie zostaną wprowadzone żadne zmiany.
+
+Dla dodatkowego bezpieczeństwa zalecamy sprawdzenie aktywności konta oraz używanie silnego, unikalnego hasła.
+
+Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
+    </data>
+    <data name="cForgotPasswordTitle" xml:space="preserve">
+        <value>Zapomniałeś hasła?</value>
+    </data>
+    <data name="cForgotPasswordConfirmation" xml:space="preserve">
+        <value>Potwierdzenie zmiany hasła</value>
+    </data>
+    <data name="cConfirmEmailSend" xml:space="preserve">
+        <value>Potwierdzenie wysłania wiadomości e-mail z linkiem do resetowania hasła</value>
+    </data>
+    <data name="cCheckEmail" xml:space="preserve">
+        <value>Sprawdź swoją skrzynkę e-mailową, aby zresetować hasło.</value>
+    </data>
+    <data name="cResetPasswordConfirmationMessage" xml:space="preserve">
+        <value>Twoje hasło zostało zresetowane. Proszę</value>
+    </data>
+    <data name="cClickHereToLogin" xml:space="preserve">
+        <value>kliknij tutaj, aby się zalogować</value>
+    </data>
+    <data name="cResetButton" xml:space="preserve">
+        <value>Resetuj</value>
+    </data>
+    <data name="cConfirmEmail" xml:space="preserve">
+        <value>Potwierdzenie adresu E-mail</value>
+    </data>
+    <data name="cRememberMe" xml:space="preserve">
+        <value>Zapamiętaj mnie</value>
+    </data>
+    <data name="cInvalidLoginAttempt" xml:space="preserve">
+        <value>Nieudana próba logowania</value>
+    </data>
+    <data name="cLockedOut" xml:space="preserve">
+        <value>Konto zablokowane</value>
+    </data>
+    <data name="cLockedOutMessage" xml:space="preserve">
+        <value>To konto zostało zablokowane, spróbuj ponownie później.</value>
+    </data>
+    <data name="cIsDisabled" xml:space="preserve">
+        <value>Konto zablokowane</value>
+    </data>
+    <data name="cIsEmailConfirmed" xml:space="preserve">
+        <value>Zweryfikowany E-mail</value>
     </data>
 </root>

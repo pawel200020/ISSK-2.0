@@ -1,0 +1,15 @@
+@if (IsVisible)
+{
+    <div class="button-tooltip">
+        <Button Color="ButtonColor.Info" Outline="true"
+                TooltipTitle="@Content">
+            <Icon Name="IconName.Info"/>
+        </Button>
+    </div>
+}
+
+
+@code {
+    [Parameter] public string? Content { get; set; }
+    [Parameter] public bool IsVisible { get; set; } = true;
+}

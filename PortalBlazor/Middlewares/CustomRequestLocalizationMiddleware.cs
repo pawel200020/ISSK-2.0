@@ -1,4 +1,4 @@
-using Abstract.Languages;
+using Configuration.Shared.Culture;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Options;
 

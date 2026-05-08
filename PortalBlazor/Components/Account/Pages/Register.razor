@@ -1,93 +1,98 @@
 ﻿@page "/Account/Register"
-
-@using System.Text
-@using System.Text.Encodings.Web
+@using global::Configuration.Shared.Managers
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
 @using Resources.PortalResources
-@using Users.Interfaces.Managers
-@using Users.Models
-@using Users.Models.Roles
+@using Users.Shared.Managers
+@using Users.Shared.Managers.Edit
+@using Users.Shared.Models
+@using Users.Shared.Models.Roles
 @using ViewModels.RazorPages.Users
 
 @inject SignInManager<ApplicationUser> SignInManager
-@inject IEmailSender<ApplicationUser> EmailSender
-@inject ILogger<Register> Logger
-@inject NavigationManager NavigationManager
 @inject IdentityRedirectProcessor RedirectProcessor
-@inject IUsersUploader UsersUploader
+@inject IUsersCreator UsersCreator
+@inject IAppConfigurationGetter AppConfigurationGetter
 <PageTitle>@PortalResources.cRegister</PageTitle>
+@if (!AppConfigurationGetter.IsAnonymousRegisterEnabled().GetAwaiter().GetResult())
+{
+    <p>Not found</p>
+}
+else
+{
+    <h1>@PortalResources.cRegister</h1>
 
-<h1>@PortalResources.cRegister</h1>
-
-<div class="row">
-    <div class="col-md-4">
-        <StatusMessage Message="@Message"/>
-        <EditForm Model="UserCreate" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-            <DataAnnotationsValidator/>
-            <hr/>
-            <ValidationSummary class="text-danger" role="alert"/>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="nick"/>
-                <label for="nickName">@PortalResources.cUserName</label>
-                <ValidationMessage For="() => UserCreate.UserName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
-                <label for="email">@PortalResources.cEmail</label>
-                <ValidationMessage For="() => UserCreate.Email" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>
-                <label for="firstName">@PortalResources.cEmail</label>
-                <ValidationMessage For="() => UserCreate.FirstName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
-                <label for="lastName">@PortalResources.cLastName</label>
-                <ValidationMessage For="() => UserCreate.LastName" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText @bind-Value="UserCreate.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
-                <label for="phoneNumber">@PortalResources.cPhone</label>
-                <ValidationMessage For="() => UserCreate.PhoneNumber" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputDate TValue="DateOnly?" @bind-Value="UserCreate.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
-                <label for="date">@PortalResources.cBirthDate</label>
-                <ValidationMessage For="() => UserCreate.BirthDate" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="UserCreate.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-                <label for="password">@PortalResources.cPassword</label>
-                <ValidationMessage For="() => UserCreate.Password" class="text-danger"/>
-            </div>
-            <div class="form-floating mb-3">
-                <InputText type="password" @bind-Value="UserCreate.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
-                <label for="confirm-password">@PortalResources.cConfirmPassword</label>
-                <ValidationMessage For="() => UserCreate.ConfirmPassword" class="text-danger"/>
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
-        </EditForm>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
+    <div class="row">
+        <div class="col-md-6">
+            <Alert Show="@(!string.IsNullOrEmpty(Message))" Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(Message)"> <Icon Name="@IconName.ExclamationTriangleFill" class="me-2"></Icon> @Message </Alert>
+            <EditForm Model="UserCreate" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
+                <DataAnnotationsValidator/>
+                <hr/>
+                <ValidationSummary class="text-danger" role="alert"/>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="nick"/>
+                    <label for="nickName">@PortalResources.cUserName</label>
+                    <ValidationMessage For="() => UserCreate.UserName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
+                    <label for="email">@PortalResources.cEmail</label>
+                    <ValidationMessage For="() => UserCreate.Email" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>
+                    <label for="firstName">@PortalResources.cFirstName</label>
+                    <ValidationMessage For="() => UserCreate.FirstName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
+                    <label for="lastName">@PortalResources.cLastName</label>
+                    <ValidationMessage For="() => UserCreate.LastName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="UserCreate.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
+                    <label for="phoneNumber">@PortalResources.cPhone</label>
+                    <ValidationMessage For="() => UserCreate.PhoneNumber" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputDate TValue="DateOnly?" @bind-Value="UserCreate.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
+                    <label for="date">@PortalResources.cBirthDate</label>
+                    <ValidationMessage For="() => UserCreate.BirthDate" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText type="password" @bind-Value="UserCreate.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                    <label for="password">@PortalResources.cPassword</label>
+                    <ValidationMessage For="() => UserCreate.Password" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText type="password" @bind-Value="UserCreate.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password"/>
+                    <label for="confirm-password">@PortalResources.cConfirmPassword</label>
+                    <ValidationMessage For="() => UserCreate.ConfirmPassword" class="text-danger"/>
+                </div>
+                <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
+            </EditForm>
+        </div>
+        @*<div class="col-md-6 col-md-offset-2">
         <section>
             <h3>@PortalResources.cExternalLoginServices</h3>
             <hr/>
             <ExternalLoginPicker/>
         </section>
+    </div>*@
     </div>
-</div>
-<br>
+    <br/>
+
 
 @code {
-    private IEnumerable<IdentityError>? identityErrors;
+    private IEnumerable<IdentityError>? _identityErrors;
 
     [SupplyParameterFromForm] private UserCreateViewModel UserCreate { get; set; } = new();
 
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
-
-    private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    
+    [Inject] private IUserEmailConfirmation UserEmailConfirmation { get; set; } = default!;
+    [Inject] private IUsersCreator UserCreator { get; set; } = default!;
+    
+    private string? Message => _identityErrors is null ? null : $"{string.Join(", ", _identityErrors.Select(error => error.Description))}";
 
     public async Task RegisterUser(EditContext editContext)
     {
@@ -103,32 +108,22 @@
             PhoneNumber = userFromRequest.PhoneNumber,
             RoleId =  UserRolesWithGuids.RolesWithGuids.Single(x=>x.Value == UserRole.Basic).Key
         };
-        var creationResult = await UsersUploader.RegisterUser(user);
-        
-        if (creationResult.Errors is not null)
+        var creationResult = await UsersCreator.RegisterUser(user, ReturnUrl);
+        if (creationResult.Errors != null && creationResult.Errors.Any())
         {
-            identityErrors = creationResult.Errors;
+            _identityErrors = creationResult.Errors;
             return;
         }
-        Logger.LogInformation("User created a new account with password.");
-
-        var userId = creationResult.UserId;
-        var code = creationResult.Code;
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code!));
-        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
-
-        await EmailSender.SendConfirmationLinkAsync(creationResult.CreatedUser, UserCreate.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
         if (creationResult.RequireConfirmedAccount)
         {
             RedirectProcessor.RedirectTo(
                 "Account/RegisterConfirmation",
                 new() { ["email"] = UserCreate.Email, ["returnUrl"] = ReturnUrl });
         }
+        
 
         await SignInManager.SignInAsync(creationResult.CreatedUser, isPersistent: false);
         RedirectProcessor.RedirectTo(ReturnUrl);
     }
+}
 }

@@ -1,7 +1,7 @@
 ﻿@using ViewModels.RazorPages.Users
 @using AutoMapper
-@using global::Users.Interfaces.Managers
-@using global::Users.Models
+@using global::Users.Shared.Managers.Edit
+@using global::Users.Shared.Models
 @using PortalBlazor.Components.Modals.ConfirmationModals
 @using ModalSize = BlazorBootstrap.ModalSize
 <Modal @ref="_modal" IsVerticallyCentered="true" Style="backdrop-filter: blur(10px)" Size="ModalSize.Small"/>
@@ -75,9 +75,15 @@
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsActive</label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsDisabled:</label>
         <div class="col-md-7">
-            <CheckboxInput @bind-Value="@User.IsDisabled"/>
+            <CheckboxInput @bind-Value="@User.IsAccountDisabled"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsEmailConfirmed:</label>
+        <div class="col-md-7">
+            <CheckboxInput @bind-Value="@User.IsEmailConfirmed" Disabled="true"/>
         </div>
     </div>
     <div class="row">
@@ -94,7 +100,8 @@
     [Parameter] public UserAdminViewModel User { get; set; } = null!;
     [Parameter] public EventCallback<Task> OnSuccessCallback { get; set; }
     [Parameter] public EventCallback<Task> OnFailCallback { get; set; }
-    [Inject] private IUsersUploader UsersUploader { get; set; } = default!;
+    [Inject] private IUsersCreator UsersCreator { get; set; } = default!;
+    [Inject] private IUsersEditor UsersEditor { get; set; } = default!;
     [Inject] private IUsersRemover UsersRemover { get; set; } = null!;
     [Inject] private IMapper Mapper { get; set; } = default!;
     [Parameter] public bool IsEditMode { get; set; }
@@ -122,7 +129,7 @@
 
         var userFromRequest = (UserAdminViewModel)_editContext.Model;
 
-        if (await UsersUploader.EditUserAsync(Mapper.Map<AppUser>(userFromRequest)))
+        if (await UsersEditor.EditUserAsync(Mapper.Map<AppUser>(userFromRequest)))
             await OnSuccessCallback.InvokeAsync();
         else
             await OnFailCallback.InvokeAsync();

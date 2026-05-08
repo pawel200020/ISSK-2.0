@@ -17,6 +17,52 @@ namespace Event_Saver.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
 
+            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ParameterTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("TsInsert")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("TsUpdate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Value")
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParameterTypeId");
+
+                    b.ToTable("ApplicationParameters");
+                });
+
+            modelBuilder.Entity("Data.Entites.Configuration.DictParameterType", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DictParameterTypes");
+                });
+
             modelBuilder.Entity("Data.Entites.Languages.SupportedLanguage", b =>
                 {
                     b.Property<int>("Id")
@@ -125,7 +171,7 @@ namespace Event_Saver.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationRole", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -151,7 +197,7 @@ namespace Event_Saver.Migrations
                     b.ToTable("AspNetRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
@@ -175,13 +221,11 @@ namespace Event_Saver.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("VARCHAR");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("INTEGER");
@@ -231,7 +275,7 @@ namespace Event_Saver.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationUserRole", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationUserRole", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
@@ -246,9 +290,20 @@ namespace Event_Saver.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
+            modelBuilder.Entity("Data.Entites.Configuration.ApplicationParameter", b =>
+                {
+                    b.HasOne("Data.Entites.Configuration.DictParameterType", "ParameterType")
+                        .WithMany()
+                        .HasForeignKey("ParameterTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ParameterType");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("Users.Models.ApplicationRole", null)
+                    b.HasOne("Users.Shared.Models.ApplicationRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -257,7 +312,7 @@ namespace Event_Saver.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Users.Models.ApplicationUser", null)
+                    b.HasOne("Users.Shared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -266,7 +321,7 @@ namespace Event_Saver.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Users.Models.ApplicationUser", null)
+                    b.HasOne("Users.Shared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -275,22 +330,22 @@ namespace Event_Saver.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Users.Models.ApplicationUser", null)
+                    b.HasOne("Users.Shared.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationUserRole", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationUserRole", b =>
                 {
-                    b.HasOne("Users.Models.ApplicationRole", "Role")
+                    b.HasOne("Users.Shared.Models.ApplicationRole", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Users.Models.ApplicationUser", "User")
+                    b.HasOne("Users.Shared.Models.ApplicationUser", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -301,12 +356,12 @@ namespace Event_Saver.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationRole", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationRole", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("Users.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Users.Shared.Models.ApplicationUser", b =>
                 {
                     b.Navigation("UserRoles");
                 });

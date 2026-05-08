@@ -1,6 +1,6 @@
 ﻿@page "/Account/Manage/PersonalData"
 
-@inject IdentityUserAccessor UserAccessor
+@inject CurrentUserProvider UserProvider
 
 <PageTitle>Personal Data</PageTitle>
 
@@ -28,7 +28,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _ = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        _ = await UserProvider.GetRequiredUserAsync(HttpContext);
     }
 
 }

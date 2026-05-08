@@ -1,12 +1,12 @@
 ﻿@page "/Account/Manage/ResetAuthenticator"
 
 @using Microsoft.AspNetCore.Identity
-@using Users
-@using Users.Models
+@using Users.Core
+@using Users.Shared.Models
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
-@inject IdentityUserAccessor UserAccessor
+@inject CurrentUserProvider UserProvider
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject ILogger<ResetAuthenticator> Logger
 
@@ -36,7 +36,7 @@
 
     private async Task OnSubmitAsync()
     {
-        var user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        var user = await UserProvider.GetRequiredUserAsync(HttpContext);
         await UserManager.SetTwoFactorEnabledAsync(user, false);
         await UserManager.ResetAuthenticatorKeyAsync(user);
         var userId = await UserManager.GetUserIdAsync(user);

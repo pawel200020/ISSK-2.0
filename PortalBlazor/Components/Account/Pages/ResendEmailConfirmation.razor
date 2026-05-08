@@ -1,24 +1,16 @@
 ﻿@page "/Account/ResendEmailConfirmation"
+@using Resources.PortalResources
+@using Users.Shared.Managers.Edit
+@using ViewModels.RazorPages.Configuration
 
-@using System.ComponentModel.DataAnnotations
-@using System.Text
-@using System.Text.Encodings.Web
-@using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using Users
-@using Users.Models
+<PageTitle>@PortalResources.cResendConfirmationEmail</PageTitle>
 
-@inject UserManager<ApplicationUser> UserManager
-@inject IEmailSender<ApplicationUser> EmailSender
-@inject NavigationManager NavigationManager
-@inject IdentityRedirectProcessor RedirectProcessor
-
-<PageTitle>Resend email confirmation</PageTitle>
-
-<h1>Resend email confirmation</h1>
-<h2>Enter your email.</h2>
+<h1>@PortalResources.cResendConfirmationEmail</h1>
+<h2>@PortalResources.cPleaseEnterEmail</h2>
 <hr/>
-<StatusMessage Message="@message"/>
+<Alert Color="AlertColor.Success" Dismissable="true" hidden="@string.IsNullOrEmpty(_message)">
+    <Icon Name="IconName.CheckCircleFill" class="me-2"></Icon> @_message </Alert>
+
 <div class="row">
     <div class="col-md-4">
         <EditForm Model="Input" FormName="resend-email-confirmation" OnValidSubmit="OnValidSubmitAsync" method="post">
@@ -29,39 +21,29 @@
                 <label for="email" class="form-label">Email</label>
                 <ValidationMessage For="() => Input.Email" class="text-danger"/>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Resend</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary"><Icon Name="IconName.Envelope"></Icon> @PortalResources.cResendConfirmation</button>
         </EditForm>
     </div>
 </div>
 
 @code {
-    private string? message;
-
-    [SupplyParameterFromForm] private InputModel Input { get; set; } = new();
-
+    [SupplyParameterFromForm] private EmailModel Input { get; init; } = new();
+    [SupplyParameterFromQuery] private string? Email { get; set; }
+    [Inject] private IUserMetadataEditor UserMetadataEditor { get; set; } = null!;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        if (Email is not null)
+        {
+            Input.Email = Email;
+            await OnValidSubmitAsync();
+        }
+    }
+    private string? _message;
+    
     private async Task OnValidSubmitAsync()
     {
-        var user = await UserManager.FindByEmailAsync(Input.Email!);
-        if (user is null)
-        {
-            message = "Verification email sent. Please check your email.";
-            return;
-        }
-
-        var userId = await UserManager.GetUserIdAsync(user);
-        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-        await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
-        message = "Verification email sent. Please check your email.";
+        await UserMetadataEditor.SendConfirmationLink(Input.Email);
+        _message = PortalResources.cVerificationEmailSend;
     }
-
-    private sealed class InputModel
-    {
-        [Required] [EmailAddress] public string Email { get; set; } = "";
-    }
-
 }

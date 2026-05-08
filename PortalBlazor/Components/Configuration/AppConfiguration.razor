@@ -1,0 +1,283 @@
+@page "/appconfig"
+@using AutoMapper
+@using global::Configuration.Shared.Entities
+@using global::Configuration.Shared.Managers
+@using Microsoft.AspNetCore.Authorization
+@using PortalBlazor.Components.Controls
+@using PortalBlazor.Toasts
+@using Resources.PortalResources
+@using Users.Shared.Models.Roles
+@using ViewModels.RazorPages.Configuration
+
+@attribute [Authorize(Roles = nameof(UserRole.Administrator))]
+<h3>@PortalResources.cAppConfig</h3>
+
+
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight"/>
+<Modal @ref="_modal"/>
+<EditForm Model="DataSource" method="post" OnValidSubmit="@HandleOnSubmitAsync" FormName="Configuration.Core"
+          id="my-form-ref-44">
+
+    <div class="menu-topbar">
+        <Button Color="ButtonColor.Success" Type="ButtonType.Submit">
+            <Icon Name="IconName.Floppy"></Icon>
+            @PortalResources.cSave
+        </Button>
+        <Button Color="ButtonColor.Secondary" Type="@ButtonType.Submit" hidden="true">
+            <Icon Name="IconName.ArrowClockwise"></Icon>
+            @PortalResources.cRestoreDefault
+        </Button>
+    </div>
+    <hr/>
+    <div class="row">
+        <DataAnnotationsValidator/>
+    </div>
+
+    <div class="row mb-3">
+        <h5>@PortalResources.cBasicSettings</h5>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cAppName</label>
+        <div class="col-md-4 col-sm-6 row-flex-item">
+            <TextInput @bind-Value="@DataSource.ApplicationName" Placeholder="@PortalResources.cAppNameWhiteText"/>
+            <TooltipInfo Content="@PortalResources.cAppNameTooltip"></TooltipInfo>
+        </div>
+        <div class="col-md-4 col-sm-6 row-flex-item">
+            <ValidationMessage For="@(() => DataSource.ApplicationName)"/>
+        </div>
+    </div>
+    <hr/>
+    <div class="row mb-3">
+        <h5>@PortalResources.cModules</h5>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cWeather</label>
+        <div class="col-md-4 col-sm-4 row-flex-item">
+            <Switch Class="form-checkbox" @bind-Value="DataSource.IsWeatherEnabled"/>
+            <TooltipInfo Content="@PortalResources.cWeatherTooltip"></TooltipInfo>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cRank</label>
+        <div class="col-md-4 col-sm-4 row-flex-item">
+            <Switch Class="form-checkbox" @bind-Value="DataSource.IsRankingEnabled"/>
+            <TooltipInfo Content=@PortalResources.cRankDescription></TooltipInfo>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cAnonymusRegister</label>
+        <div class="col-md-4 col-sm-4 row-flex-item">
+            <Switch Class="form-checkbox" @bind-Value="DataSource.IsAnonymousRegisterEnabled"/>
+            <TooltipInfo Content="@PortalResources.cAnonymusRegisterTooltip"></TooltipInfo>
+        </div>
+    </div>
+
+    <hr/>
+    <div class="row mb-3">
+        <h5>@PortalResources.cEmailConfig</h5>
+    </div>
+    <div class="form-group row mb-3">
+        <div class="col-md-6 col-sm-9 row-flex-item">
+            <InputSelect @bind-Value="DataSource.EmailSendMode"
+                         @bind-Value:after="OnMailTypeValueChanged"
+                         class="form-select">
+                <option value="0">@PortalResources.cNone</option>
+                <option value="1">MailTrap</option>
+                <option value="2">Smtp</option>
+            </InputSelect>
+            <TooltipInfo Content="@PortalResources.cAppNameTooltip"></TooltipInfo>
+        </div>
+    </div>
+    @if (DataSource.EmailSendMode == (int)EmailSendMode.Smtp)
+    {
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cLoginExternal:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@DataSource.EmailLogin" Placeholder="@PortalResources.cLoginEmailBlankText"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailLogin)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cPassword:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <PasswordInput @bind-Value="@DataSource.EmailPassword" Placeholder="********"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailPassword)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">SMTP server:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@DataSource.SmtpConfiguration.SmtpServerAddress" Placeholder="smtp.server.com"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.SmtpConfiguration.SmtpServerAddress)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">SMTP port:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <InputNumber @bind-Value="DataSource.SmtpConfiguration.SmtpServerPort" class="form-control"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.SmtpConfiguration.SmtpServerPort)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cUseSsl</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="DataSource.SmtpConfiguration.UseSsl"/>
+                <TooltipInfo Content="@PortalResources.cUseSslInfo"></TooltipInfo>
+            </div>
+        </div>
+    }
+    @if (DataSource.EmailSendMode == (int)EmailSendMode.MailTrap)
+    {
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cMailtrapSenderEmail:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="DataSource.EmailLogin"
+                           Placeholder="@PortalResources.cMailtrapEmailSenderBlankText"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailLogin)"/>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">Token:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <PasswordInput @bind-Value="DataSource.EmailPassword" Placeholder="********"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailPassword)"/>
+            </div>
+        </div>
+    }
+    @if (DataSource.EmailSendMode != (int)EmailSendMode.None)
+    {
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cRedirectAllEmails:</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="DataSource.IsEmailRedirect" @bind-Value:after="EraseRedirectEmail"/>
+                <TooltipInfo Content="@PortalResources.cWeatherTooltip"></TooltipInfo>
+            </div>
+        </div>
+        <div class="form-group row mb-3" >
+            <label class="col-sm-3 col-md-2 col-form-label" disabled="@(!DataSource.IsEmailRedirect)">@PortalResources.cRedirectedEmailAddress:</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="DataSource.EmailRedirectAddress" Placeholder="" Disabled="@(!DataSource.IsEmailRedirect)"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => DataSource.EmailRedirectAddress)"/>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Button Color="ButtonColor.Primary" @onclick="SendEmail">
+                    <Icon Name="IconName.EnvelopeAt"/> @PortalResources.cSendTestEmail</Button>
+            </div>
+        </div>
+    }
+</EditForm>
+
+
+@code {
+    [CascadingParameter] private HttpContext HttpContext { get; set; } = null!;
+
+    [SupplyParameterFromForm]
+    private ApplicationConfigurationViewModel DataSource { get; set; }
+        = new() { ApplicationName = "" };
+
+    private readonly List<ToastMessage> _messages = new();
+    [Inject] private IMapper Mapper { get; set; } = null!;
+    [Inject] private IAppConfigurationGetter AppConfigurationGetter { get; set; } = null!;
+    [Inject] private IAppConfigurationSaver AppConfigurationSaver { get; set; } = null!;
+    [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
+    [Inject] protected PreloadService PreloadService { get; set; } = default!;
+    private Modal _modal = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            DataSource = Mapper.Map<ApplicationConfigurationViewModel>(await AppConfigurationGetter.GetConfiguration());
+        }
+        catch (Exception ex)
+        {
+            ShowToast(@PortalResources.cError, ex.Message, ToastType.Danger);
+        }
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task SendEmail()
+    {
+        var parameters = new Dictionary<string, object>();
+        parameters.Add("OnSuccessEventCallback", EventCallback.Factory.Create(this, async () =>
+        {
+            ShowToast(PortalResources.cSuccess, PortalResources.cSendEmailSuccess, ToastType.Success);
+            await _modal.HideAsync();
+        }));
+        parameters.Add("OnFailEventCallback", EventCallback.Factory.Create(this, (string errorMessage) =>
+            ShowToast(PortalResources.cError, errorMessage, ToastType.Danger)));
+
+        await _modal.ShowAsync<SendTestEmailModal>(PortalResources.cSendTestEmail, parameters: parameters);
+    }
+
+    private void ShowToast(string title, string message, ToastType toastType)
+        => _messages.Add(ToastMessageCreationService.CreateToastMessage(title, message, toastType));
+
+    private void ShowFailToast()
+        => _messages.Add(ToastMessageCreationService.CreateUnknownErrorToastMessage());
+
+    private async Task HandleOnSubmitAsync()
+    {
+        var result = false;
+        try
+        {
+            PreloadService.Show(SpinnerColor.Light, PortalResources.cLoading);
+            result = await AppConfigurationSaver.SaveApplication(Mapper.Map<ApplicationConfiguration>(DataSource));
+        }
+        catch (Exception e)
+        {
+            ShowToast(@PortalResources.cError, e.Message, ToastType.Danger);
+        }
+        finally
+        {
+            PreloadService.Hide();
+        }
+
+        if (!result)
+            ShowFailToast();
+        else
+            ShowToast(PortalResources.cSuccess, PortalResources.cConfigurationSaved, ToastType.Success);
+    }
+
+    private void OnMailTypeValueChanged()
+    {
+        if (DataSource.EmailLogin != null)
+            DataSource.EmailLogin = string.Empty;
+        if (DataSource.EmailPassword != null)
+            DataSource.EmailPassword = string.Empty;
+        if (DataSource.SmtpConfiguration != null)
+            DataSource.SmtpConfiguration = new SmtpConfigurationViewModel();
+    }
+    
+    private void EraseRedirectEmail()
+    {
+        if (!DataSource.IsEmailRedirect)
+            DataSource.EmailRedirectAddress = string.Empty;
+    }
+}

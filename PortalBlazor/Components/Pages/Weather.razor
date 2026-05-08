@@ -1,48 +1,60 @@
 ﻿@page "/weather"
+@using global::Configuration.Shared
+@using global::Configuration.Shared.AppParameters.Managers
 @attribute [StreamRendering]
-
-<PageTitle>Weather</PageTitle>
-
-<h1>Weather</h1>
-
-<p>This component demonstrates showing data.</p>
-
-@if (forecasts == null)
+@inject IAppParameterGetter AppParameterGetter
+@if (!_isWeatherEnabled)
 {
-    <p>
-        <em>Loading...</em>
-    </p>
+    <p>This page is currently disabled</p>
 }
 else
 {
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var forecast in forecasts)
-        {
+    <PageTitle>Weather</PageTitle>
+
+    <h1>Weather</h1>
+
+    <p>This component demonstrates showing data.</p>
+
+    @if (forecasts == null)
+    {
+        <p>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
             <tr>
-                <td>@forecast.Date.ToShortDateString()</td>
-                <td>@forecast.TemperatureC</td>
-                <td>@forecast.TemperatureF</td>
-                <td>@forecast.Summary</td>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
             </tr>
-        }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
 }
+
 
 @code {
     private WeatherForecast[]? forecasts;
+    private bool _isWeatherEnabled;
 
     protected override async Task OnInitializedAsync()
     {
+        _isWeatherEnabled = await AppParameterGetter.GetBoolParameterValue(ApplicationParameter.IsWeatherEnabled);
         // Simulate asynchronous loading to demonstrate streaming rendering
         await Task.Delay(500);
 

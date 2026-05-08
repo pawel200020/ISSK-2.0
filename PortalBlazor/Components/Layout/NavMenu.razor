@@ -1,11 +1,16 @@
-﻿@using Resources.PortalResources
-@using Users.Models.Roles
+﻿@using global::Configuration.Shared
+@using global::Configuration.Shared.AppParameters.Managers
+@using global::Configuration.Shared.Managers
+@using Resources.PortalResources
+@using Users.Shared.Models.Roles
 @implements IDisposable
 
 @inject NavigationManager NavigationManager
+@inject IAppParameterGetter AppParamsGetter
+@inject IAppConfigurationGetter AppConfigGetter
 
 <div class="top-row ps-2 navbar navbar-dark">
-    <a class="navbar-brand" href="">Krakowska Linia Muzealna</a>
+    <a class="navbar-brand" href=""> @applicationName </a>
 </div>
 
 <input type="checkbox" title="Navigation menu" class="navbar-toggler"/>
@@ -14,27 +19,36 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @Resources.PortalResources.PortalResources.Home
+                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> @PortalResources.Home
             </NavLink>
         </div>
+        @if (_isWeatherEnabled)
+        {
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="weather">
+                    <span class="bi bi-cloud-weather-nav-menu" aria-hidden="true"></span> @PortalResources.cWeather
+                </NavLink>
+            </div>
+        }
 
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> @Resources.PortalResources.PortalResources.cWeather
-            </NavLink>
-        </div>
-        
         <AuthorizeView Roles="@nameof(UserRole.Administrator)">
             <div class="nav-item px-3">
                 <NavLink class="nav-link" href="/usersmanager">
-                    <span class="bi bi-people-nav-menu" aria-hidden="true"></span> @Resources.PortalResources.PortalResources.cUserManagement
+                    <span class="bi bi-people-nav-menu" aria-hidden="true"></span> @PortalResources.cUserManagement
+                </NavLink>
+            </div>
+        </AuthorizeView>
+        
+        <AuthorizeView Roles="@nameof(UserRole.Administrator)">
+            <div class="nav-item px-3">
+                <NavLink class="nav-link" href="/appconfig">
+                    <span class="bi bi-gear-fill-nav-menu" aria-hidden="true"></span> @PortalResources.cSettings
                 </NavLink>
             </div>
         </AuthorizeView>
 
         <AuthorizeView>
             <Authorized>
-
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Manage">
                         <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name
@@ -45,17 +59,20 @@
                         <AntiforgeryToken/>
                         <input type="hidden" name="ReturnUrl" value="@currentUrl"/>
                         <button type="submit" class="nav-link">
-                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @Resources.PortalResources.PortalResources.cLogout
+                            <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> @PortalResources.cLogout
                         </button>
                     </form>
                 </div>
             </Authorized>
             <NotAuthorized>
-                <div class="nav-item px-3">
-                    <NavLink class="nav-link" href="Account/Register">
-                        <span class="bi bi-person-nav-menu" aria-hidden="true"></span> @PortalResources.cRegister
-                    </NavLink>
-                </div>
+                @if (AppConfigGetter.IsAnonymousRegisterEnabled().GetAwaiter().GetResult())
+                {
+                    <div class="nav-item px-3">
+                        <NavLink class="nav-link" href="Account/Register">
+                            <span class="bi bi-person-nav-menu" aria-hidden="true"></span> @PortalResources.cRegister
+                        </NavLink>
+                    </div>
+                }
                 <div class="nav-item px-3">
                     <NavLink class="nav-link" href="Account/Login">
                         <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> @PortalResources.cLogin
@@ -68,11 +85,15 @@
 
 @code {
     private string? currentUrl;
+    private string applicationName;
+    private bool _isWeatherEnabled;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
         NavigationManager.LocationChanged += OnLocationChanged;
+        applicationName = await AppParamsGetter.GetStringParameterValue(ApplicationParameter.ApplicationName);
+        _isWeatherEnabled = await AppParamsGetter.GetBoolParameterValue(ApplicationParameter.IsWeatherEnabled);
     }
 
     private void OnLocationChanged(object? sender, LocationChangedEventArgs e)

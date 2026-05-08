@@ -1,0 +1,44 @@
+@using Notifications.Shared.Email
+@using PortalBlazor.Toasts
+@using ViewModels.RazorPages.Configuration
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
+<EditForm Model="@DataSource" OnValidSubmit="HandleOnSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group row mb-3">
+        <label class="col-md-4 col-form-label">@Resources.PortalResources.PortalResources.cEmailRecipent:</label>
+        <div class="col-md-8">
+            <TextInput @bind-Value="DataSource.Email" />
+            <ValidationMessage For="@(() => DataSource.Email)" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" Class="float-end me-2"><Icon Name="IconName.EnvelopeAt"/> @Resources.PortalResources.PortalResources.cSend</Button>
+        </div>
+    </div>
+   
+</EditForm>
+@code {
+    private EmailModel DataSource { get; set; } = new();
+    [Parameter] public EventCallback<string> OnFailEventCallback { get; set; }
+    [Parameter] public EventCallback OnSuccessEventCallback { get; set; }
+    [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
+    private readonly List<ToastMessage> _messages = new();
+    [Inject] IEmailService EmailService { get; set; } = null!;
+
+    public async Task HandleOnSubmit()
+    {
+        try
+        {
+            var email = DataSource.Email?.Trim() ?? string.Empty;
+            await EmailService.SendTestEmail(email);
+            await OnSuccessEventCallback.InvokeAsync();
+        }
+        catch (Exception ex)
+        {
+            await OnFailEventCallback.InvokeAsync(ex.Message);
+        }
+
+    }
+}

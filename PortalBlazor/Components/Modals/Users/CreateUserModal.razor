@@ -1,81 +1,86 @@
 ﻿@using ViewModels.RazorPages.Users
 @using Microsoft.AspNetCore.Identity
-@using PortalBlazor.Components.Pages
-@using Microsoft.AspNetCore.WebUtilities
-@using System.Text
-@using System.Text.Encodings.Web
 @using AutoMapper
-@using global::Users.Interfaces.Managers
-@using global::Users.Models
-@using global::Users.Models.Roles
+@using global::Users.Shared.Managers.Edit
+@using global::Users.Shared.Models
+@using global::Users.Shared.Models.Roles
 
-@inject ILogger<UsersManager> Logger
-@inject NavigationManager NavigationManager
-@inject IUsersUploader UsersUploader
-@inject IEmailSender<ApplicationUser> EmailSender
+@inject IUsersCreator UsersCreator
 @inject IMapper Mapper;
 
 
 <EditForm EditContext="@_editContext" OnSubmit="RegisterUser">
     <DataAnnotationsValidator/>
-    <StatusMessage Message="@Message"/>
+    <Alert Show="@(!string.IsNullOrEmpty(Message))" Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(Message)"> <Icon Name="@IconName.ExclamationTriangleFill" class="me-2"></Icon> @Message </Alert>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserIdentity: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserIdentity: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
             <TextInput @bind-Value="@User.Id" Disabled="true"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cName: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cName: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <TextInput @bind-Value="@User.FirstName" Placeholder=@Resources.PortalResources.PortalResources.cAddFirstNameNt/>
+            <TextInput @bind-Value="@User.FirstName"
+                       Placeholder=@Resources.PortalResources.PortalResources.cAddFirstNameNt/>
             <ValidationMessage For="@(() => User.FirstName)"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cLastName: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cLastName: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <TextInput @bind-Value="@User.LastName" Placeholder=@Resources.PortalResources.PortalResources.cAddLastNameNt/>
+            <TextInput @bind-Value="@User.LastName"
+                       Placeholder=@Resources.PortalResources.PortalResources.cAddLastNameNt/>
             <ValidationMessage For="@(() => User.LastName)"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cEmail: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cEmail: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
             <TextInput @bind-Value="@User.Email" Placeholder=@Resources.PortalResources.PortalResources.cAddEmailNt/>
             <ValidationMessage For="@(() => User.Email)"/>
         </div>
     </div>
-    
-    <div class="form-group row mb-3">
-            <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserName: <span class="text-danger">*</span></label>
-            <div class="col-md-7">
-                <TextInput @bind-Value="@User.UserName" Placeholder=@Resources.PortalResources.PortalResources.cAddUserNameNt/>
-                <ValidationMessage For="@(() => User.UserName)"/>
-            </div>
-        </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cPhone: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cUserName: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <TextInput @bind-Value="@User.PhoneNumber" Placeholder=@Resources.PortalResources.PortalResources.cAddPhoneNt/>
+            <TextInput @bind-Value="@User.UserName"
+                       Placeholder=@Resources.PortalResources.PortalResources.cAddUserNameNt/>
+            <ValidationMessage For="@(() => User.UserName)"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cPhone: <span
+                class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="@User.PhoneNumber"
+                       Placeholder=@Resources.PortalResources.PortalResources.cAddPhoneNt/>
             <ValidationMessage For="@(() => User.PhoneNumber)"/>
         </div>
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cBirthDate: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cBirthDate: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
             <DateInput TValue="DateOnly?" @bind-Value="@User.BirthDate"/>
             <ValidationMessage For="@(() => User.BirthDate)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cAccountType: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cAccountType: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
             <InputSelect TValue="Guid" class="form-select" @bind-Value="@User.RoleId">
                 @foreach (var (guid, role) in UserRolesWithGuids.RolesWithGuids)
@@ -88,31 +93,31 @@
     </div>
 
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cPassword: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cPassword: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <InputText type="password" class="form-control" @bind-Value="User.Password" autocomplete="new-password" aria-required="true" placeholder=@Resources.PortalResources.PortalResources.cAddEnterPassNt/>
+            <InputText type="password" class="form-control" @bind-Value="User.Password" autocomplete="new-password"
+                       aria-required="true" placeholder=@Resources.PortalResources.PortalResources.cAddEnterPassNt/>
             <ValidationMessage For="() => User.Password" class="text-danger"/>
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cConfirmPassword: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cConfirmPassword: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <InputText type="password" class="form-control" @bind-Value="User.ConfirmPassword" autocomplete="new-password" aria-required="true" placeholder=@Resources.PortalResources.PortalResources.cAddPassCfNt/>
+            <InputText type="password" class="form-control" @bind-Value="User.ConfirmPassword"
+                       autocomplete="new-password" aria-required="true"
+                       placeholder=@Resources.PortalResources.PortalResources.cAddPassCfNt/>
             <ValidationMessage For="@(() => User.ConfirmPassword)" class="text-danger"/>
         </div>
     </div>
-    <div class="form-group row mb-3">
-                <label class="col-md-5 col-form-label">@Resources.PortalResources.PortalResources.cIsActive:</label>
-                <div class="col-md-7">
-                    <CheckboxInput @bind-Value="@User.IsDisabled"/>
-                </div>
-            </div>
     <div class="row">
         <div class="col-md-12 text-right">
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">@Resources.PortalResources.PortalResources.cCreate</Button>
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success"
+                    Class="float-end me-2">@Resources.PortalResources.PortalResources.cCreate</Button>
         </div>
     </div>
-    </EditForm>
+</EditForm>
 
 @code {
     [Parameter] public EventCallback<Task> OnSuccessCallback { get; set; }
@@ -120,7 +125,7 @@
     private EditContext? _editContext;
     private UserAdminCreateViewModel User { get; set; } = null!;
     private IEnumerable<IdentityError>? identityErrors;
-    private string? Message => identityErrors is null ? null : $"Error: {string.Join(", ", identityErrors.Select(error => error.Description))}";
+    private string? Message => identityErrors is null ? null : $" {string.Join(", ", identityErrors.Select(error => error.Description))}";
 
     protected override void OnInitialized()
     {
@@ -132,29 +137,18 @@
     {
         // additional check
         if (!_editContext.Validate()) return;
-        
+
         var userFromRequest = (UserAdminCreateViewModel)_editContext.Model;
         var user = Mapper.Map<AppUser>(userFromRequest);
-    
-        var creationResult = await UsersUploader.RegisterUser(user);
-    
+
+        var creationResult = await UsersCreator.RegisterUser(user, null);
+
         if (creationResult.Errors is not null)
         {
             identityErrors = creationResult.Errors;
-            await OnFailCallback.InvokeAsync();
             return;
         }
-    
-        Logger.LogInformation("User created a new account with password.");
-    
-        var userId = creationResult.UserId;
-        var code = creationResult.Code;
-        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code!));
-        var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-            NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-            new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-    
-        await EmailSender.SendConfirmationLinkAsync(creationResult.CreatedUser, User.Email, HtmlEncoder.Default.Encode(callbackUrl));
+        
         await OnSuccessCallback.InvokeAsync();
     }
 

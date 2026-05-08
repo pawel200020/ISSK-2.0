@@ -261,12 +261,6 @@ namespace Resources.PortalResources {
             }
         }
         
-        public static string cForgotPassword {
-            get {
-                return ResourceManager.GetString("cForgotPassword", resourceCulture);
-            }
-        }
-        
         public static string cRegisterAsNew {
             get {
                 return ResourceManager.GetString("cRegisterAsNew", resourceCulture);
@@ -282,6 +276,726 @@ namespace Resources.PortalResources {
         public static string cExternalLoginServices {
             get {
                 return ResourceManager.GetString("cExternalLoginServices", resourceCulture);
+            }
+        }
+        
+        public static string cAppConfig {
+            get {
+                return ResourceManager.GetString("cAppConfig", resourceCulture);
+            }
+        }
+        
+        public static string cSettings {
+            get {
+                return ResourceManager.GetString("cSettings", resourceCulture);
+            }
+        }
+        
+        public static string cRestoreDefault {
+            get {
+                return ResourceManager.GetString("cRestoreDefault", resourceCulture);
+            }
+        }
+        
+        public static string cAppName {
+            get {
+                return ResourceManager.GetString("cAppName", resourceCulture);
+            }
+        }
+        
+        public static string cAppNameWhiteText {
+            get {
+                return ResourceManager.GetString("cAppNameWhiteText", resourceCulture);
+            }
+        }
+        
+        public static string cBasicSettings {
+            get {
+                return ResourceManager.GetString("cBasicSettings", resourceCulture);
+            }
+        }
+        
+        public static string cAppNameTooltip {
+            get {
+                return ResourceManager.GetString("cAppNameTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cModules {
+            get {
+                return ResourceManager.GetString("cModules", resourceCulture);
+            }
+        }
+        
+        public static string cWeatherTooltip {
+            get {
+                return ResourceManager.GetString("cWeatherTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cRank {
+            get {
+                return ResourceManager.GetString("cRank", resourceCulture);
+            }
+        }
+        
+        public static string cRankDescription {
+            get {
+                return ResourceManager.GetString("cRankDescription", resourceCulture);
+            }
+        }
+        
+        public static string cAnonymusRegister {
+            get {
+                return ResourceManager.GetString("cAnonymusRegister", resourceCulture);
+            }
+        }
+        
+        public static string cAnonymusRegisterTooltip {
+            get {
+                return ResourceManager.GetString("cAnonymusRegisterTooltip", resourceCulture);
+            }
+        }
+        
+        public static string cEmailConfig {
+            get {
+                return ResourceManager.GetString("cEmailConfig", resourceCulture);
+            }
+        }
+        
+        public static string cError {
+            get {
+                return ResourceManager.GetString("cError", resourceCulture);
+            }
+        }
+        
+        public static string cConfigurationSaved {
+            get {
+                return ResourceManager.GetString("cConfigurationSaved", resourceCulture);
+            }
+        }
+        
+        public static string cLoginExternal {
+            get {
+                return ResourceManager.GetString("cLoginExternal", resourceCulture);
+            }
+        }
+        
+        public static string cLoginEmailBlankText {
+            get {
+                return ResourceManager.GetString("cLoginEmailBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordEmailBlankText {
+            get {
+                return ResourceManager.GetString("cPasswordEmailBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cMailtrapSenderEmail {
+            get {
+                return ResourceManager.GetString("cMailtrapSenderEmail", resourceCulture);
+            }
+        }
+        
+        public static string cMailtrapEmailSenderBlankText {
+            get {
+                return ResourceManager.GetString("cMailtrapEmailSenderBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cMaitrapTokenBlankText {
+            get {
+                return ResourceManager.GetString("cMaitrapTokenBlankText", resourceCulture);
+            }
+        }
+        
+        public static string cLoading {
+            get {
+                return ResourceManager.GetString("cLoading", resourceCulture);
+            }
+        }
+        
+        public static string cNone {
+            get {
+                return ResourceManager.GetString("cNone", resourceCulture);
+            }
+        }
+        
+        public static string cRequiredField {
+            get {
+                return ResourceManager.GetString("cRequiredField", resourceCulture);
+            }
+        }
+        
+        public static string cUseSsl {
+            get {
+                return ResourceManager.GetString("cUseSsl", resourceCulture);
+            }
+        }
+        
+        public static string cUseSslInfo {
+            get {
+                return ResourceManager.GetString("cUseSslInfo", resourceCulture);
+            }
+        }
+        
+        public static string cSendTestEmail {
+            get {
+                return ResourceManager.GetString("cSendTestEmail", resourceCulture);
+            }
+        }
+        
+        public static string cSend {
+            get {
+                return ResourceManager.GetString("cSend", resourceCulture);
+            }
+        }
+        
+        public static string cEmailRecipent {
+            get {
+                return ResourceManager.GetString("cEmailRecipent", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmailBody {
+            get {
+                return ResourceManager.GetString("cTestEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmailFooter {
+            get {
+                return ResourceManager.GetString("cTestEmailFooter", resourceCulture);
+            }
+        }
+        
+        public static string cAutomatedEmail {
+            get {
+                return ResourceManager.GetString("cAutomatedEmail", resourceCulture);
+            }
+        }
+        
+        public static string cTestEmail {
+            get {
+                return ResourceManager.GetString("cTestEmail", resourceCulture);
+            }
+        }
+        
+        public static string cSendEmailSuccess {
+            get {
+                return ResourceManager.GetString("cSendEmailSuccess", resourceCulture);
+            }
+        }
+        
+        public static string cCorrectEmailFormat {
+            get {
+                return ResourceManager.GetString("cCorrectEmailFormat", resourceCulture);
+            }
+        }
+        
+        public static string cChangePassword {
+            get {
+                return ResourceManager.GetString("cChangePassword", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidOldPassword {
+            get {
+                return ResourceManager.GetString("cInvalidOldPassword", resourceCulture);
+            }
+        }
+        
+        public static string cOldPasswordLabel {
+            get {
+                return ResourceManager.GetString("cOldPasswordLabel", resourceCulture);
+            }
+        }
+        
+        public static string cOldPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("cOldPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cNewPasswordLabel {
+            get {
+                return ResourceManager.GetString("cNewPasswordLabel", resourceCulture);
+            }
+        }
+        
+        public static string cNewPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("cNewPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmPasswordLabel {
+            get {
+                return ResourceManager.GetString("cConfirmPasswordLabel", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("cConfirmPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cUpdatePassword {
+            get {
+                return ResourceManager.GetString("cUpdatePassword", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordConfirmMismatch {
+            get {
+                return ResourceManager.GetString("cPasswordConfirmMismatch", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordLengthError {
+            get {
+                return ResourceManager.GetString("cPasswordLengthError", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordMismatchError {
+            get {
+                return ResourceManager.GetString("cPasswordMismatchError", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordChanged {
+            get {
+                return ResourceManager.GetString("cPasswordChanged", resourceCulture);
+            }
+        }
+        
+        public static string cUserNotFound {
+            get {
+                return ResourceManager.GetString("cUserNotFound", resourceCulture);
+            }
+        }
+        
+        public static string cUserAlreadyExists {
+            get {
+                return ResourceManager.GetString("cUserAlreadyExists", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidEmail {
+            get {
+                return ResourceManager.GetString("cInvalidEmail", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordTooShort {
+            get {
+                return ResourceManager.GetString("cPasswordTooShort", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordRequiresNonAlphanumeric {
+            get {
+                return ResourceManager.GetString("cPasswordRequiresNonAlphanumeric", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordRequiresDigit {
+            get {
+                return ResourceManager.GetString("cPasswordRequiresDigit", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordRequiresLower {
+            get {
+                return ResourceManager.GetString("cPasswordRequiresLower", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordRequiresUpper {
+            get {
+                return ResourceManager.GetString("cPasswordRequiresUpper", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordRequiresUniqueChars {
+            get {
+                return ResourceManager.GetString("cPasswordRequiresUniqueChars", resourceCulture);
+            }
+        }
+        
+        public static string cUnknownError {
+            get {
+                return ResourceManager.GetString("cUnknownError", resourceCulture);
+            }
+        }
+        
+        public static string cDeletePersonalDataTitle {
+            get {
+                return ResourceManager.GetString("cDeletePersonalDataTitle", resourceCulture);
+            }
+        }
+        
+        public static string cDeletePersonalDataWarning {
+            get {
+                return ResourceManager.GetString("cDeletePersonalDataWarning", resourceCulture);
+            }
+        }
+        
+        public static string cPasswordPlaceholder {
+            get {
+                return ResourceManager.GetString("cPasswordPlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cDeletePersonalDataButton {
+            get {
+                return ResourceManager.GetString("cDeletePersonalDataButton", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidPassword {
+            get {
+                return ResourceManager.GetString("cInvalidPassword", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmailChange {
+            get {
+                return ResourceManager.GetString("cConfirmEmailChange", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmailCaption {
+            get {
+                return ResourceManager.GetString("cConfirmEmailCaption", resourceCulture);
+            }
+        }
+        
+        public static string cDisableTwoFactorTitle {
+            get {
+                return ResourceManager.GetString("cDisableTwoFactorTitle", resourceCulture);
+            }
+        }
+        
+        public static string cDisableTwoFactorOnly {
+            get {
+                return ResourceManager.GetString("cDisableTwoFactorOnly", resourceCulture);
+            }
+        }
+        
+        public static string cDisableTwoFactorDescription {
+            get {
+                return ResourceManager.GetString("cDisableTwoFactorDescription", resourceCulture);
+            }
+        }
+        
+        public static string cDisableTwoFactorButton {
+            get {
+                return ResourceManager.GetString("cDisableTwoFactorButton", resourceCulture);
+            }
+        }
+        
+        public static string cDisableTwoFactorSuccessMessage {
+            get {
+                return ResourceManager.GetString("cDisableTwoFactorSuccessMessage", resourceCulture);
+            }
+        }
+        
+        public static string cManageEmail {
+            get {
+                return ResourceManager.GetString("cManageEmail", resourceCulture);
+            }
+        }
+        
+        public static string cSendVerificationEmail {
+            get {
+                return ResourceManager.GetString("cSendVerificationEmail", resourceCulture);
+            }
+        }
+        
+        public static string cNewEmail {
+            get {
+                return ResourceManager.GetString("cNewEmail", resourceCulture);
+            }
+        }
+        
+        public static string cChangeEmail {
+            get {
+                return ResourceManager.GetString("cChangeEmail", resourceCulture);
+            }
+        }
+        
+        public static string cPleaseEnterEmail {
+            get {
+                return ResourceManager.GetString("cPleaseEnterEmail", resourceCulture);
+            }
+        }
+        
+        public static string cPleaseEnterNewEmail {
+            get {
+                return ResourceManager.GetString("cPleaseEnterNewEmail", resourceCulture);
+            }
+        }
+        
+        public static string cEmailUnchanged {
+            get {
+                return ResourceManager.GetString("cEmailUnchanged", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmationLinkSent {
+            get {
+                return ResourceManager.GetString("cConfirmationLinkSent", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailSent {
+            get {
+                return ResourceManager.GetString("cVerificationEmailSent", resourceCulture);
+            }
+        }
+        
+        public static string cConfigureAuthenticatorTitle {
+            get {
+                return ResourceManager.GetString("cConfigureAuthenticatorTitle", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorSteps {
+            get {
+                return ResourceManager.GetString("cAuthenticatorSteps", resourceCulture);
+            }
+        }
+        
+        public static string cScanQRCode {
+            get {
+                return ResourceManager.GetString("cScanQRCode", resourceCulture);
+            }
+        }
+        
+        public static string cQRCodeInfo {
+            get {
+                return ResourceManager.GetString("cQRCodeInfo", resourceCulture);
+            }
+        }
+        
+        public static string cVerifyCodeInfo {
+            get {
+                return ResourceManager.GetString("cVerifyCodeInfo", resourceCulture);
+            }
+        }
+        
+        public static string cEnterCodePlaceholder {
+            get {
+                return ResourceManager.GetString("cEnterCodePlaceholder", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationCodeLabel {
+            get {
+                return ResourceManager.GetString("cVerificationCodeLabel", resourceCulture);
+            }
+        }
+        
+        public static string cVerifyButton {
+            get {
+                return ResourceManager.GetString("cVerifyButton", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("cInvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorVerified {
+            get {
+                return ResourceManager.GetString("cAuthenticatorVerified", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticatorDownloadLinks {
+            get {
+                return ResourceManager.GetString("cAuthenticatorDownloadLinks", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmationEmailTitle {
+            get {
+                return ResourceManager.GetString("cConfirmationEmailTitle", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmationEmailBody {
+            get {
+                return ResourceManager.GetString("cConfirmationEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cRedirectAllEmails {
+            get {
+                return ResourceManager.GetString("cRedirectAllEmails", resourceCulture);
+            }
+        }
+        
+        public static string cRedirectedEmailAddress {
+            get {
+                return ResourceManager.GetString("cRedirectedEmailAddress", resourceCulture);
+            }
+        }
+        
+        public static string cEmailAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("cEmailAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        public static string cFirstName {
+            get {
+                return ResourceManager.GetString("cFirstName", resourceCulture);
+            }
+        }
+        
+        public static string cRegisterConfirmationTitle {
+            get {
+                return ResourceManager.GetString("cRegisterConfirmationTitle", resourceCulture);
+            }
+        }
+        
+        public static string cRegisterConfirmationDescription {
+            get {
+                return ResourceManager.GetString("cRegisterConfirmationDescription", resourceCulture);
+            }
+        }
+        
+        public static string cResendConfirmationEmail {
+            get {
+                return ResourceManager.GetString("cResendConfirmationEmail", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailSend {
+            get {
+                return ResourceManager.GetString("cVerificationEmailSend", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailSuccess {
+            get {
+                return ResourceManager.GetString("cVerificationEmailSuccess", resourceCulture);
+            }
+        }
+        
+        public static string cVerificationEmailFail {
+            get {
+                return ResourceManager.GetString("cVerificationEmailFail", resourceCulture);
+            }
+        }
+        
+        public static string cResetPassword {
+            get {
+                return ResourceManager.GetString("cResetPassword", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordEmailSubject {
+            get {
+                return ResourceManager.GetString("cResetPasswordEmailSubject", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordEmailBody {
+            get {
+                return ResourceManager.GetString("cResetPasswordEmailBody", resourceCulture);
+            }
+        }
+        
+        public static string cForgotPasswordTitle {
+            get {
+                return ResourceManager.GetString("cForgotPasswordTitle", resourceCulture);
+            }
+        }
+        
+        public static string cForgotPasswordConfirmation {
+            get {
+                return ResourceManager.GetString("cForgotPasswordConfirmation", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmailSend {
+            get {
+                return ResourceManager.GetString("cConfirmEmailSend", resourceCulture);
+            }
+        }
+        
+        public static string cCheckEmail {
+            get {
+                return ResourceManager.GetString("cCheckEmail", resourceCulture);
+            }
+        }
+        
+        public static string cResetButton {
+            get {
+                return ResourceManager.GetString("cResetButton", resourceCulture);
+            }
+        }
+        
+        public static string cResetPasswordConfirmationMessage {
+            get {
+                return ResourceManager.GetString("cResetPasswordConfirmationMessage", resourceCulture);
+            }
+        }
+        
+        public static string cClickHereToLogin {
+            get {
+                return ResourceManager.GetString("cClickHereToLogin", resourceCulture);
+            }
+        }
+        
+        public static string cConfirmEmail {
+            get {
+                return ResourceManager.GetString("cConfirmEmail", resourceCulture);
+            }
+        }
+        
+        public static string cRememberMe {
+            get {
+                return ResourceManager.GetString("cRememberMe", resourceCulture);
+            }
+        }
+        
+        public static string cInvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("cInvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        public static string cLockedOut {
+            get {
+                return ResourceManager.GetString("cLockedOut", resourceCulture);
+            }
+        }
+        
+        public static string cLockedOutMessage {
+            get {
+                return ResourceManager.GetString("cLockedOutMessage", resourceCulture);
+            }
+        }
+        
+        public static string cIsDisabled {
+            get {
+                return ResourceManager.GetString("cIsDisabled", resourceCulture);
+            }
+        }
+        
+        public static string cIsEmailConfirmed {
+            get {
+                return ResourceManager.GetString("cIsEmailConfirmed", resourceCulture);
             }
         }
     }

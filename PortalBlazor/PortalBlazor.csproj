@@ -14,7 +14,7 @@
     <ItemGroup>
         <PackageReference Include="AutoMapper" Version="12.0.1" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-        <PackageReference Include="Blazor.Bootstrap" Version="3.3.0" />
+        <PackageReference Include="Blazor.Bootstrap" Version="3.5.0" />
         <PackageReference Include="Blazor.Flags" Version="1.0.0.1" />
         <PackageReference Include="Blazored.Modal" Version="7.3.1" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.3" />
@@ -22,6 +22,7 @@
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6"/>
+        <PackageReference Include="Net.Codecrete.QrCodeGenerator" Version="2.1.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -31,10 +32,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\Core.csproj" />
+      <ProjectReference Include="..\Configuration.Core\Configuration.Core.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
+      <ProjectReference Include="..\Notifications.Core\Notifications.Core.csproj" />
       <ProjectReference Include="..\Resources\Resources.csproj" />
-      <ProjectReference Include="..\Users\Users.csproj" />
+      <ProjectReference Include="..\Users.Core\Users.Core.csproj" />
       <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>
 
@@ -43,6 +45,18 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\lib\bower.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index-svg.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index.html" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\index.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\jquery.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\LICENSE" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\qrcode.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\qrcode.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\lib\README.md" />
     </ItemGroup>
 
 </Project>

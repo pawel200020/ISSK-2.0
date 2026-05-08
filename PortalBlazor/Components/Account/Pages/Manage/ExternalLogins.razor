@@ -2,11 +2,11 @@
 
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
-@using Users.Models
+@using Users.Shared.Models
 
 @inject UserManager<ApplicationUser> UserManager
 @inject SignInManager<ApplicationUser> SignInManager
-@inject IdentityUserAccessor UserAccessor
+@inject CurrentUserProvider UserProvider
 @inject IUserStore<ApplicationUser> UserStore
 @inject IdentityRedirectProcessor RedirectProcessor
 
@@ -81,7 +81,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserAccessor.GetRequiredUserAsync(HttpContext);
+        user = await UserProvider.GetRequiredUserAsync(HttpContext);
         currentLogins = await UserManager.GetLoginsAsync(user);
         otherLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync())
             .Where(auth => currentLogins.All(ul => auth.Name != ul.LoginProvider))
