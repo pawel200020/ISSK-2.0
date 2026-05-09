@@ -1010,5 +1010,17 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cSignUpManager", resourceCulture);
             }
         }
+        
+        public static string cExcelExport {
+            get {
+                return ResourceManager.GetString("cExcelExport", resourceCulture);
+            }
+        }
+        
+        public static string cSeason {
+            get {
+                return ResourceManager.GetString("cSeason", resourceCulture);
+            }
+        }
     }
 }

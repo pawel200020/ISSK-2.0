@@ -1,6 +1,26 @@
 @page "/eventsaver/manage"
-<h3>EventSaverManager</h3>
+@using Microsoft.AspNetCore.Authorization
+@using Resources.PortalResources
+@using Users.Shared.Models.Roles
+@attribute [Authorize(Roles = $"{nameof(UserRole.Administrator)},{nameof(UserRole.Manager)}")]
+<h3>@PortalResources.cSignUpManager</h3>
+<div class="d-flex flex-wrap gap-2">
+    <Button Color="ButtonColor.Primary" @onclick="CreateNewEvent"><Icon Name="IconName.PlusCircle"></Icon></Button>
+    <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.FileExcel"></Icon> @PortalResources.cExcelExport</Button>
+    <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.Calendar2Event"></Icon> @PortalResources.cSeason</Button>
+
+</div>
 
 @code {
-    
+
+    private Task CreateNewEvent()
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task ExcelExport()
+    {
+        throw new NotImplementedException();
+    }
+
 }

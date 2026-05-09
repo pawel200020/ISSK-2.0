@@ -516,4 +516,10 @@ If you need assistance, please contact our support team.</value>
     <data name="cSignUpManager" xml:space="preserve">
         <value>Manage sign up</value>
     </data>
+    <data name="cExcelExport" xml:space="preserve">
+        <value>Export to excel</value>
+    </data>
+    <data name="cSeason" xml:space="preserve">
+        <value>Seasons</value>
+    </data>
 </root>

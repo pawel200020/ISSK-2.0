@@ -509,4 +509,10 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cSignUpManager" xml:space="preserve">
         <value>Zarządzaj zapisami</value>
     </data>
+    <data name="cExcelExport" xml:space="preserve">
+        <value>Eksportuj do excel</value>
+    </data>
+    <data name="cSeason" xml:space="preserve">
+        <value>Sezony</value>
+    </data>
 </root>
