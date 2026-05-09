@@ -1,4 +1,5 @@
 using Data.Entites.Configuration;
+using Data.Entites.EventSaver;
 using Data.Entites.Languages;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -13,6 +14,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<SupportedLanguage> SupportedLanguages { get; set; }
     public DbSet<ApplicationParameter> ApplicationParameters { get; set; }
     public DbSet<DictParameterType> DictParameterTypes { get; set; }
+    public DbSet<SeasonDb> Seasons { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
