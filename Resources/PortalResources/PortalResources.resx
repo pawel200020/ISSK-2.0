@@ -510,4 +510,10 @@ If you need assistance, please contact our support team.</value>
     <data name="cIsEmailConfirmed" xml:space="preserve">
         <value>Email confirmed</value>
     </data>
+    <data name="cSignUp" xml:space="preserve">
+        <value>Sign up</value>
+    </data>
+    <data name="cSignUpManager" xml:space="preserve">
+        <value>Manage sign up</value>
+    </data>
 </root>

@@ -500,4 +500,10 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cIsEmailConfirmed" xml:space="preserve">
         <value>E-Mail-Adresse bestätigt</value>
     </data>
+    <data name="cSignUp" xml:space="preserve">
+        <value>Anmelden</value>
+    </data>
+    <data name="cSignUpManager" xml:space="preserve">
+        <value>Anmeldung verwalten</value>
+    </data>
 </root>

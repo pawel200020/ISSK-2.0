@@ -998,5 +998,17 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cIsEmailConfirmed", resourceCulture);
             }
         }
+        
+        public static string cSignUp {
+            get {
+                return ResourceManager.GetString("cSignUp", resourceCulture);
+            }
+        }
+        
+        public static string cSignUpManager {
+            get {
+                return ResourceManager.GetString("cSignUpManager", resourceCulture);
+            }
+        }
     }
 }

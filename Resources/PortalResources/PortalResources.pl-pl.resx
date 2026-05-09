@@ -503,4 +503,10 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cIsEmailConfirmed" xml:space="preserve">
         <value>Zweryfikowany E-mail</value>
     </data>
+    <data name="cSignUp" xml:space="preserve">
+        <value>Zapisz się</value>
+    </data>
+    <data name="cSignUpManager" xml:space="preserve">
+        <value>Zarządzaj zapisami</value>
+    </data>
 </root>
