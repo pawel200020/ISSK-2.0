@@ -1022,5 +1022,41 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cSeason", resourceCulture);
             }
         }
+        
+        public static string cStartDate {
+            get {
+                return ResourceManager.GetString("cStartDate", resourceCulture);
+            }
+        }
+        
+        public static string cEndDate {
+            get {
+                return ResourceManager.GetString("cEndDate", resourceCulture);
+            }
+        }
+        
+        public static string cSeasonName {
+            get {
+                return ResourceManager.GetString("cSeasonName", resourceCulture);
+            }
+        }
+        
+        public static string cAddSeason {
+            get {
+                return ResourceManager.GetString("cAddSeason", resourceCulture);
+            }
+        }
+        
+        public static string cSeasonAdded {
+            get {
+                return ResourceManager.GetString("cSeasonAdded", resourceCulture);
+            }
+        }
+        
+        public static string cSeasonRemoved {
+            get {
+                return ResourceManager.GetString("cSeasonRemoved", resourceCulture);
+            }
+        }
     }
 }

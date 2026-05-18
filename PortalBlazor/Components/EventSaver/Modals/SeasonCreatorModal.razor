@@ -1,0 +1,98 @@
+@using AutoMapper
+@using EventsSaver.Core.Managers
+@using EventsSaver.Shared.Entities
+@using ViewModels.RazorPages.EventSaver.Seasons
+@using Resources.PortalResources
+
+
+<Modal @ref="_modal" IsVerticallyCentered="true" Style="backdrop-filter: blur(10px)" />
+
+<EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">Guid:</label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="Season.SeasonId" Disabled="true"/>
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cSeasonName: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="Season.Name" />
+            <ValidationMessage For="@(() => Season.Name)" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cStartDate: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <DateInput TValue="DateOnly?" @bind-Value="Season.StartDate" />
+            <ValidationMessage For="@(() => Season.StartDate)" />
+        </div>
+    </div>
+
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cEndDate: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <DateInput TValue="DateOnly?" @bind-Value="Season.EndDate" />
+            <ValidationMessage For="@(() => Season.EndDate)" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">@PortalResources.cSave</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="Close">@PortalResources.cCancel</Button>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private EditContext? _editContext;
+    private Modal _modal = default!;
+
+    [Parameter] public SeasonViewModel Season { get; set; } = new SeasonViewModel { SeasonId = Guid.NewGuid().ToString(), Name = string.Empty};
+    [Parameter] public EventCallback<Task> OnSuccessCallback { get; set; }
+    [Parameter] public EventCallback<Task> OnFailCallBack { get; set; }
+    [Inject] private ISeasonCreator SeasonCreator { get; set; } = null!;
+    [Inject] private IMapper Mapper { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(Season);
+        base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        _editContext = new EditContext(Season);
+        base.OnParametersSet();
+    }
+
+    public async Task ShowAsync() => await _modal.ShowAsync();
+    public async Task HideAsync() => await _modal.HideAsync();
+
+    private async Task HandleOnSubmit()
+    {
+        if (_editContext != null && !_editContext.Validate() || _editContext is null)
+        {
+            if (OnFailCallBack.HasDelegate)
+                await OnFailCallBack.InvokeAsync();
+            return;
+        }
+
+        await SeasonCreator.CreateSeason(Mapper.Map<ISeasonEntity>(Season));
+
+        if (OnSuccessCallback.HasDelegate)
+            await OnSuccessCallback.InvokeAsync();
+    }
+
+    private async Task Close()
+    {
+        await _modal.HideAsync();
+        if (OnFailCallBack.HasDelegate)
+            await OnFailCallBack.InvokeAsync();
+    }
+}

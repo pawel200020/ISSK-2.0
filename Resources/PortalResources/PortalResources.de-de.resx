@@ -512,4 +512,22 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cSeason" xml:space="preserve">
         <value>Jahreszeiten</value>
     </data>
+    <data name="cStartDate" xml:space="preserve">
+        <value>Startdatum</value>
+    </data>
+    <data name="cEndDate" xml:space="preserve">
+        <value>Enddatum</value>
+    </data>
+    <data name="cSeasonName" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cAddSeason" xml:space="preserve">
+        <value>Saison hinzufügen</value>
+    </data>
+    <data name="cSeasonAdded" xml:space="preserve">
+        <value>Saison erfolgreich hinzugefügt</value>
+    </data>
+    <data name="cSeasonRemoved" xml:space="preserve">
+        <value>Saison erfolgreich entfernt</value>
+    </data>
 </root>

@@ -34,6 +34,8 @@
     <ItemGroup>
       <ProjectReference Include="..\Configuration.Core\Configuration.Core.csproj" />
       <ProjectReference Include="..\Data\Data.csproj" />
+      <ProjectReference Include="..\EventsSaver.Core\EventsSaver.Core.csproj" />
+      <ProjectReference Include="..\EventsSaver.Shared\EventsSaver.Shared.csproj" />
       <ProjectReference Include="..\Notifications.Core\Notifications.Core.csproj" />
       <ProjectReference Include="..\Resources\Resources.csproj" />
       <ProjectReference Include="..\Users.Core\Users.Core.csproj" />

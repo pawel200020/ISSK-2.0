@@ -1,0 +1,42 @@
+@using ViewModels.RazorPages.EventSaver.Seasons
+@using ModalSize = BlazorBootstrap.ModalSize
+
+<Modal @ref="_modal" Style="backdrop-filter: brightness(60%)" />
+<Modal @ref="_deleteModal" IsVerticallyCentered="true" Style="backdrop-filter: blur(10px)" Size="ModalSize.Small"/>
+<Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight" />
+
+
+<Button Color="ButtonColor.Primary" @onclick="CreateNewSeason"><Icon Name="IconName.PlusCircle"></Icon></Button>
+<hr/>
+<Grid TItem="SeasonViewModel"
+      @ref="_grid"
+      Class="table table-hover table-bordered table-striped"
+      DataProvider="ReadData"
+      AllowFiltering="true"
+      AllowPaging="true"
+      AllowSorting="true"
+      Responsive="true"
+      PageSizeSelectorItems="@([10])"
+      AllowRowClick="true">
+    
+    <GridColumn TItem="SeasonViewModel" HeaderText=@Resources.PortalResources.PortalResources.cSeasonName PropertyName="Name" SortString="Name" SortKeySelector="item => item.Name" FilterTextboxWidth="60">
+        @context.Name
+    </GridColumn>
+    <GridColumn TItem="SeasonViewModel" HeaderText=@Resources.PortalResources.PortalResources.cStartDate PropertyName="StartDate" Filterable="false" >
+        @context.StartDate
+    </GridColumn>
+    <GridColumn TItem="SeasonViewModel" HeaderText=@Resources.PortalResources.PortalResources.cEndDate PropertyName="EndDate" Filterable="false">
+        @context.EndDate
+    </GridColumn>
+    <GridColumn TItem="SeasonViewModel" Filterable="false">
+        <ChildContent>
+            <Button Color="ButtonColor.Danger"  Size="ButtonSize.Small" @onclick="@( () => ConfirmDelete(context) )"><Icon Name="IconName.Trash"></Icon></Button>
+        </ChildContent>
+    </GridColumn>
+</Grid>
+
+@code {
+    private Grid<SeasonViewModel> _grid = default!;
+    private Modal _modal = default!;
+    private Modal _deleteModal = default!;  
+}

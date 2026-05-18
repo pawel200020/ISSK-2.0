@@ -1,17 +1,20 @@
 @page "/eventsaver/manage"
 @using Microsoft.AspNetCore.Authorization
+@using PortalBlazor.Components.EventSaver.Modals
 @using Resources.PortalResources
 @using Users.Shared.Models.Roles
 @attribute [Authorize(Roles = $"{nameof(UserRole.Administrator)},{nameof(UserRole.Manager)}")]
 <h3>@PortalResources.cSignUpManager</h3>
+<Modal @ref="_modal" IsScrollable="true"/>
 <div class="d-flex flex-wrap gap-2">
     <Button Color="ButtonColor.Primary" @onclick="CreateNewEvent"><Icon Name="IconName.PlusCircle"></Icon></Button>
     <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.FileExcel"></Icon> @PortalResources.cExcelExport</Button>
-    <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.Calendar2Event"></Icon> @PortalResources.cSeason</Button>
+    <Button Color="ButtonColor.Primary" @onclick="OpenSeasonModal"><Icon Name="IconName.Calendar2Event"></Icon> @PortalResources.cSeason</Button>
 
 </div>
 
 @code {
+    private Modal _modal = default!;
 
     private Task CreateNewEvent()
     {
@@ -21,6 +24,11 @@
     private Task ExcelExport()
     {
         throw new NotImplementedException();
+    }
+
+    private async Task OpenSeasonModal()
+    {
+        await _modal.ShowAsync<SeasonsViewModal>(title: PortalResources.cSeason);
     }
 
 }

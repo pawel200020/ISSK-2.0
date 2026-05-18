@@ -140,7 +140,7 @@
         var parameters = new Dictionary<string, object>();
         parameters.Add("OnCloseClick", EventCallback.Factory.Create<MouseEventArgs>(this, OnCloseClick));
         parameters.Add("OnDeleteClick", EventCallback.Factory.Create<MouseEventArgs>(this, OnDeleteClick));
-        await _modal.ShowAsync<ConfirmDeleteModal>("Confirmation", parameters: parameters);
+        await _modal.ShowAsync<ConfirmDeleteModal>(Resources.PortalResources.PortalResources.cDelete, parameters: parameters);
     }
     
     private async Task OnCloseClick(MouseEventArgs e) => await _modal.HideAsync();

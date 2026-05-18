@@ -12,4 +12,8 @@ public class SeasonDb
     public required string Name { get; set; }
     [Required]
     public DateOnly StartDate { get; set; }
+    [Required]
+    public DateOnly EndDate { get; set; }
+    public DateTime TsInsert { get; set; }
+    public DateTime TsUpdate { get; set; }
 }

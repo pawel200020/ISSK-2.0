@@ -522,4 +522,22 @@ If you need assistance, please contact our support team.</value>
     <data name="cSeason" xml:space="preserve">
         <value>Seasons</value>
     </data>
+    <data name="cStartDate" xml:space="preserve">
+        <value>Start date</value>
+    </data>
+    <data name="cEndDate" xml:space="preserve">
+        <value>End date</value>
+    </data>
+    <data name="cSeasonName" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cAddSeason" xml:space="preserve">
+        <value>Add new season</value>
+    </data>
+    <data name="cSeasonAdded" xml:space="preserve">
+        <value>Season added sucessfully</value>
+    </data>
+    <data name="cSeasonRemoved" xml:space="preserve">
+        <value>Season removed sucessfully</value>
+    </data>
 </root>
