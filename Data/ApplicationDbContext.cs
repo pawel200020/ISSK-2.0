@@ -9,14 +9,15 @@ using Users.Shared.Models;
 namespace Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-    : IdentityDbContext<ApplicationUser, ApplicationRole,string, IdentityUserClaim<string>, ApplicationUserRole, IdentityUserLogin<string>, IdentityRoleClaim<string>,IdentityUserToken<string>>(options)
+    : IdentityDbContext<ApplicationUser, ApplicationRole, string, IdentityUserClaim<string>, ApplicationUserRole,
+        IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>(options)
 {
     public DbSet<SupportedLanguage> SupportedLanguages { get; set; }
     public DbSet<ApplicationParameter> ApplicationParameters { get; set; }
     public DbSet<DictParameterType> DictParameterTypes { get; set; }
     public DbSet<SeasonDb> Seasons { get; set; }
     public DbSet<LineDb> Lines { get; set; }
-    
+
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -34,5 +35,15 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
         });
+
+        builder.Entity<LineDb>(l =>
+            l.HasOne(r => r.Season)
+                .WithMany(e => e.Lines)
+                .HasForeignKey(w => w.SeasonId));
+
+        builder.Entity<LineDb>(l =>
+            l.HasOne(r => r.Supervisor)
+                .WithMany()
+                .HasForeignKey(w => w.SupervisorId));
     }
 }

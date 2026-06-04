@@ -16,4 +16,5 @@ public class SeasonDb
     public DateOnly EndDate { get; set; }
     public DateTime TsInsert { get; set; }
     public DateTime TsUpdate { get; set; }
+    public IEnumerable<LineDb> Lines { get; set; }
 }

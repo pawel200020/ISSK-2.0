@@ -13,11 +13,9 @@ public class LineDb
     public required string Number { get; set; }
     public DateOnly Date { get; set; }
     public required string Vehicle { get; set; }
-    public Guid SupervisorId { get; set; }
-    //[ForeignKey(nameof(SupervisorId))]
+    public string SupervisorId { get; set; }
     public virtual ApplicationUser Supervisor { get; set; } = null!;
     public Guid SeasonId { get; set; }
-   // [ForeignKey(nameof(SeasonId))]
     public  SeasonDb Season { get; set; }
     public required LineTypeDb LineType { get; set; }
     public bool IsActive { get; set; }

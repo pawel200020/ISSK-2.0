@@ -21,7 +21,7 @@ internal static class LineExtensions
             Number = entity.Number,
             Date = entity.Date,
             Vehicle = entity.Vehicle,
-            SupervisorId = entity.SupervisorId,
+            SupervisorId = entity.SupervisorId.ToString(),
             SeasonId = entity.Season.SeasonId,
             LineType = (LineTypeDb)entity.LineType,
             IsActive = entity.IsActive
