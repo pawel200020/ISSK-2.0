@@ -2,9 +2,10 @@ using EventsSaver.Core.Caching;
 using EventsSaver.Core.Repositories.Seasons;
 using EventsSaver.Shared.Entities;
 using EventsSaver.Shared.Managers;
+using EventsSaver.Shared.Managers.Seasons;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace EventsSaver.Core.Managers;
+namespace EventsSaver.Core.Managers.Seasons;
 
 internal class SeasonsGetter : ISeasonsGetter
 {

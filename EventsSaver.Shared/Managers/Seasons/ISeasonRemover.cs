@@ -1,4 +1,4 @@
-namespace EventsSaver.Shared.Managers;
+namespace EventsSaver.Shared.Managers.Seasons;
 
 public interface ISeasonRemover
 {

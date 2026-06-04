@@ -1,7 +1,8 @@
+using Data;
 using Data.Entites.Languages;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Languages;
+namespace Configuration.Repositories.Culture;
 
 internal class SupportedLanguagesRepository : ISupportedLanguagesRepository
 {

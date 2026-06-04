@@ -1,6 +1,7 @@
 using AutoMapper;
 using BlazorBootstrap;
 using EventsSaver.Shared.Managers;
+using EventsSaver.Shared.Managers.Seasons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using ViewModels.RazorPages.EventSaver.Seasons;

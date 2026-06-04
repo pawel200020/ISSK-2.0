@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using Configuration.Shared;
 using Configuration.Shared.Entities;
 using Configuration.Shared.Notifications;
 using EventsSaver.Shared.Entities;
 using Users.Shared.Models;
 using ViewModels.RazorPages.Configuration;
+using ViewModels.RazorPages.EventSaver.Lines;
 using ViewModels.RazorPages.EventSaver.Seasons;
 using ViewModels.RazorPages.Users;
 
@@ -21,5 +21,8 @@ public class AutoMapperProfile : Profile
         CreateMap<SmtpConfiguration, SmtpConfigurationViewModel>().ReverseMap();
         CreateMap<SeasonViewModel,SeasonEntity>().ReverseMap();
         CreateMap<SeasonViewModel, ISeasonEntity>().As<SeasonEntity>();
+        CreateMap<LineViewModel, LineEntity>().ReverseMap();
+        CreateMap<LineViewModel, ILineEntity>().As<LineEntity>();
+        
     }
 }

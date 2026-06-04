@@ -1,7 +1,7 @@
 using System.Globalization;
 using Configuration.Caching;
+using Configuration.Repositories.Culture;
 using Configuration.Shared.Culture;
-using Data.Languages;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Configuration.Culture;

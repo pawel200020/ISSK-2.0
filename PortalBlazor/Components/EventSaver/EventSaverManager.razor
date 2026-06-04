@@ -1,8 +1,8 @@
 @page "/eventsaver/manage"
 @using Microsoft.AspNetCore.Authorization
-@using PortalBlazor.Components.EventSaver.Modals
 @using Resources.PortalResources
 @using Users.Shared.Models.Roles
+@using ViewModels.RazorPages.EventSaver.Lines
 @attribute [Authorize(Roles = $"{nameof(UserRole.Administrator)},{nameof(UserRole.Manager)}")]
 <h3>@PortalResources.cSignUpManager</h3>
 <Modal @ref="_modal" IsScrollable="true"/>
@@ -10,25 +10,24 @@
     <Button Color="ButtonColor.Primary" @onclick="CreateNewEvent"><Icon Name="IconName.PlusCircle"></Icon></Button>
     <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.FileExcel"></Icon> @PortalResources.cExcelExport</Button>
     <Button Color="ButtonColor.Primary" @onclick="OpenSeasonModal"><Icon Name="IconName.Calendar2Event"></Icon> @PortalResources.cSeason</Button>
-
 </div>
+<hr/>
+<Grid TItem="LineViewModel"
+      Class="table table-hover table-bordered"
+      DataProvider="ReadData"
+      AllowFiltering="true"
+      AllowPaging="true"
+      PageSize="5"
+      AllowSorting="true"
+      Responsive="true">
+    <GridColumns>
+        <GridColumn TItem="LineViewModel" HeaderText="Number" PropertyName="Number" SortKeySelector="item => item.Number">
+            @context.Number
+        </GridColumn>
+    </GridColumns>
+</Grid>
+
 
 @code {
     private Modal _modal = default!;
-
-    private Task CreateNewEvent()
-    {
-        throw new NotImplementedException();
-    }
-
-    private Task ExcelExport()
-    {
-        throw new NotImplementedException();
-    }
-
-    private async Task OpenSeasonModal()
-    {
-        await _modal.ShowAsync<SeasonsViewModal>(title: PortalResources.cSeason);
-    }
-
 }

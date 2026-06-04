@@ -3,6 +3,7 @@ using Configuration.Culture;
 using Configuration.Encryption;
 using Configuration.Managers;
 using Configuration.Notifications;
+using Configuration.Repositories.Culture;
 using Configuration.Shared.Culture;
 using Configuration.Shared.Managers;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,6 +17,7 @@ public static class Extension
             .AddNotificationsConfiguratuion()
             .AddScoped<IAppConfigurationGetter, AppConfigurationGetter>()
             .AddScoped<IAppConfigurationSaver, AppConfigurationSaver>()
-            .AddSingleton<IEncryptionManager,EncryptionManager>()
-            .AddScoped<ISupportedLanguagesDownloader, SupportedLanguagesDownloader>();
+            .AddSingleton<IEncryptionManager, EncryptionManager>()
+            .AddScoped<ISupportedLanguagesDownloader, SupportedLanguagesDownloader>()
+            .AddScoped<ISupportedLanguagesRepository, SupportedLanguagesRepository>();
 }

@@ -1,8 +1,8 @@
 using Data.Entites.Languages;
 
-namespace Data.Languages;
+namespace Configuration.Repositories.Culture;
 
-public interface ISupportedLanguagesRepository
+internal interface ISupportedLanguagesRepository
 {
     Task<IEnumerable<SupportedLanguage>> GetSupportedLanguages();
 }

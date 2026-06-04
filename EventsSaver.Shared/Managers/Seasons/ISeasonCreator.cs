@@ -1,6 +1,6 @@
 using EventsSaver.Shared.Entities;
 
-namespace EventsSaver.Core.Managers;
+namespace EventsSaver.Shared.Managers.Seasons;
 
 public interface ISeasonCreator
 {

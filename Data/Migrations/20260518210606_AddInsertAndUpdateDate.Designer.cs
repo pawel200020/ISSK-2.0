@@ -3,16 +3,19 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Event_Saver.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260518210606_AddInsertAndUpdateDate")]
+    partial class AddInsertAndUpdateDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -45,7 +48,7 @@ namespace Event_Saver.Migrations
 
                     b.HasIndex("ParameterTypeId");
 
-                    b.ToTable("ApplicationParameters", (string)null);
+                    b.ToTable("ApplicationParameters");
                 });
 
             modelBuilder.Entity("Data.Entites.Configuration.DictParameterType", b =>
@@ -60,7 +63,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DictParameterTypes", (string)null);
+                    b.ToTable("DictParameterTypes");
                 });
 
             modelBuilder.Entity("Data.Entites.EventSaver.LineDb", b =>
@@ -104,7 +107,7 @@ namespace Event_Saver.Migrations
 
                     b.HasIndex("seasonId");
 
-                    b.ToTable("Lines", (string)null);
+                    b.ToTable("Lines");
                 });
 
             modelBuilder.Entity("Data.Entites.EventSaver.SeasonDb", b =>
@@ -131,7 +134,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Seasons", (string)null);
+                    b.ToTable("Seasons");
                 });
 
             modelBuilder.Entity("Data.Entites.Languages.SupportedLanguage", b =>
@@ -152,7 +155,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SupportedLanguages", (string)null);
+                    b.ToTable("SupportedLanguages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
