@@ -530,4 +530,43 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cSeasonRemoved" xml:space="preserve">
         <value>Saison erfolgreich entfernt</value>
     </data>
+    <data name="cLineNumber" xml:space="preserve">
+        <value>Zeilennummer</value>
+    </data>
+    <data name="cLine" xml:space="preserve">
+        <value>Neue linie</value>
+    </data>
+    <data name="cOperationDay" xml:space="preserve">
+        <value>Betriebstag</value>
+    </data>
+    <data name="cCoordinator" xml:space="preserve">
+        <value>Koordinator</value>
+    </data>
+    <data name="cSeasonCaption" xml:space="preserve">
+        <value>Saison</value>
+    </data>
+    <data name="cSearchSeason" xml:space="preserve">
+        <value>Eine Saison suchen...</value>
+    </data>
+    <data name="cVehicle" xml:space="preserve">
+        <value>Fahrzeug</value>
+    </data>
+    <data name="cBus" xml:space="preserve">
+        <value>Bus</value>
+    </data>
+    <data name="cTram" xml:space="preserve">
+        <value>Straßenbahn</value>
+    </data>
+    <data name="cTrolleybus" xml:space="preserve">
+        <value>Oberleitungsbus</value>
+    </data>
+    <data name="cTrain" xml:space="preserve">
+        <value>Zug</value>
+    </data>
+    <data name="cLineType" xml:space="preserve">
+        <value>Linientyp</value>
+    </data>
+    <data name="cIsActiveAssignment" xml:space="preserve">
+        <value>Aktive Einträge</value>
+    </data>
 </root>

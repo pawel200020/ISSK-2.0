@@ -1,5 +1,6 @@
 using BlazorBootstrap;
 using Users.Shared.Models;
+using Users.Shared.Models.Roles;
 
 namespace Users.Core.Repositories.Read;
 
@@ -12,4 +13,6 @@ internal interface IReadUsersRepository
     Task<bool> HasUser2FaEnabled(Guid userGuid);
     IUsersPaginatedList GetUsersPagedWithFilters(int page, int pageSize,
         IEnumerable<FilterItem> filters);
+    Task<IEnumerable<ApplicationUser>?> SearchUsers(string searchPhrase, IEnumerable<UserRole> roles,
+        int maxResultCount);
 }

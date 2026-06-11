@@ -533,4 +533,43 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cSeasonRemoved" xml:space="preserve">
         <value>Sezon został usunięty pomyślnie</value>
     </data>
+    <data name="cLine" xml:space="preserve">
+        <value>Nowa linia</value>
+    </data>
+    <data name="cLineNumber" xml:space="preserve">
+        <value>Numer linii</value>
+    </data>
+    <data name="cOperationDay" xml:space="preserve">
+        <value>Dzień kursowania</value>
+    </data>
+    <data name="cCoordinator" xml:space="preserve">
+        <value>Kordynator</value>
+    </data>
+    <data name="cSeasonCaption" xml:space="preserve">
+        <value>Sezon</value>
+    </data>
+    <data name="cSearchSeason" xml:space="preserve">
+        <value>Wyszukaj sezon...</value>
+    </data>
+    <data name="cVehicle" xml:space="preserve">
+        <value>Pojazd</value>
+    </data>
+    <data name="cTrolleybus" xml:space="preserve">
+        <value>Trolejbus</value>
+    </data>
+    <data name="cTram" xml:space="preserve">
+        <value>Tramwaj</value>
+    </data>
+    <data name="cTrain" xml:space="preserve">
+        <value>Pociąg</value>
+    </data>
+    <data name="cLineType" xml:space="preserve">
+        <value>Rodzaj linii</value>
+    </data>
+    <data name="cBus" xml:space="preserve">
+        <value>Autobus</value>
+    </data>
+    <data name="cIsActiveAssignment" xml:space="preserve">
+        <value>Zapisy aktywne</value>
+    </data>
 </root>

@@ -1058,5 +1058,83 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cSeasonRemoved", resourceCulture);
             }
         }
+        
+        public static string cLine {
+            get {
+                return ResourceManager.GetString("cLine", resourceCulture);
+            }
+        }
+        
+        public static string cLineNumber {
+            get {
+                return ResourceManager.GetString("cLineNumber", resourceCulture);
+            }
+        }
+        
+        public static string cOperationDay {
+            get {
+                return ResourceManager.GetString("cOperationDay", resourceCulture);
+            }
+        }
+        
+        public static string cCoordinator {
+            get {
+                return ResourceManager.GetString("cCoordinator", resourceCulture);
+            }
+        }
+        
+        public static string cSeasonCaption {
+            get {
+                return ResourceManager.GetString("cSeasonCaption", resourceCulture);
+            }
+        }
+        
+        public static string cSearchSeason {
+            get {
+                return ResourceManager.GetString("cSearchSeason", resourceCulture);
+            }
+        }
+        
+        public static string cVehicle {
+            get {
+                return ResourceManager.GetString("cVehicle", resourceCulture);
+            }
+        }
+        
+        public static string cBus {
+            get {
+                return ResourceManager.GetString("cBus", resourceCulture);
+            }
+        }
+        
+        public static string cTram {
+            get {
+                return ResourceManager.GetString("cTram", resourceCulture);
+            }
+        }
+        
+        public static string cTrolleybus {
+            get {
+                return ResourceManager.GetString("cTrolleybus", resourceCulture);
+            }
+        }
+        
+        public static string cTrain {
+            get {
+                return ResourceManager.GetString("cTrain", resourceCulture);
+            }
+        }
+        
+        public static string cLineType {
+            get {
+                return ResourceManager.GetString("cLineType", resourceCulture);
+            }
+        }
+        
+        public static string cIsActiveAssignment {
+            get {
+                return ResourceManager.GetString("cIsActiveAssignment", resourceCulture);
+            }
+        }
     }
 }

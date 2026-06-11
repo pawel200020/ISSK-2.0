@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Users.Core.Filters.Factory;
 using Users.Shared.Exceptions;
 using Users.Shared.Models;
+using Users.Shared.Models.Roles;
 
 namespace Users.Core.Repositories.Read;
 
@@ -17,16 +18,16 @@ internal class ReadUsersRepository : IReadUsersRepository
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _filterFactory = filterFactory ?? throw new ArgumentNullException(nameof(filterFactory));
     }
-    
+
     public async Task<ApplicationUser?> TryGetUserById(Guid id)
         => await _userManager.FindByIdAsync(id.ToString());
 
     public async Task<ApplicationUser> GetUserById(Guid userId)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
-        if (user is not null) 
+        if (user is not null)
             return user;
-        
+
         await Task.Yield();
         throw new UserNotFoundException();
     }
@@ -34,10 +35,22 @@ internal class ReadUsersRepository : IReadUsersRepository
     public async Task<ApplicationUser?> TryGetUserByEmail(string email)
     {
         var user = await _userManager.FindByEmailAsync(email);
-        if (user is not null) 
-            return user;
-        
-        return null;
+        return user ?? null;
+    }
+
+    public async Task<IEnumerable<ApplicationUser>?> SearchUsers(string searchPhrase, IEnumerable<UserRole> roles,
+        int maxResultCount)
+    {
+        var rolesMappedToGuids = roles.Select(r => UserRolesWithGuids.RolesWithGuids.Single(rg => rg.Value == r).Key)
+            .ToArray();
+        var result = await _userManager.Users.Where(c =>
+                (c.UserName != null && c.Email != null &&
+                 (c.Email.Contains(searchPhrase) || c.UserName.Contains(searchPhrase) ||
+                  c.FirstName.Contains(searchPhrase) ||
+                  c.LastName.Contains(searchPhrase)) &&
+                 c.UserRoles.Any(r => rolesMappedToGuids.Contains(new Guid(r.Role.Id))))).Take(maxResultCount)
+            .ToArrayAsync();
+        return result;
     }
 
     public IUsersPaginatedList GetUsersPagedWithFilters(int page, int pageSize,
@@ -68,12 +81,12 @@ internal class ReadUsersRepository : IReadUsersRepository
             TotalCount = GetTotalRowsNumber()
         };
     }
-    
+
     public async Task<bool> CheckUserPassword(Guid userGuid, string password)
     {
         var user = await TryGetUserById(userGuid);
         if (user == null) return false;
-        
+
         return await _userManager.CheckPasswordAsync(user, password);
     }
 
@@ -95,6 +108,6 @@ internal class ReadUsersRepository : IReadUsersRepository
 
         return users;
     }
-    
+
     private int GetTotalRowsNumber() => _userManager.Users.Count();
 }

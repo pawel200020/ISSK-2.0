@@ -9,5 +9,6 @@ internal static class Extensions
     public static IServiceCollection AddRepositories(this IServiceCollection services) =>
         services.AddScoped<ISeasonsReadRepository, SeasonsReadRepository>()
             .AddScoped<ISeasonsWriteRepository, SeasonsWriteRepository>()
-            .AddScoped<ILinesReadRepository, LinesReadRepository>();
+            .AddScoped<ILinesReadRepository, LinesReadRepository>()
+            .AddScoped<ILinesWriteRepository, LinesWriteRepository>();
 }

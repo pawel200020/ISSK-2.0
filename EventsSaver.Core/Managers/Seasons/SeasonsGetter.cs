@@ -1,7 +1,6 @@
 using EventsSaver.Core.Caching;
 using EventsSaver.Core.Repositories.Seasons;
 using EventsSaver.Shared.Entities;
-using EventsSaver.Shared.Managers;
 using EventsSaver.Shared.Managers.Seasons;
 using Microsoft.Extensions.Caching.Memory;
 
@@ -40,9 +39,9 @@ internal class SeasonsGetter : ISeasonsGetter
     public async Task<IEnumerable<ISeasonEntity>?> SearchSeason(string seasonName)
     {
         if (_cache.TryGetValue(CacheKeys.Seasons, out IEnumerable<ISeasonEntity>? seasons) && seasons != null)
-            return seasons.Where(s => s.Name == seasonName).Take(MaxPickerResultCount);
+            return seasons.Where(s => s.Name.StartsWith(seasonName)).Take(MaxPickerResultCount);
         await InitializeCache();
-        return _cache.Get<IEnumerable<ISeasonEntity>>(CacheKeys.Seasons)?.Where(s => s.Name == seasonName)
+        return _cache.Get<IEnumerable<ISeasonEntity>>(CacheKeys.Seasons)?.Where(s => s.Name.StartsWith(seasonName))
             .Take(MaxPickerResultCount);
     }
 

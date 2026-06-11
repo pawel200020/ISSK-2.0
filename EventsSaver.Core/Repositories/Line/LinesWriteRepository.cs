@@ -4,7 +4,7 @@ using EventsSaver.Shared.Entities;
 
 namespace EventsSaver.Core.Repositories.Line;
 
-public class LinesWriteRepository
+public class LinesWriteRepository : ILinesWriteRepository
 {
     private readonly ApplicationDbContext _context;
 

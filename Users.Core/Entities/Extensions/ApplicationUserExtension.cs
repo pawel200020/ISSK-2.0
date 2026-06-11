@@ -1,8 +1,10 @@
-namespace Users.Shared.Models.Extensions;
+using Users.Shared.Models;
+
+namespace Users.Core.Entities.Extensions;
 
 public static class ApplicationUserExtension
 {
-    public static IUser ToDomainUser(this ApplicationUser user)
+    public static AppUser ToDomainUser(this ApplicationUser user)
     {
         return new AppUser
         {

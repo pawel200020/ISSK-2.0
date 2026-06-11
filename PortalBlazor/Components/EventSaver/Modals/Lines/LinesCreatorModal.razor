@@ -1,0 +1,83 @@
+@using EventsSaver.Shared.Entities
+@using Resources.PortalResources
+@using ViewModels.RazorPages.EventSaver.Lines
+@using ViewModels.RazorPages.EventSaver.Seasons
+<EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
+    <DataAnnotationsValidator/>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">Guid:</label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="Line.Id" Disabled="true"/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cLineNumber: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput @bind-Value="Line.Number" />
+            <ValidationMessage For="@(() => Line.Number)" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cOperationDay: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <DateInput TValue="DateOnly?" @bind-Value="Line.Date" />
+            <ValidationMessage For="@(() => Line.Date)" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cVehicle: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <TextInput TValue="DateOnly?" @bind-Value="Line.Vehicle" />
+            <ValidationMessage For="@(() => Line.Vehicle)" />
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cLineType: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <InputSelect TValue="LineType" class="form-select" @bind-Value="Line.LineType">
+                <option value="@LineType.Tram">@PortalResources.cTram</option>
+                <option value="@LineType.Bus">@PortalResources.cBus</option>
+                <option value="@LineType.Trolleybus">@PortalResources.cTrolleybus</option>
+                <option value="@LineType.Train">@PortalResources.cTrain</option>
+            </InputSelect>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cSeasonCaption: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <AutoComplete @bind-Value="Line.SeasonId"
+                          TItem="SeasonViewModel"
+                          DataProvider="SeasonDataProvider"
+                          PropertyName="Name"
+                          Placeholder=@PortalResources.cSearchSeason/>
+        </div>
+    </div>
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cCoordinator: <span class="text-danger">*</span></label>
+        <div class="col-md-7">
+            <AutoComplete @bind-Value="Line.SeasonId"
+                          TItem="SeasonViewModel"
+                          DataProvider="SeasonDataProvider"
+                          PropertyName="Name"
+                          Placeholder=@PortalResources.cSearchSeason/>
+        </div>
+    </div>
+    
+    <div class="form-group row mb-3">
+        <label class="col-md-5 col-form-label">@PortalResources.cIsActiveAssignment: </label>
+        <div class="col-md-7">
+            <CheckboxInput @bind-Value="Line.IsActive"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">@PortalResources.cSave</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="Close">@PortalResources.cCancel</Button>
+        </div>
+    </div>
+</EditForm>
+@code {
+    private EditContext? _editContext;
+    [Parameter] public LineViewModel Line { get; set; } = new LineViewModel { Id = Guid.NewGuid().ToString(), };
+}
+}

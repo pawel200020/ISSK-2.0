@@ -540,4 +540,43 @@ If you need assistance, please contact our support team.</value>
     <data name="cSeasonRemoved" xml:space="preserve">
         <value>Season removed sucessfully</value>
     </data>
+    <data name="cLine" xml:space="preserve">
+        <value>New line</value>
+    </data>
+    <data name="cLineNumber" xml:space="preserve">
+        <value>Line number</value>
+    </data>
+    <data name="cOperationDay" xml:space="preserve">
+        <value>Operation day</value>
+    </data>
+    <data name="cCoordinator" xml:space="preserve">
+        <value>Coordinator</value>
+    </data>
+    <data name="cSeasonCaption" xml:space="preserve">
+        <value>Season</value>
+    </data>
+    <data name="cSearchSeason" xml:space="preserve">
+        <value>Search a season...</value>
+    </data>
+    <data name="cVehicle" xml:space="preserve">
+        <value>Vehicle</value>
+    </data>
+    <data name="cBus" xml:space="preserve">
+        <value>Bus</value>
+    </data>
+    <data name="cTram" xml:space="preserve">
+        <value>Tram</value>
+    </data>
+    <data name="cTrolleybus" xml:space="preserve">
+        <value>Trolleybus</value>
+    </data>
+    <data name="cTrain" xml:space="preserve">
+        <value>Train</value>
+    </data>
+    <data name="cLineType" xml:space="preserve">
+        <value>Line type</value>
+    </data>
+    <data name="cIsActiveAssignment" xml:space="preserve">
+        <value>Assignments active</value>
+    </data>
 </root>

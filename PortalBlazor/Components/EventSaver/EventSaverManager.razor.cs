@@ -3,6 +3,8 @@ using BlazorBootstrap;
 using EventsSaver.Shared.Managers.Lines;
 using Microsoft.AspNetCore.Components;
 using PortalBlazor.Components.EventSaver.Modals;
+using PortalBlazor.Components.EventSaver.Modals.Lines;
+using PortalBlazor.Components.EventSaver.Modals.Seasons;
 using Resources.PortalResources;
 using ViewModels.RazorPages.EventSaver.Lines;
 
@@ -13,9 +15,9 @@ public partial class EventSaverManager : ComponentBase
     [Inject] private ILinesGetter LinesGetter { get; init; }
     [Inject] private IMapper Mapper { get; set; } = null!;
     
-    private Task CreateNewEvent()
+    private async Task CreateNewEvent()
     {
-        throw new NotImplementedException();
+        await _modal.ShowAsync<LinesCreatorModal>(title: PortalResources.cLine);
     }
 
     private Task ExcelExport()
