@@ -1,0 +1,31 @@
+@using System.Linq.Expressions
+@using ViewModels.RazorPages.Users
+
+<Autocomplete SearchMethod="SearchPeople"
+              @bind-Values="Value"
+              EnableDropDown="true"
+              MaximumSuggestions="5" Style="width: 50px;">
+    <SelectedTemplate Context="user">
+        @user.FirstName
+    </SelectedTemplate>
+    <ResultTemplate Context="user">
+        @user.FirstName @user.LastName (@user.Email)
+    </ResultTemplate>
+</Autocomplete>
+@code {
+
+    [Parameter]
+    public required IList<UserMetadataViewModel> Value { get; set; }
+
+    [Parameter]
+    public EventCallback<IList<UserMetadataViewModel>> ValueChanged { get; set; }
+
+    [Parameter]
+    public Expression<Func<IList<UserMetadataViewModel>>>? ValueExpression { get; set; }
+    
+
+    private async Task<IEnumerable<UserMetadataViewModel>> SearchPeople(string text)
+    {
+        return await Task.FromResult<UserMetadataViewModel []>([new UserMetadataViewModel { FirstName = "Maciej", LastName = "Kowalski", Email = "maciej.kowalski@example.com", Id = "1" }, new UserMetadataViewModel { FirstName = "Mikołaj", LastName = "Nowak", Email = "mikolaj.nowak@example.com", Id = "2" }]);
+    }
+}

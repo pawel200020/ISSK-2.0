@@ -1,3 +1,6 @@
+using ViewModels.RazorPages.EventSaver.Seasons;
+using ViewModels.RazorPages.Users;
+
 namespace ViewModels.RazorPages.EventSaver.Lines;
 
 public class LineViewModel
@@ -6,8 +9,9 @@ public class LineViewModel
     public string Number { get; set; }
     public DateOnly? Date { get; set; }
     public string Vehicle { get; set; }
-    public string Supervisor { get; set; }
-    public string SeasonId { get; set; }
+    public Guid SeasonId { get; set; }
+    public IList<UserMetadataViewModel> Supervisor { get; set; } = new List<UserMetadataViewModel>();
+    public SeasonViewModel? Season { get; set; }
     public LineType LineType { get; set; }
     public bool IsActive { get; set; }
 }

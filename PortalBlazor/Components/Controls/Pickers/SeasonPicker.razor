@@ -1,0 +1,16 @@
+@using ViewModels.RazorPages.EventSaver.Seasons
+<Autocomplete SearchMethod="SeasonDataProvider"
+              TValue="SeasonViewModel"
+              TItem="SeasonViewModel"
+              Value="Value"
+              ValueChanged="OnValueChanged"
+              ValueExpression="ValueExpression"
+              EnableDropDown="true"
+              MaximumSuggestions="5" Style="width: 50px;">
+    <SelectedTemplate Context="season">
+        @season.Name
+    </SelectedTemplate>
+    <ResultTemplate Context="season">
+        @season.Name (@season.StartDate - @season.EndDate)
+    </ResultTemplate>
+</Autocomplete>

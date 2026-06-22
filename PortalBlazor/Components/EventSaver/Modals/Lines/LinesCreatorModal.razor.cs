@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using AutoMapper;
 using BlazorBootstrap;
 using EventsSaver.Shared.Managers.Seasons;
@@ -20,6 +19,7 @@ public partial class LinesCreatorModal : ComponentBase
     }
     private Task HandleOnSubmit(EditContext arg)
     {
+        Console.Write(Line.Number);
         throw new NotImplementedException();
     }
 
