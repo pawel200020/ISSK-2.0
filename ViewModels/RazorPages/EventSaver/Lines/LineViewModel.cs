@@ -14,5 +14,5 @@ public class LineViewModel
     public SeasonViewModel? Season { get; set; }
     public LineType LineType { get; set; }
     public bool IsActive { get; set; }
-    IEnumerable<BrigadeViewModel> Brigades { get; set; } = new List<BrigadeViewModel>();
+    public IList<BrigadeViewModel> Brigades { get; set; } = new List<BrigadeViewModel>();
 }

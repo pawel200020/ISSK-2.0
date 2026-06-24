@@ -9,5 +9,5 @@ public class BrigadeViewModel
     public TimeOnly StartHour { get; set; }
     public TimeOnly EndHour { get; set; }
     public double Points {get; set;}
-    public IEnumerable<UserMetadataViewModel> People { get; set; } = new List<UserMetadataViewModel>();
+    public IList<UserMetadataViewModel> People { get; set; } = new List<UserMetadataViewModel>();
 }

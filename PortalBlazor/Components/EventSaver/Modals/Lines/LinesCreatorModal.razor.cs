@@ -6,29 +6,47 @@ using Microsoft.AspNetCore.Components.Forms;
 using ViewModels.RazorPages.EventSaver.Lines;
 using ViewModels.RazorPages.EventSaver.Lines.Brigades;
 using ViewModels.RazorPages.EventSaver.Seasons;
+using ViewModels.RazorPages.Users;
 
 namespace PortalBlazor.Components.EventSaver.Modals.Lines;
 
 public partial class LinesCreatorModal : ComponentBase
 {
+    private EditContext? _editContext;
+
+    [Parameter] public LineViewModel Line { get; set; } = new LineViewModel { Id = Guid.NewGuid().ToString(), };
+
     [Inject] ISeasonsGetter SeasonsGetter { get; set; } = null!;
     [Inject] IMapper Mapper { get; set; } = null!;
+
     protected override void OnInitialized()
     {
         _editContext = new EditContext(Line);
         base.OnInitialized();
     }
-    private Task HandleOnSubmit(EditContext arg)
+
+    public override Task SetParametersAsync(ParameterView parameters)
+    {
+        // ensure edit context is recreated when parameter changes
+        if (parameters.TryGetValue<LineViewModel>(nameof(Line), out var newLine) && newLine != Line)
+        {
+            Line = newLine;
+            _editContext = new EditContext(Line);
+        }
+        return base.SetParametersAsync(parameters);
+    }
+
+    private async Task HandleOnSubmit()
     {
         Console.Write(Line.Number);
-        return Task.CompletedTask;
+        await Task.CompletedTask;
     }
 
     private Task Close()
     {
         return Task.CompletedTask;
     }
-    
+
     private async Task<AutoCompleteDataProviderResult<SeasonViewModel>> CustomersDataProvider(AutoCompleteDataProviderRequest<LineViewModel> request)
     {
         var seasons = (await SeasonsGetter.SearchSeason(request.Filter.Value))!
@@ -45,6 +63,47 @@ public partial class LinesCreatorModal : ComponentBase
 
     private Task<GridDataProviderResult<BrigadeViewModel>> BrigadeProvider(GridDataProviderRequest<BrigadeViewModel> request)
     {
-        return Task.FromResult(new GridDataProviderResult<BrigadeViewModel> { Data = [], TotalCount = 0 });
+        return Task.FromResult(new GridDataProviderResult<BrigadeViewModel> { Data = new List<BrigadeViewModel>(), TotalCount = 0 });
+    }
+
+    public async Task AddBrigade()
+    {
+        if (Line.Brigades == null) Line.Brigades = new List<BrigadeViewModel>();
+
+        Line.Brigades.Add(new BrigadeViewModel
+        {
+            Id = Guid.NewGuid().ToString(),
+            Name = string.Empty,
+            StartHour = new TimeOnly(0,0),
+            EndHour = new TimeOnly(0,0),
+            Points = 0,
+            People = new List<UserMetadataViewModel>()
+        });
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public Task RemoveBrigade(BrigadeViewModel brigade)
+    {
+        Line.Brigades.Remove(brigade);
+        return Task.CompletedTask;
+    }
+
+    public void OnStartHourChanged(int index, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+        if (TimeOnly.TryParse(value, out var t))
+        {
+            Line.Brigades[index].StartHour = t;
+        }
+    }
+
+    public void OnEndHourChanged(int index, string? value)
+    {
+        if (string.IsNullOrWhiteSpace(value)) return;
+        if (TimeOnly.TryParse(value, out var t))
+        {
+            Line.Brigades[index].EndHour = t;
+        }
     }
 }
