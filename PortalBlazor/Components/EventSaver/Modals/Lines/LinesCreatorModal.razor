@@ -1,6 +1,7 @@
 @using PortalBlazor.Components.Controls.Pickers
 @using Resources.PortalResources
 @using ViewModels.RazorPages.EventSaver.Lines
+@using ViewModels.RazorPages.EventSaver.Lines.Brigades
 @using ViewModels.RazorPages.Users
 <EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
     <DataAnnotationsValidator/>
@@ -13,22 +14,23 @@
     <div class="form-group row mb-3">
         <label class="col-md-5 col-form-label">@PortalResources.cLineNumber: <span class="text-danger">*</span></label>
         <div class="col-md-7">
-            <TextInput @bind-Value="Line.Number" />
-            <ValidationMessage For="@(() => Line.Number)" />
+            <TextInput @bind-Value="Line.Number"/>
+            <ValidationMessage For="@(() => Line.Number)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@PortalResources.cOperationDay: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@PortalResources.cOperationDay: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            <DateInput TValue="DateOnly?" @bind-Value="Line.Date" />
-            <ValidationMessage For="@(() => Line.Date)" />
+            <DateInput TValue="DateOnly?" @bind-Value="Line.Date"/>
+            <ValidationMessage For="@(() => Line.Date)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
         <label class="col-md-5 col-form-label">@PortalResources.cVehicle: <span class="text-danger">*</span></label>
         <div class="col-md-7">
-            <TextInput TValue="DateOnly?" @bind-Value="Line.Vehicle" />
-            <ValidationMessage For="@(() => Line.Vehicle)" />
+            <TextInput TValue="DateOnly?" @bind-Value="Line.Vehicle"/>
+            <ValidationMessage For="@(() => Line.Vehicle)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
@@ -43,25 +45,21 @@
         </div>
     </div>
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@PortalResources.cSeasonCaption: <span class="text-danger">*</span></label>
+        <label class="col-md-5 col-form-label">@PortalResources.cSeasonCaption: <span
+                class="text-danger">*</span></label>
         <div class="col-md-7">
-            @* <AutoComplete @bind-Value="Line.SeasonId" *@
-            @*               TItem="SeasonViewModel" *@
-            @*               DataProvider="SeasonDataProvider" *@
-            @*               PropertyName="Name" *@
-            @*               Placeholder=@PortalResources.cSearchSeason/> *@
             <SeasonPicker @bind-Value="Line.Season"/>
-           @*<ValidationMessage For="@(() => Line.SeasonId)" />*@
+            <ValidationMessage For="@(() => Line.Season)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
         <label class="col-md-5 col-form-label">@PortalResources.cCoordinator: <span class="text-danger">*</span></label>
         <div class="col-md-7">
             <PeoplePicker @bind-Value="Line.Supervisor"></PeoplePicker>
-            <ValidationMessage For="@(() => Line.Supervisor)" /> 
+            <ValidationMessage For="@(() => Line.Supervisor)"/>
         </div>
     </div>
-    
+
     <div class="form-group row mb-3">
         <label class="col-md-5 col-form-label">@PortalResources.cIsActiveAssignment: </label>
         <div class="col-md-7">
@@ -69,18 +67,34 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12 text-right">
-            <Button Type="ButtonType.Submit" Color="ButtonColor.Success" Class="float-end me-2">@PortalResources.cSave</Button>
-            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2" @onclick="Close">@PortalResources.cCancel</Button>
+        <div class="col-md-12">
+            <Button Color="ButtonColor.Primary" @onclick="AddBrigade"><Icon Name="IconName.PlusCircle"></Icon></Button>
+           
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12 text-right">
+            <Button Type="ButtonType.Submit" Color="ButtonColor.Success"
+                    Class="float-end me-2">@PortalResources.cSave</Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2"
+                    @onclick="Close">@PortalResources.cCancel</Button>
+        </div>
+    </div>
+    
 </EditForm>
+
 @code {
     private EditContext? _editContext;
     [Parameter] public LineViewModel Line { get; set; } = new LineViewModel { Id = Guid.NewGuid().ToString(), };
-    
-    private async Task<IEnumerable<UserMetadataViewModel>> SearchUsers(string searchText) 
+
+    private async Task<IEnumerable<UserMetadataViewModel>> SearchUsers(string searchText)
     {
-       return await Task.FromResult<UserMetadataViewModel []>([new UserMetadataViewModel { FirstName = "Maciej", LastName = "Kowalski", Email = "maciej.kowalski@example.com", Id = "1" }, new UserMetadataViewModel { FirstName = "Mikołaj", LastName = "Nowak", Email = "mikolaj.nowak@example.com", Id = "2" }]);
+        return await Task.FromResult<UserMetadataViewModel[]>([new UserMetadataViewModel { FirstName = "Maciej", LastName = "Kowalski", Email = "maciej.kowalski@example.com", Id = "1" }, new UserMetadataViewModel { FirstName = "Mikołaj", LastName = "Nowak", Email = "mikolaj.nowak@example.com", Id = "2" }]);
     }
+
+    private Task AddBrigade()
+    {
+        throw new NotImplementedException();
+    }
+
 }

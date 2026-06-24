@@ -11,7 +11,6 @@ public partial class SeasonPicker : ComponentBase
     [Inject] ISeasonsGetter SeasonsGetter { get; set; } = null!;
     [Inject] IMapper Mapper { get; set; } = null!;
     [Parameter] public SeasonViewModel? Value { get; set; }
-    //[Parameter] public Guid Value { get; }
     [Parameter] public EventCallback<SeasonViewModel?> ValueChanged { get; set; }
     [Parameter] public Expression<Func<SeasonViewModel?>>? ValueExpression { get; set; }
     private async Task<IEnumerable<SeasonViewModel>> SeasonDataProvider(string searchPhrase)

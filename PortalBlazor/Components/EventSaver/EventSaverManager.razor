@@ -3,9 +3,10 @@
 @using Resources.PortalResources
 @using Users.Shared.Models.Roles
 @using ViewModels.RazorPages.EventSaver.Lines
+@using ModalSize = BlazorBootstrap.ModalSize
 @attribute [Authorize(Roles = $"{nameof(UserRole.Administrator)},{nameof(UserRole.Manager)}")]
 <h3>@PortalResources.cSignUpManager</h3>
-<Modal @ref="_modal" IsScrollable="true"/>
+<Modal @ref="_modal" IsScrollable="true" Size="ModalSize.Large"/>
 <div class="d-flex flex-wrap gap-2">
     <Button Color="ButtonColor.Primary" @onclick="CreateNewEvent"><Icon Name="IconName.PlusCircle"></Icon></Button>
     <Button Color="ButtonColor.Primary" @onclick="ExcelExport"><Icon Name="IconName.FileExcel"></Icon> @PortalResources.cExcelExport</Button>

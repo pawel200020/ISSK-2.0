@@ -4,6 +4,7 @@ using EventsSaver.Shared.Managers.Seasons;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using ViewModels.RazorPages.EventSaver.Lines;
+using ViewModels.RazorPages.EventSaver.Lines.Brigades;
 using ViewModels.RazorPages.EventSaver.Seasons;
 
 namespace PortalBlazor.Components.EventSaver.Modals.Lines;
@@ -20,12 +21,12 @@ public partial class LinesCreatorModal : ComponentBase
     private Task HandleOnSubmit(EditContext arg)
     {
         Console.Write(Line.Number);
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     private Task Close()
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
     
     private async Task<AutoCompleteDataProviderResult<SeasonViewModel>> CustomersDataProvider(AutoCompleteDataProviderRequest<LineViewModel> request)
@@ -40,5 +41,10 @@ public partial class LinesCreatorModal : ComponentBase
         var seasons = (await SeasonsGetter.SearchSeason(request.Filter.Value))!
             .Select(s => Mapper.Map<SeasonViewModel>(s));
         return await Task.FromResult(new AutoCompleteDataProviderResult<SeasonViewModel> { Data = seasons, TotalCount = seasons.Count()});
+    }
+
+    private Task<GridDataProviderResult<BrigadeViewModel>> BrigadeProvider(GridDataProviderRequest<BrigadeViewModel> request)
+    {
+        return Task.FromResult(new GridDataProviderResult<BrigadeViewModel> { Data = [], TotalCount = 0 });
     }
 }
