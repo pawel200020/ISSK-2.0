@@ -85,25 +85,26 @@ public partial class LinesCreatorModal : ComponentBase
 
     public Task RemoveBrigade(BrigadeViewModel brigade)
     {
-        Line.Brigades.Remove(brigade);
+        if (Line.Brigades != null)
+            Line.Brigades.Remove(brigade);
         return Task.CompletedTask;
     }
 
-    public void OnStartHourChanged(int index, string? value)
+    public void OnStartHourChanged(BrigadeViewModel brigade, string? value)
     {
-        if (string.IsNullOrWhiteSpace(value)) return;
+        if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
         if (TimeOnly.TryParse(value, out var t))
         {
-            Line.Brigades[index].StartHour = t;
+            brigade.StartHour = t;
         }
     }
 
-    public void OnEndHourChanged(int index, string? value)
+    public void OnEndHourChanged(BrigadeViewModel brigade, string? value)
     {
-        if (string.IsNullOrWhiteSpace(value)) return;
+        if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
         if (TimeOnly.TryParse(value, out var t))
         {
-            Line.Brigades[index].EndHour = t;
+            brigade.EndHour = t;
         }
     }
 }

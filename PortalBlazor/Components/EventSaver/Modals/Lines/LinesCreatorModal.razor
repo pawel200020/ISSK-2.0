@@ -68,50 +68,49 @@
         </div>
     </div>
 
-    <div class="row mb-2">
-        <div class="col-md-12">
-            <Button Color="ButtonColor.Primary" @onclick="AddBrigade"><Icon Name="IconName.PlusCircle"></Icon></Button>
+    <div class="row">
+        <div class="col-md-12 text-end mb-2">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade"><Icon Name="IconName.Plus"></Icon></Button>
         </div>
     </div>
-
-    @if (Line.Brigades != null && Line.Brigades.Count > 0)
-    {
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-sm table-striped">
-                    <thead>
-                        <tr>
-                            <th>@PortalResources.cName</th>
-                            <th>Start</th>
-                            <th>End</th>
-                            <th>Points</th>
-                            <th>People</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @for (int i = 0; i < Line.Brigades.Count; i++)
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th>@PortalResources.cName</th>
+                        <th>Start</th>
+                        <th>End</th>
+                        <th>Points</th>
+                        <th>People</th>
+                        <th class="text-end"><Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade"><Icon Name="IconName.Plus"></Icon></Button></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Line.Brigades != null && Line.Brigades.Count > 0)
+                    {
+                        @foreach (var brigade in Line.Brigades)
                         {
                             <tr>
-                                <td><InputText class="form-control form-control-sm" @bind-Value="Line.Brigades[i].Name" /></td>
+                                <td><InputText class="form-control form-control-sm" @bind-Value="brigade.Name" /></td>
                                 <td>
-                                    <input type="time" class="form-control form-control-sm" value="@Line.Brigades[i].StartHour.ToString("HH:mm")" @onchange="@(e => OnStartHourChanged(i, e.Value?.ToString()))" />
+                                    <input type="time" class="form-control form-control-sm" value="@brigade.StartHour.ToString("HH:mm")" @onchange="@(e => OnStartHourChanged(brigade, e.Value?.ToString()))" />
                                 </td>
                                 <td>
-                                    <input type="time" class="form-control form-control-sm" value="@Line.Brigades[i].EndHour.ToString("HH:mm")" @onchange="@(e => OnEndHourChanged(i, e.Value?.ToString()))" />
+                                    <input type="time" class="form-control form-control-sm" value="@brigade.EndHour.ToString("HH:mm")" @onchange="@(e => OnEndHourChanged(brigade, e.Value?.ToString()))" />
                                 </td>
-                                <td><InputNumber class="form-control form-control-sm" @bind-Value="Line.Brigades[i].Points" /></td>
-                                <td style="min-width:200px;"><PeoplePicker @bind-Value="Line.Brigades[i].People"></PeoplePicker></td>
+                                <td><InputNumber class="form-control form-control-sm" @bind-Value="brigade.Points" /></td>
+                                <td style="min-width:200px;"><PeoplePicker @bind-Value="brigade.People"></PeoplePicker></td>
                                 <td>
-                                    <Button Color="ButtonColor.Danger" Size="ButtonSize.Small" @onclick="@(async () => await RemoveBrigade(Line.Brigades[i]))"><Icon Name="IconName.Trash"></Icon></Button>
+                                    <Button Color="ButtonColor.Danger" Size="ButtonSize.Small" @onclick="@(async () => await RemoveBrigade(brigade))"><Icon Name="IconName.Trash"></Icon></Button>
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
+                    }
+                </tbody>
+            </table>
         </div>
-    }
+    </div>
 
     <div class="row">
         <div class="col-md-12 text-right">
