@@ -569,4 +569,19 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cIsActiveAssignment" xml:space="preserve">
         <value>Aktive Einträge</value>
     </data>
+    <data name="cNameTitle" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cEnd" xml:space="preserve">
+        <value>Ende</value>
+    </data>
+    <data name="cPoints" xml:space="preserve">
+        <value>Punkte</value>
+    </data>
+    <data name="cPeople" xml:space="preserve">
+        <value>Gespeichert</value>
+    </data>
+    <data name="cCapacity" xml:space="preserve">
+        <value>Anzahl</value>
+    </data>
 </root>

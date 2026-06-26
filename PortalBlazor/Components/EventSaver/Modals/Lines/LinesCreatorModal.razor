@@ -1,8 +1,11 @@
 @using PortalBlazor.Components.Controls.Pickers
 @using Resources.PortalResources
 @using ViewModels.RazorPages.EventSaver.Lines
-@using ViewModels.RazorPages.EventSaver.Lines.Brigades
-@using ViewModels.RazorPages.Users
+@using ModalSize = BlazorBootstrap.ModalSize
+
+
+
+<Modal @ref="_modal" IsScrollable="true" Size="ModalSize.Regular" Style="backdrop-filter: brightness(60%)"/>
 
 <EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
     <DataAnnotationsValidator/>
@@ -70,43 +73,83 @@
 
     <div class="row">
         <div class="col-md-12 text-end mb-2">
-            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade"><Icon Name="IconName.Plus"></Icon></Button>
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade">
+                <Icon Name="IconName.Plus"></Icon>
+            </Button>
         </div>
     </div>
     <div class="row">
         <div class="col-md-12">
             <table class="table table-sm table-striped">
                 <thead>
-                    <tr>
-                        <th>@PortalResources.cName</th>
-                        <th>Start</th>
-                        <th>End</th>
-                        <th>Points</th>
-                        <th>People</th>
-                        <th class="text-end"><Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade"><Icon Name="IconName.Plus"></Icon></Button></th>
-                    </tr>
+                <tr>
+                    <th>@PortalResources.cNameTitle</th>
+                    <th>@PortalResources.cStart</th>
+                    <th>@PortalResources.cEnd</th>
+                    <th>@PortalResources.cPoints</th>
+                    @* <th>@PortalResources.cPeople</th> *@
+                    @* <th>Koordynator</th> *@
+                    <th>@PortalResources.cCapacity</th>
+                    <th>@PortalResources.cVehicle</th>
+                    <th>Aktywna</th>
+                    <th class="text-end">
+                        <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small"
+                                @onclick="AddBrigade">
+                            <Icon Name="IconName.Plus"></Icon>
+                        </Button>
+                    </th>
+                </tr>
                 </thead>
                 <tbody>
-                    @if (Line.Brigades != null && Line.Brigades.Count > 0)
+                @if (Line.Brigades != null && Line.Brigades.Count > 0)
+                {
+                    @foreach (var brigade in Line.Brigades)
                     {
-                        @foreach (var brigade in Line.Brigades)
-                        {
-                            <tr>
-                                <td><InputText class="form-control form-control-sm" @bind-Value="brigade.Name" /></td>
-                                <td>
-                                    <input type="time" class="form-control form-control-sm" value="@brigade.StartHour.ToString("HH:mm")" @onchange="@(e => OnStartHourChanged(brigade, e.Value?.ToString()))" />
-                                </td>
-                                <td>
-                                    <input type="time" class="form-control form-control-sm" value="@brigade.EndHour.ToString("HH:mm")" @onchange="@(e => OnEndHourChanged(brigade, e.Value?.ToString()))" />
-                                </td>
-                                <td><InputNumber class="form-control form-control-sm" @bind-Value="brigade.Points" /></td>
-                                <td style="min-width:200px;"><PeoplePicker @bind-Value="brigade.People"></PeoplePicker></td>
-                                <td>
-                                    <Button Color="ButtonColor.Danger" Size="ButtonSize.Small" @onclick="@(async () => await RemoveBrigade(brigade))"><Icon Name="IconName.Trash"></Icon></Button>
-                                </td>
-                            </tr>
-                        }
+                        <tr>
+                            <td>
+                                <InputText class="form-control form-control-sm" @bind-Value="brigade.Name"/>
+                            </td>
+                            <td>
+                                <TimeInput type="time" class="form-control form-control-sm"
+                                           @bind-Value="brigade.StartHour"/>
+                            </td>
+                            <td>
+                                <TimeInput type="time" class="form-control form-control-sm"
+                                           @bind-Value="brigade.EndHour"/>
+                            </td>
+                            <td>
+                                <InputNumber class="form-control form-control-sm" style="width: 50px" @bind-Value="brigade.Points"/>
+                            </td>
+                            @* <td class ="people-picker"> *@
+                            @*     <PeoplePicker @bind-Value="brigade.People"/> *@
+                            @* </td> *@
+                            @* <td class="people-picker"> *@
+                            @*     <PersonPicker @bind-Value="brigade.Coordinator"/> *@
+                            @* </td> *@
+                            <td>
+                                <InputNumber class="form-control form-control-sm" style="width: 50px" @bind-Value="brigade.Capacity"/>
+                            </td>
+                            <td>
+                                <InputText class="form-control form-control-sm" @bind-Value="brigade.Vehicle"/>
+                            </td>
+                            <td class="text-center align-middle" style="width:80px;">
+                                <input type="checkbox" class="form-check-input" @bind="brigade.IsActive" />
+                            </td>
+                            <td>
+                                <Button Color="ButtonColor.Info" Size="ButtonSize.Small"
+                                        @onclick="@(async () => await EditDetails(brigade))">
+                                    <Icon Name="IconName.PencilSquare"></Icon>
+                                </Button>
+                            </td>
+                            <td>
+                                <Button Color="ButtonColor.Danger" Size="ButtonSize.Small"
+                                        @onclick="@(async () => await RemoveBrigade(brigade))">
+                                    <Icon Name="IconName.Trash"></Icon>
+                                </Button>
+                            </td>
+                        </tr>
                     }
+                }
                 </tbody>
             </table>
         </div>

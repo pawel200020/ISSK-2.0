@@ -1136,5 +1136,41 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cIsActiveAssignment", resourceCulture);
             }
         }
+        
+        public static string cNameTitle {
+            get {
+                return ResourceManager.GetString("cNameTitle", resourceCulture);
+            }
+        }
+        
+        public static string cStart {
+            get {
+                return ResourceManager.GetString("cStart", resourceCulture);
+            }
+        }
+        
+        public static string cEnd {
+            get {
+                return ResourceManager.GetString("cEnd", resourceCulture);
+            }
+        }
+        
+        public static string cPoints {
+            get {
+                return ResourceManager.GetString("cPoints", resourceCulture);
+            }
+        }
+        
+        public static string cPeople {
+            get {
+                return ResourceManager.GetString("cPeople", resourceCulture);
+            }
+        }
+        
+        public static string cCapacity {
+            get {
+                return ResourceManager.GetString("cCapacity", resourceCulture);
+            }
+        }
     }
 }

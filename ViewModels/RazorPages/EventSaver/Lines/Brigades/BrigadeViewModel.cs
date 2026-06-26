@@ -8,6 +8,10 @@ public class BrigadeViewModel
     public string Name { get; set; }
     public TimeOnly StartHour { get; set; }
     public TimeOnly EndHour { get; set; }
+    public int Capacity { get; set; }
+    public string Vehicle {get; set;}
     public double Points {get; set;}
+    public bool IsActive {get; set;}
+    public UserMetadataViewModel Coordinator { get; set; } = new();
     public IList<UserMetadataViewModel> People { get; set; } = new List<UserMetadataViewModel>();
 }

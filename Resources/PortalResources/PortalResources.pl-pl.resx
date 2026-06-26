@@ -572,4 +572,19 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cIsActiveAssignment" xml:space="preserve">
         <value>Zapisy aktywne</value>
     </data>
+    <data name="cNameTitle" xml:space="preserve">
+        <value>Nazwa</value>
+    </data>
+    <data name="cEnd" xml:space="preserve">
+        <value>Koniec</value>
+    </data>
+    <data name="cPoints" xml:space="preserve">
+        <value>Punkty</value>
+    </data>
+    <data name="cPeople" xml:space="preserve">
+        <value>Zapisani</value>
+    </data>
+    <data name="cCapacity" xml:space="preserve">
+        <value>Miejsca</value>
+    </data>
 </root>

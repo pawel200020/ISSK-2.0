@@ -77,3 +77,12 @@ h1:focus {
     flex-wrap: wrap;
 }
 
+/* Autocomplete dropdown portal override: allow results to escape modal and appear above other elements */
+.portal-autocomplete-results {
+    position: fixed !important;
+    z-index: 2000 !important;
+    min-width: 300px !important;
+    max-height: 60vh !important;
+    overflow-y: auto !important;
+}
+

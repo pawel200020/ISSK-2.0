@@ -76,7 +76,8 @@ public partial class SeasonsViewModal : ComponentBase
             { "OnDeleteClick", EventCallback.Factory.Create<MouseEventArgs>(this, OnDeleteConfirm) }
         };
 
-        await _deleteModal.ShowAsync<PortalBlazor.Components.Modals.ConfirmationModals.ConfirmDeleteModal>(
+        await _deleteModal.
+            ShowAsync<PortalBlazor.Components.Modals.ConfirmationModals.ConfirmDeleteModal>(
             title: PortalResources.cDelete, parameters: parameters);
     }
 

@@ -2,7 +2,7 @@
 @using ViewModels.RazorPages.Users
 
 <Autocomplete SearchMethod="SearchPeople"
-              @bind-Values="Value"
+              @bind-Value="Value"
               EnableDropDown="true"
               MaximumSuggestions="5" ResultContainerCSS="portal-autocomplete-results">
     <SelectedTemplate Context="user">
@@ -15,13 +15,13 @@
 @code {
 
     [Parameter]
-    public required IList<UserMetadataViewModel> Value { get; set; }
+    public required UserMetadataViewModel? Value { get; set; }
 
     [Parameter]
-    public EventCallback<IList<UserMetadataViewModel>> ValueChanged { get; set; }
+    public EventCallback<UserMetadataViewModel?> ValueChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<IList<UserMetadataViewModel>>>? ValueExpression { get; set; }
+    public Expression<Func<UserMetadataViewModel>>? ValueExpression { get; set; }
     
 
     private async Task<IEnumerable<UserMetadataViewModel>> SearchPeople(string text)

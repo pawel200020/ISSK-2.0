@@ -579,4 +579,22 @@ If you need assistance, please contact our support team.</value>
     <data name="cIsActiveAssignment" xml:space="preserve">
         <value>Assignments active</value>
     </data>
+    <data name="cNameTitle" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cStart" xml:space="preserve">
+        <value>Start</value>
+    </data>
+    <data name="cEnd" xml:space="preserve">
+        <value>End</value>
+    </data>
+    <data name="cPoints" xml:space="preserve">
+        <value>Points</value>
+    </data>
+    <data name="cPeople" xml:space="preserve">
+        <value>Assigned</value>
+    </data>
+    <data name="cCapacity" xml:space="preserve">
+        <value>Capacity</value>
+    </data>
 </root>
