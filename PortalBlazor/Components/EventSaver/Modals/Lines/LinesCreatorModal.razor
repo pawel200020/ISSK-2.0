@@ -60,10 +60,15 @@
             <CheckboxInput @bind-Value="Line.IsActive"/>
         </div>
     </div>
-    
+    <hr/>
     <div class="row">
         <div class="col-md-12">
-            <table class="table table-sm table-striped">
+            <h5>@PortalResources.cBrigade</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <table class="table table-sm brigade-table">
                 <thead>
                 <tr>
                     <th>@PortalResources.cNameTitle</th>
@@ -72,6 +77,8 @@
                     <th>@PortalResources.cCapacity</th>
                     <th>@PortalResources.cVehicle</th>
                     <th>@PortalResources.cActive</th>
+                    <th></th>
+                    <th><span class="visually-hidden">@PortalResources.cDelete</span></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -80,33 +87,33 @@
                     @foreach (var brigade in Line.Brigades)
                     {
                         <tr>
-                            <td>
+                            <td data-label="@PortalResources.cNameTitle">
                                 <InputText class="form-control form-control-sm" @bind-Value="brigade.Name"/>
                             </td>
-                            <td>
+                            <td data-label="@PortalResources.cStart">
                                 <TimeInput type="time" class="form-control form-control-sm"
                                            @bind-Value="brigade.StartHour"/>
                             </td>
-                            <td>
+                            <td data-label="@PortalResources.cEnd">
                                 <TimeInput type="time" class="form-control form-control-sm"
                                            @bind-Value="brigade.EndHour"/>
                             </td>
-                            <td>
-                                <InputNumber class="form-control form-control-sm" style="width: 50px" @bind-Value="brigade.Capacity"/>
+                            <td data-label="@PortalResources.cCapacity">
+                                <InputNumber class="form-control form-control-sm capacity-input" @bind-Value="brigade.Capacity"/>
                             </td>
-                            <td>
+                            <td data-label="@PortalResources.cVehicle">
                                 <InputText class="form-control form-control-sm" @bind-Value="brigade.Vehicle"/>
                             </td>
-                            <td class="text-center align-middle" style="width:80px;">
-                                <input type="checkbox" class="form-check-input" @bind="brigade.IsActive" />
+                            <td data-label="@PortalResources.cActive" class="brigade-active-cell">
+                                <input type="checkbox" class="form-check-input brigade-active-checkbox" @bind="brigade.IsActive" />
                             </td>
-                            <td>
+                            <td class="brigade-action-cell">
                                 <Button Color="ButtonColor.Info" Size="ButtonSize.Small"
                                         @onclick="@(async () => await EditDetails(brigade))">
                                     <Icon Name="IconName.PencilSquare"></Icon>
                                 </Button>
                             </td>
-                            <td>
+                            <td class="brigade-action-cell">
                                 <Button Color="ButtonColor.Danger" Size="ButtonSize.Small"
                                         @onclick="@(() => RemoveBrigade(brigade))">
                                     <Icon Name="IconName.Trash"></Icon>

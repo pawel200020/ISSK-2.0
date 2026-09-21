@@ -609,4 +609,7 @@ If you need assistance, please contact our support team.</value>
     <data name="cBrigadeDetails" xml:space="preserve">
         <value>Brigade details</value>
     </data>
+    <data name="cBrigade" xml:space="preserve">
+        <value>Brigades</value>
+    </data>
 </root>

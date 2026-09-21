@@ -1196,5 +1196,11 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cBrigadeDetails", resourceCulture);
             }
         }
+        
+        public static string cBrigade {
+            get {
+                return ResourceManager.GetString("cBrigade", resourceCulture);
+            }
+        }
     }
 }

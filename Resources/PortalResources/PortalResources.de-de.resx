@@ -596,4 +596,7 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cBrigadeDetails" xml:space="preserve">
         <value>Details zur Brigade</value>
     </data>
+    <data name="cBrigade" xml:space="preserve">
+        <value>Brigades</value>
+    </data>
 </root>

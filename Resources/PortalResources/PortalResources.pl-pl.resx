@@ -599,4 +599,7 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cBrigadeDetails" xml:space="preserve">
         <value>Szczegóły brygady</value>
     </data>
+    <data name="cBrigade" xml:space="preserve">
+        <value>Brygady</value>
+    </data>
 </root>
