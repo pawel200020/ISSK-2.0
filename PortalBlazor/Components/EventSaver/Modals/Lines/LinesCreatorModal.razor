@@ -1,11 +1,8 @@
 @using PortalBlazor.Components.Controls.Pickers
 @using Resources.PortalResources
 @using ViewModels.RazorPages.EventSaver.Lines
-@using ModalSize = BlazorBootstrap.ModalSize
 
-
-
-<Modal @ref="_modal" IsScrollable="true" Size="ModalSize.Regular" Style="backdrop-filter: brightness(60%)"/>
+<Modal @ref="_modal" IsScrollable="true" Size="BlazorBootstrap.ModalSize.Regular" Style="backdrop-filter: brightness(60%)"/>
 
 <EditForm EditContext="@_editContext" OnValidSubmit="HandleOnSubmit">
     <DataAnnotationsValidator/>
@@ -28,13 +25,6 @@
         <div class="col-md-7">
             <DateInput TValue="DateOnly?" @bind-Value="Line.Date"/>
             <ValidationMessage For="@(() => Line.Date)"/>
-        </div>
-    </div>
-    <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@PortalResources.cVehicle: <span class="text-danger">*</span></label>
-        <div class="col-md-7">
-            <TextInput TValue="DateOnly?" @bind-Value="Line.Vehicle"/>
-            <ValidationMessage For="@(() => Line.Vehicle)"/>
         </div>
     </div>
     <div class="form-group row mb-3">
@@ -70,14 +60,7 @@
             <CheckboxInput @bind-Value="Line.IsActive"/>
         </div>
     </div>
-
-    <div class="row">
-        <div class="col-md-12 text-end mb-2">
-            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade">
-                <Icon Name="IconName.Plus"></Icon>
-            </Button>
-        </div>
-    </div>
+    
     <div class="row">
         <div class="col-md-12">
             <table class="table table-sm table-striped">
@@ -86,18 +69,9 @@
                     <th>@PortalResources.cNameTitle</th>
                     <th>@PortalResources.cStart</th>
                     <th>@PortalResources.cEnd</th>
-                    <th>@PortalResources.cPoints</th>
-                    @* <th>@PortalResources.cPeople</th> *@
-                    @* <th>Koordynator</th> *@
                     <th>@PortalResources.cCapacity</th>
                     <th>@PortalResources.cVehicle</th>
-                    <th>Aktywna</th>
-                    <th class="text-end">
-                        <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small"
-                                @onclick="AddBrigade">
-                            <Icon Name="IconName.Plus"></Icon>
-                        </Button>
-                    </th>
+                    <th>@PortalResources.cActive</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -118,15 +92,6 @@
                                            @bind-Value="brigade.EndHour"/>
                             </td>
                             <td>
-                                <InputNumber class="form-control form-control-sm" style="width: 50px" @bind-Value="brigade.Points"/>
-                            </td>
-                            @* <td class ="people-picker"> *@
-                            @*     <PeoplePicker @bind-Value="brigade.People"/> *@
-                            @* </td> *@
-                            @* <td class="people-picker"> *@
-                            @*     <PersonPicker @bind-Value="brigade.Coordinator"/> *@
-                            @* </td> *@
-                            <td>
                                 <InputNumber class="form-control form-control-sm" style="width: 50px" @bind-Value="brigade.Capacity"/>
                             </td>
                             <td>
@@ -143,7 +108,7 @@
                             </td>
                             <td>
                                 <Button Color="ButtonColor.Danger" Size="ButtonSize.Small"
-                                        @onclick="@(async () => await RemoveBrigade(brigade))">
+                                        @onclick="@(() => RemoveBrigade(brigade))">
                                     <Icon Name="IconName.Trash"></Icon>
                                 </Button>
                             </td>
@@ -154,13 +119,21 @@
             </table>
         </div>
     </div>
+    
+    <div class="row">
+        <div class="col-md-12 mb-2">
+            <Button Type="ButtonType.Button" Color="ButtonColor.Primary" Size="ButtonSize.Small" @onclick="AddBrigade">
+                <Icon Name="IconName.Plus"></Icon> @PortalResources.cAddRow
+            </Button>
+        </div>
+    </div>
 
     <div class="row">
         <div class="col-md-12 text-right">
             <Button Type="ButtonType.Submit" Color="ButtonColor.Success"
                     Class="float-end me-2">@PortalResources.cSave</Button>
             <Button Type="ButtonType.Button" Color="ButtonColor.Danger" Class="float-end me-2"
-                    @onclick="Close">@PortalResources.cCancel</Button>
+                    @onclick="OnCloseCallback" >@PortalResources.cCancel</Button>
         </div>
     </div>
 

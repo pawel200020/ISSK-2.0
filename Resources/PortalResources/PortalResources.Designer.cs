@@ -1172,5 +1172,29 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cCapacity", resourceCulture);
             }
         }
+        
+        public static string cBrigadeManager {
+            get {
+                return ResourceManager.GetString("cBrigadeManager", resourceCulture);
+            }
+        }
+        
+        public static string cAddRow {
+            get {
+                return ResourceManager.GetString("cAddRow", resourceCulture);
+            }
+        }
+        
+        public static string cActive {
+            get {
+                return ResourceManager.GetString("cActive", resourceCulture);
+            }
+        }
+        
+        public static string cBrigadeDetails {
+            get {
+                return ResourceManager.GetString("cBrigadeDetails", resourceCulture);
+            }
+        }
     }
 }

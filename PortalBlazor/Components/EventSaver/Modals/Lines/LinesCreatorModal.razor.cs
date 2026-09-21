@@ -16,8 +16,8 @@ public partial class LinesCreatorModal : ComponentBase
     private EditContext? _editContext;
     private Modal _modal = default!;
 
-    [Parameter] public LineViewModel Line { get; set; } = new LineViewModel { Id = Guid.NewGuid().ToString(), };
-
+    [Parameter] public LineViewModel Line { get; set; } = new() { Id = Guid.NewGuid().ToString(), };
+    [Parameter] public required Func<Task> OnCloseCallback { get; set; }
     [Inject] ISeasonsGetter SeasonsGetter { get; set; } = null!;
     [Inject] IMapper Mapper { get; set; } = null!;
 
@@ -29,7 +29,6 @@ public partial class LinesCreatorModal : ComponentBase
 
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        // ensure edit context is recreated when parameter changes
         if (parameters.TryGetValue<LineViewModel>(nameof(Line), out var newLine) && newLine != Line)
         {
             Line = newLine;
@@ -44,11 +43,6 @@ public partial class LinesCreatorModal : ComponentBase
         await Task.CompletedTask;
     }
 
-    private Task Close()
-    {
-        return Task.CompletedTask;
-    }
-
     private async Task<AutoCompleteDataProviderResult<SeasonViewModel>> CustomersDataProvider(AutoCompleteDataProviderRequest<LineViewModel> request)
     {
         var seasons = (await SeasonsGetter.SearchSeason(request.Filter.Value))!
@@ -56,21 +50,9 @@ public partial class LinesCreatorModal : ComponentBase
         return await Task.FromResult(new AutoCompleteDataProviderResult<SeasonViewModel> { Data = seasons, TotalCount = 5});
     }
 
-    private async Task<AutoCompleteDataProviderResult<SeasonViewModel>> SeasonDataProvider(AutoCompleteDataProviderRequest<SeasonViewModel> request)
-    {
-        var seasons = (await SeasonsGetter.SearchSeason(request.Filter.Value))!
-            .Select(s => Mapper.Map<SeasonViewModel>(s));
-        return await Task.FromResult(new AutoCompleteDataProviderResult<SeasonViewModel> { Data = seasons, TotalCount = seasons.Count()});
-    }
-
-    private Task<GridDataProviderResult<BrigadeViewModel>> BrigadeProvider(GridDataProviderRequest<BrigadeViewModel> request)
-    {
-        return Task.FromResult(new GridDataProviderResult<BrigadeViewModel> { Data = new List<BrigadeViewModel>(), TotalCount = 0 });
-    }
-
     public async Task AddBrigade()
     {
-        if (Line.Brigades == null) Line.Brigades = new List<BrigadeViewModel>();
+        Line.Brigades ??= new List<BrigadeViewModel>();
 
         Line.Brigades.Add(new BrigadeViewModel
         {
@@ -85,38 +67,30 @@ public partial class LinesCreatorModal : ComponentBase
         await InvokeAsync(StateHasChanged);
     }
 
-    public Task RemoveBrigade(BrigadeViewModel brigade)
-    {
-        if (Line.Brigades != null)
-            Line.Brigades.Remove(brigade);
-        return Task.CompletedTask;
-    }
+    private void RemoveBrigade(BrigadeViewModel brigade) 
+        => Line.Brigades?.Remove(brigade);
 
-    public void OnStartHourChanged(BrigadeViewModel? brigade, string? value)
-    {
-        if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
-        if (TimeOnly.TryParse(value, out var t))
-        {
-            brigade.StartHour = t;
-        }
-    }
-
-    public void OnEndHourChanged(BrigadeViewModel brigade, string? value)
-    {
-        if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
-        if (TimeOnly.TryParse(value, out var t))
-        {
-            brigade.EndHour = t;
-        }
-    }
+    // public void OnStartHourChanged(BrigadeViewModel? brigade, string? value)
+    // {
+    //     if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
+    //     if (TimeOnly.TryParse(value, out var t))
+    //     {
+    //         brigade.StartHour = t;
+    //     }
+    // }
+    //
+    // public void OnEndHourChanged(BrigadeViewModel brigade, string? value)
+    // {
+    //     if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
+    //     if (TimeOnly.TryParse(value, out var t))
+    //     {
+    //         brigade.EndHour = t;
+    //     }
+    // }
 
     private async Task EditDetails(BrigadeViewModel brigade)
     {
-        
-        var parameters = new Dictionary<string, object>()
-        {
-            { "Brigade", brigade}
-        };
-        await _modal.ShowAsync<BrigadeDetailsModal>(title: PortalResources.cLine, parameters: parameters);
+        var parameters = new Dictionary<string, object>() { { "Brigade", brigade} };
+        await _modal.ShowAsync<BrigadeDetailsModal>(title: PortalResources.cBrigadeDetails, parameters: parameters);
     }
 }

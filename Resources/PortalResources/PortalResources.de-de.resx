@@ -584,4 +584,16 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cCapacity" xml:space="preserve">
         <value>Anzahl</value>
     </data>
+    <data name="cBrigadeManager" xml:space="preserve">
+        <value>Leiter</value>
+    </data>
+    <data name="cAddRow" xml:space="preserve">
+        <value>Hinzufügen</value>
+    </data>
+    <data name="cActive" xml:space="preserve">
+        <value>Aktiv</value>
+    </data>
+    <data name="cBrigadeDetails" xml:space="preserve">
+        <value>Details zur Brigade</value>
+    </data>
 </root>

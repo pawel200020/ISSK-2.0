@@ -1,17 +1,24 @@
 @using System.Linq.Expressions
 @using ViewModels.RazorPages.Users
 
-<Autocomplete SearchMethod="SearchPeople"
-              @bind-Values="Value"
-              EnableDropDown="true"
-              MaximumSuggestions="5" ResultContainerCSS="portal-autocomplete-results">
-    <SelectedTemplate Context="user">
-        @user.FirstName
-    </SelectedTemplate>
-    <ResultTemplate Context="user">
-        @user.FirstName @user.LastName (@user.Email)
-    </ResultTemplate>
-</Autocomplete>
+@namespace PortalBlazor.Components.Controls.Pickers
+
+@*<div class="user-picker-custom">*@
+   <Autocomplete SearchMethod="SearchPeople"
+                 @bind-Values="Value"
+                 EnableDropDown="true"
+                 MaximumSuggestions="5" 
+                 ResultContainerCSS="portal-autocomplete-results"
+                 Style="width: 50px">
+        <SelectedTemplate Context="user">
+            @user.FirstName
+        </SelectedTemplate>
+        <ResultTemplate Context="user">
+            @user.FirstName @user.LastName (@user.Email)
+        </ResultTemplate>
+    </Autocomplete>
+@*</div>*@
+
 @code {
 
     [Parameter]

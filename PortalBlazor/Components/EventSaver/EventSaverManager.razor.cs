@@ -12,12 +12,17 @@ namespace PortalBlazor.Components.EventSaver;
 
 public partial class EventSaverManager : ComponentBase
 {
+    private Modal _modal = default!;
     [Inject] private ILinesGetter LinesGetter { get; init; }
     [Inject] private IMapper Mapper { get; set; } = null!;
     
     private async Task CreateNewEvent()
     {
-        await _modal.ShowAsync<LinesCreatorModal>(title: PortalResources.cLine);
+        await _modal.ShowAsync<LinesCreatorModal>(title: PortalResources.cLine, 
+            parameters: new Dictionary<string, object> { { "OnCloseCallback", Close } });
+        return;
+
+        async Task Close() => await _modal.HideAsync();
     }
 
     private Task ExcelExport()
@@ -38,7 +43,4 @@ public partial class EventSaverManager : ComponentBase
         var totalCount = await LinesGetter.GetLinesCount();
         return new GridDataProviderResult<LineViewModel> { Data = data, TotalCount = totalCount };
     }
-    
-    
-    
 }

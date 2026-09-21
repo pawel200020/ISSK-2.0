@@ -1,6 +1,5 @@
 @using PortalBlazor.Components.Controls.Pickers
 @using Resources.PortalResources
-@using ViewModels.RazorPages.EventSaver.Lines
 @using ViewModels.RazorPages.EventSaver.Lines.Brigades
 <EditForm EditContext="@_editContext">
     <div class="form-group row mb-3">
@@ -18,7 +17,7 @@
     </div>
     
     <div class="form-group row mb-3">
-        <label class="col-md-5 col-form-label">@PortalResources.cCoordinator:</label>
+        <label class="col-md-5 col-form-label">@PortalResources.cBrigadeManager:</label>
         <div class="col-md-7">
             <PersonPicker @bind-Value="Brigade.Coordinator"/> 
         </div>

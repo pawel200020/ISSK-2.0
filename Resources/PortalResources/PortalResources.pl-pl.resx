@@ -587,4 +587,16 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cCapacity" xml:space="preserve">
         <value>Miejsca</value>
     </data>
+    <data name="cBrigadeManager" xml:space="preserve">
+        <value>Kierownik</value>
+    </data>
+    <data name="cAddRow" xml:space="preserve">
+        <value>Dodaj</value>
+    </data>
+    <data name="cActive" xml:space="preserve">
+        <value>Aktywna</value>
+    </data>
+    <data name="cBrigadeDetails" xml:space="preserve">
+        <value>Szczegóły brygady</value>
+    </data>
 </root>

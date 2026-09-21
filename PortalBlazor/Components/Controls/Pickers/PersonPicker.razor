@@ -1,17 +1,20 @@
 @using System.Linq.Expressions
 @using ViewModels.RazorPages.Users
 
-<Autocomplete SearchMethod="SearchPeople"
-              @bind-Value="Value"
-              EnableDropDown="true"
-              MaximumSuggestions="5" ResultContainerCSS="portal-autocomplete-results">
-    <SelectedTemplate Context="user">
-        @user.FirstName
-    </SelectedTemplate>
-    <ResultTemplate Context="user">
-        @user.FirstName @user.LastName (@user.Email)
-    </ResultTemplate>
-</Autocomplete>
+<div >
+    <Autocomplete SearchMethod="SearchPeople"
+                  @bind-Value="Value"
+                  EnableDropDown="true"
+                  MaximumSuggestions="5">
+        
+        <SelectedTemplate Context="user">
+            @user.FirstName
+        </SelectedTemplate>
+        <ResultTemplate Context="user">
+            @user.FirstName @user.LastName (@user.Email)
+        </ResultTemplate>
+    </Autocomplete>
+</div>
 @code {
 
     [Parameter]
