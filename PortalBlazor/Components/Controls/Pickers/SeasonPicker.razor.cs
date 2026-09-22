@@ -15,7 +15,6 @@ public partial class SeasonPicker : ComponentBase
     [Parameter] public Expression<Func<SeasonViewModel?>>? ValueExpression { get; set; }
     private async Task<IEnumerable<SeasonViewModel>> SeasonDataProvider(string searchPhrase)
     {
-        //return [];
           return (await SeasonsGetter.SearchSeason(searchPhrase))!
          .Select(s => Mapper.Map<SeasonViewModel>(s));
 

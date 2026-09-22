@@ -15,11 +15,12 @@ public partial class EventSaverManager : ComponentBase
     private Modal _modal = default!;
     [Inject] private ILinesGetter LinesGetter { get; init; }
     [Inject] private IMapper Mapper { get; set; } = null!;
-    
+
     private async Task CreateNewEvent()
     {
-        await _modal.ShowAsync<LinesCreatorModal>(title: PortalResources.cLine, 
-            parameters: new Dictionary<string, object> { { "OnCloseCallback", Close } });
+        await _modal.ShowAsync<LinesCreatorModal>(title: PortalResources.cLine,
+            parameters: new Dictionary<string, object>
+                { { "OnCloseCallback", Close }, { "Line", new LineViewModel() { Id = Guid.NewGuid().ToString() } } });
         return;
 
         async Task Close() => await _modal.HideAsync();
@@ -34,7 +35,7 @@ public partial class EventSaverManager : ComponentBase
     {
         await _modal.ShowAsync<SeasonsViewModal>(title: PortalResources.cSeason);
     }
-    
+
     private async Task<GridDataProviderResult<LineViewModel>> ReadData(GridDataProviderRequest<LineViewModel> request)
     {
         StateHasChanged();

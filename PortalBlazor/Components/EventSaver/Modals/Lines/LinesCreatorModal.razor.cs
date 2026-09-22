@@ -16,7 +16,7 @@ public partial class LinesCreatorModal : ComponentBase
     private EditContext? _editContext;
     private Modal _modal = default!;
 
-    [Parameter] public LineViewModel Line { get; set; } = new() { Id = Guid.NewGuid().ToString(), };
+    [Parameter] public required LineViewModel Line { get; set; }
     [Parameter] public required Func<Task> OnCloseCallback { get; set; }
     [Inject] ISeasonsGetter SeasonsGetter { get; set; } = null!;
     [Inject] IMapper Mapper { get; set; } = null!;
@@ -58,9 +58,11 @@ public partial class LinesCreatorModal : ComponentBase
         {
             Id = Guid.NewGuid().ToString(),
             Name = string.Empty,
-            StartHour = new TimeOnly(0,0),
-            EndHour = new TimeOnly(0,0),
-            Points = 0,
+            StartHour = new TimeOnly(9,0),
+            EndHour = new TimeOnly(17,0),
+            Points = 1,
+            Capacity = 4,
+            IsActive = true,
             People = new List<UserMetadataViewModel>()
         });
 
@@ -69,24 +71,6 @@ public partial class LinesCreatorModal : ComponentBase
 
     private void RemoveBrigade(BrigadeViewModel brigade) 
         => Line.Brigades?.Remove(brigade);
-
-    // public void OnStartHourChanged(BrigadeViewModel? brigade, string? value)
-    // {
-    //     if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
-    //     if (TimeOnly.TryParse(value, out var t))
-    //     {
-    //         brigade.StartHour = t;
-    //     }
-    // }
-    //
-    // public void OnEndHourChanged(BrigadeViewModel brigade, string? value)
-    // {
-    //     if (brigade is null || string.IsNullOrWhiteSpace(value)) return;
-    //     if (TimeOnly.TryParse(value, out var t))
-    //     {
-    //         brigade.EndHour = t;
-    //     }
-    // }
 
     private async Task EditDetails(BrigadeViewModel brigade)
     {

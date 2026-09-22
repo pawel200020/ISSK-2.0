@@ -578,6 +578,9 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cEnd" xml:space="preserve">
         <value>Koniec</value>
     </data>
+    <data name="cStartHourMustBeBeforeEndHour" xml:space="preserve">
+        <value>Godzina rozpoczęcia musi być wcześniejsza niż godzina zakończenia.</value>
+    </data>
     <data name="cPoints" xml:space="preserve">
         <value>Punkty</value>
     </data>

@@ -12,6 +12,6 @@ public class BrigadeViewModel
     public string Vehicle {get; set;}
     public double Points {get; set;}
     public bool IsActive {get; set;}
-    public UserMetadataViewModel Coordinator { get; set; } = new();
+    public UserMetadataViewModel? Coordinator { get; set; }
     public IList<UserMetadataViewModel> People { get; set; } = new List<UserMetadataViewModel>();
 }

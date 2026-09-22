@@ -4,7 +4,8 @@ namespace ViewModels.RazorPages.Users;
 
 public sealed class UserLoginViewModel
 {
-    [Required] public string UserName { get; set; } = "";
+    [Required(ErrorMessageResourceName = "cRequiredField",  ErrorMessageResourceType = typeof(Resources.PortalResources.PortalResources))] 
+    public string UserName { get; set; } = "";
 
     [Required]
     [DataType(DataType.Password)]

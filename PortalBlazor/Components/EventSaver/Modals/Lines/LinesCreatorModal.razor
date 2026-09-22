@@ -49,7 +49,7 @@
     <div class="form-group row mb-3">
         <label class="col-md-5 col-form-label">@PortalResources.cCoordinator: <span class="text-danger">*</span></label>
         <div class="col-md-7">
-            <PeoplePicker @bind-Value="Line.Supervisor"></PeoplePicker>
+            <PersonPicker @bind-Value="Line.Supervisor"></PersonPicker>
             <ValidationMessage For="@(() => Line.Supervisor)"/>
         </div>
     </div>
@@ -97,9 +97,11 @@
                             <td data-label="@PortalResources.cEnd">
                                 <TimeInput type="time" class="form-control form-control-sm"
                                            @bind-Value="brigade.EndHour"/>
+                                <ValidationMessage For="@(() => brigade.EndHour)"/>
                             </td>
                             <td data-label="@PortalResources.cCapacity">
-                                <InputNumber class="form-control form-control-sm capacity-input" @bind-Value="brigade.Capacity"/>
+                                <NumberInput class="form-control form-control-sm capacity-input" TValue="int" EnableMinMax="true" Min="1" Max="999" 
+                                             @bind-Value="brigade.Capacity"/>
                             </td>
                             <td data-label="@PortalResources.cVehicle">
                                 <InputText class="form-control form-control-sm" @bind-Value="brigade.Vehicle"/>

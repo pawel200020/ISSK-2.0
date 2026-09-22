@@ -1154,6 +1154,12 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cEnd", resourceCulture);
             }
         }
+
+        public static string cStartHourMustBeBeforeEndHour {
+            get {
+                return ResourceManager.GetString("cStartHourMustBeBeforeEndHour", resourceCulture);
+            }
+        }
         
         public static string cPoints {
             get {
