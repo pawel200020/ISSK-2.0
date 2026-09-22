@@ -203,6 +203,9 @@
     <data name="cRequiredField" xml:space="preserve">
         <value>Dieses Feld ist erforderlich</value>
     </data>
+    <data name="cAtLeastOneBrigadeRequired" xml:space="preserve">
+        <value>Mindestens eine Brigade ist erforderlich</value>
+    </data>
     <data name="cUseSsl" xml:space="preserve">
         <value>Verwenden Sie eine SSL-Verbindung:</value>
     </data>

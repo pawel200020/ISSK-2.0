@@ -428,6 +428,12 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cRequiredField", resourceCulture);
             }
         }
+
+        public static string cAtLeastOneBrigadeRequired {
+            get {
+                return ResourceManager.GetString("cAtLeastOneBrigadeRequired", resourceCulture);
+            }
+        }
         
         public static string cUseSsl {
             get {

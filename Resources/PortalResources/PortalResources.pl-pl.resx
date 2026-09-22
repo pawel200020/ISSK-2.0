@@ -203,6 +203,9 @@
     <data name="cRequiredField" xml:space="preserve">
         <value>to pole jest wymagane</value>
     </data>
+    <data name="cAtLeastOneBrigadeRequired" xml:space="preserve">
+        <value>Wymagana jest co najmniej jedna brygada</value>
+    </data>
     <data name="cUseSsl" xml:space="preserve">
         <value>Użyj połączenia SSL:</value>
     </data>

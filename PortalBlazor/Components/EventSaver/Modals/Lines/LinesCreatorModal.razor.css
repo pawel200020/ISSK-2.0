@@ -48,7 +48,8 @@
     }
 
     .brigade-table tbody td {
-        display: flex;
+        display: grid;
+        grid-template-columns: minmax(0, 34%) minmax(0, 1fr);
         align-items: center;
         gap: 0.75rem;
         padding: 0.35rem 0;
@@ -56,18 +57,24 @@
     }
 
     .brigade-table tbody td[data-label]::before {
-        flex: 0 0 34%;
         font-weight: 600;
         content: attr(data-label);
     }
 
     .brigade-table tbody td[data-label] > * {
         min-width: 0;
-        flex: 1 1 auto;
+        grid-column: 2;
+    }
+
+    .brigade-table tbody td[data-label] > .brigade-field {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.25rem;
     }
 
     .brigade-table tbody td[data-label] > .brigade-active-checkbox {
-        flex: 0 0 auto;
+        justify-self: start;
         width: 1em;
         height: 1em;
     }

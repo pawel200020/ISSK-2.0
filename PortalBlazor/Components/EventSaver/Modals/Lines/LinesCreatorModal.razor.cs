@@ -1,6 +1,7 @@
 using AutoMapper;
 using BlazorBootstrap;
 using EventsSaver.Shared.Managers.Seasons;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Resources.PortalResources;
@@ -14,6 +15,7 @@ namespace PortalBlazor.Components.EventSaver.Modals.Lines;
 public partial class LinesCreatorModal : ComponentBase
 {
     private EditContext? _editContext;
+    private ValidationMessageStore? _brigadeValidationMessages;
     private Modal _modal = default!;
 
     [Parameter] public required LineViewModel Line { get; set; }
@@ -23,7 +25,7 @@ public partial class LinesCreatorModal : ComponentBase
 
     protected override void OnInitialized()
     {
-        _editContext = new EditContext(Line);
+        CreateEditContext();
         base.OnInitialized();
     }
 
@@ -32,9 +34,78 @@ public partial class LinesCreatorModal : ComponentBase
         if (parameters.TryGetValue<LineViewModel>(nameof(Line), out var newLine) && newLine != Line)
         {
             Line = newLine;
-            _editContext = new EditContext(Line);
+            CreateEditContext();
         }
         return base.SetParametersAsync(parameters);
+    }
+
+    private void CreateEditContext()
+    {
+        _editContext = new EditContext(Line);
+        _brigadeValidationMessages = new ValidationMessageStore(_editContext);
+        _editContext.OnValidationRequested += ValidateBrigades;
+        _editContext.OnFieldChanged += ValidateBrigadeField;
+    }
+
+    private void ValidateBrigades(object? sender, ValidationRequestedEventArgs args)
+    {
+        if (_brigadeValidationMessages is null)
+            return;
+
+        _brigadeValidationMessages.Clear();
+
+        if (Line.Brigades is null || Line.Brigades.Count == 0)
+        {
+            _brigadeValidationMessages.Add(
+                new FieldIdentifier(Line, nameof(Line.Brigades)),
+                PortalResources.cAtLeastOneBrigadeRequired);
+            return;
+        }
+
+        foreach (var brigade in Line.Brigades)
+        {
+            var validationResults = new List<ValidationResult>();
+            Validator.TryValidateObject(brigade, new ValidationContext(brigade), validationResults, true);
+
+            foreach (var validationResult in validationResults)
+            {
+                foreach (var memberName in validationResult.MemberNames)
+                {
+                    _brigadeValidationMessages.Add(
+                        new FieldIdentifier(brigade, memberName),
+                        validationResult.ErrorMessage ?? string.Empty);
+                }
+            }
+        }
+
+    }
+
+    private void ValidateBrigadeField(object? sender, FieldChangedEventArgs args)
+    {
+        if (_brigadeValidationMessages is null ||
+            args.FieldIdentifier.Model is not BrigadeViewModel brigade)
+            return;
+
+        _brigadeValidationMessages.Clear(args.FieldIdentifier);
+
+        var property = brigade.GetType().GetProperty(args.FieldIdentifier.FieldName);
+        if (property is null)
+            return;
+
+        var validationResults = new List<ValidationResult>();
+        Validator.TryValidateProperty(
+            property.GetValue(brigade),
+            new ValidationContext(brigade) { MemberName = args.FieldIdentifier.FieldName },
+            validationResults);
+
+        foreach (var validationResult in validationResults)
+        {
+            _brigadeValidationMessages.Add(
+                args.FieldIdentifier,
+                validationResult.ErrorMessage ?? string.Empty);
+        }
+
+        _editContext?.NotifyValidationStateChanged();
     }
 
     private async Task HandleOnSubmit()
@@ -66,11 +137,24 @@ public partial class LinesCreatorModal : ComponentBase
             People = new List<UserMetadataViewModel>()
         });
 
+        ClearBrigadeCountValidation();
         await InvokeAsync(StateHasChanged);
     }
 
-    private void RemoveBrigade(BrigadeViewModel brigade) 
-        => Line.Brigades?.Remove(brigade);
+    private void RemoveBrigade(BrigadeViewModel brigade)
+    {
+        Line.Brigades?.Remove(brigade);
+        ClearBrigadeCountValidation();
+    }
+
+    private void ClearBrigadeCountValidation()
+    {
+        if (_editContext is null || _brigadeValidationMessages is null)
+            return;
+
+        _brigadeValidationMessages.Clear(new FieldIdentifier(Line, nameof(Line.Brigades)));
+        _editContext.NotifyValidationStateChanged();
+    }
 
     private async Task EditDetails(BrigadeViewModel brigade)
     {

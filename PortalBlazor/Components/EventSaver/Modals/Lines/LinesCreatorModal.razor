@@ -88,23 +88,34 @@
                     {
                         <tr>
                             <td data-label="@PortalResources.cNameTitle">
-                                <InputText class="form-control form-control-sm" @bind-Value="brigade.Name"/>
+                                <div class="brigade-field">
+                                    <InputText class="form-control form-control-sm" @bind-Value="brigade.Name"/>
+                                    <ValidationMessage For="@(() => brigade.Name)"/>
+                                </div>
                             </td>
                             <td data-label="@PortalResources.cStart">
                                 <TimeInput type="time" class="form-control form-control-sm"
                                            @bind-Value="brigade.StartHour"/>
                             </td>
                             <td data-label="@PortalResources.cEnd">
-                                <TimeInput type="time" class="form-control form-control-sm"
-                                           @bind-Value="brigade.EndHour"/>
-                                <ValidationMessage For="@(() => brigade.EndHour)"/>
+                                <div class="brigade-field">
+                                    <TimeInput type="time" class="form-control form-control-sm"
+                                               @bind-Value="brigade.EndHour"/>
+                                    <ValidationMessage For="@(() => brigade.EndHour)"/>
+                                </div>
                             </td>
                             <td data-label="@PortalResources.cCapacity">
-                                <NumberInput class="form-control form-control-sm capacity-input" TValue="int" EnableMinMax="true" Min="1" Max="999" 
-                                             @bind-Value="brigade.Capacity"/>
+                                <div class="brigade-field">
+                                    <NumberInput class="form-control form-control-sm capacity-input" TValue="int" EnableMinMax="true" Min="1" Max="999" 
+                                                 @bind-Value="brigade.Capacity"/>
+                                    <ValidationMessage For="@(() => brigade.Capacity)"/>
+                                </div>
                             </td>
                             <td data-label="@PortalResources.cVehicle">
-                                <InputText class="form-control form-control-sm" @bind-Value="brigade.Vehicle"/>
+                                <div class="brigade-field">
+                                    <InputText class="form-control form-control-sm" @bind-Value="brigade.Vehicle"/>
+                                    <ValidationMessage For="@(() => brigade.Vehicle)"/>
+                                </div>
                             </td>
                             <td data-label="@PortalResources.cActive" class="brigade-active-cell">
                                 <input type="checkbox" class="form-check-input brigade-active-checkbox" @bind="brigade.IsActive" />
@@ -126,6 +137,7 @@
                 }
                 </tbody>
             </table>
+            <ValidationMessage For="@(() => Line.Brigades)"/>
         </div>
     </div>
     
