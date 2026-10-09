@@ -428,7 +428,7 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cRequiredField", resourceCulture);
             }
         }
-
+        
         public static string cAtLeastOneBrigadeRequired {
             get {
                 return ResourceManager.GetString("cAtLeastOneBrigadeRequired", resourceCulture);
@@ -1160,7 +1160,7 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cEnd", resourceCulture);
             }
         }
-
+        
         public static string cStartHourMustBeBeforeEndHour {
             get {
                 return ResourceManager.GetString("cStartHourMustBeBeforeEndHour", resourceCulture);
@@ -1212,6 +1212,30 @@ namespace Resources.PortalResources {
         public static string cBrigade {
             get {
                 return ResourceManager.GetString("cBrigade", resourceCulture);
+            }
+        }
+        
+        public static string cAuthenticationProviders {
+            get {
+                return ResourceManager.GetString("cAuthenticationProviders", resourceCulture);
+            }
+        }
+        
+        public static string cExternalLogin {
+            get {
+                return ResourceManager.GetString("cExternalLogin", resourceCulture);
+            }
+        }
+        
+        public static string cClientId {
+            get {
+                return ResourceManager.GetString("cClientId", resourceCulture);
+            }
+        }
+        
+        public static string cClientSecret {
+            get {
+                return ResourceManager.GetString("cClientSecret", resourceCulture);
             }
         }
     }

@@ -190,6 +190,38 @@
             </div>
         </div>
     }
+    
+    <hr/>
+    <div class="row mb-3">
+    <h5>@PortalResources.cExternalLoginServices</h5>
+    </div>
+    @foreach (var provider in DataSource.ExternalLoginProviders)
+    {
+        <h6>@provider.Name</h6>
+        <div class="form-group row mb-3">
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cActive</label>
+            <div class="col-md-4 col-sm-4 row-flex-item">
+                <Switch Class="form-checkbox" @bind-Value="DataSource.SmtpConfiguration.UseSsl"/>
+                <TooltipInfo Content="@PortalResources.cUseSslInfo"></TooltipInfo>
+            </div>
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cClientId</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@provider.ClientId"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => provider.ClientId)"/>
+            </div>
+            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cClientSecret</label>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <TextInput @bind-Value="@provider.ClientSecret"/>
+            </div>
+            <div class="col-md-4 col-sm-6 row-flex-item">
+                <ValidationMessage For="@(() => provider.ClientSecret)"/>
+            </div>
+        </div> 
+    }
+         
+    
 </EditForm>
 
 

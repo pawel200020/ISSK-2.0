@@ -20,7 +20,7 @@ internal class UserEmailConfirmation : IUserEmailConfirmation
     private readonly IEmailService _emailService;
 
     public UserEmailConfirmation(IEditUsersRepository editUsersRepository, NavigationManager navigationManager,
-        IReadUsersRepository readUsersRepository, IEmailSender<ApplicationUser> emailSender, IEmailService emailService)
+        IReadUsersRepository readUsersRepository, IEmailService emailService)
     {
         _editUsersRepository = editUsersRepository ?? throw new ArgumentNullException(nameof(editUsersRepository));
         _navigationManager = navigationManager ?? throw new ArgumentNullException(nameof(navigationManager));

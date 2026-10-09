@@ -1,4 +1,5 @@
 @using System.Linq.Expressions
+@using Users.Shared.Managers.Read
 @using ViewModels.RazorPages.Users
 
 <div >
@@ -30,6 +31,8 @@
     [Parameter]
     public Expression<Func<UserMetadataViewModel?>>? ValueExpression { get; set; }
     
+    [Inject]
+    public IUserMetadataGetter UserMetadataGetter { get; set; } = null!;
 
     private async Task OnValueChanged(UserMetadataViewModel? newValue)
     {
@@ -39,6 +42,7 @@
 
     private async Task<IEnumerable<UserMetadataViewModel>> SearchPeople(string text)
     {
+        //var data = await UserMetadataGetter.GetUserMetadataAsync();
         return await Task.FromResult<UserMetadataViewModel []>([new UserMetadataViewModel { FirstName = "Maciej", LastName = "Kowalski", Email = "maciej.kowalski@example.com", Id = "1" }, new UserMetadataViewModel { FirstName = "Mikołaj", LastName = "Nowak", Email = "mikolaj.nowak@example.com", Id = "2" }]);
     }
 }

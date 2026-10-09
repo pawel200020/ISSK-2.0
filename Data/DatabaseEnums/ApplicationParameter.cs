@@ -15,4 +15,5 @@ public enum ApplicationParameter
     SmtpConfiguration = 7,
     IsRedirectEmailEnabled = 8,
     EmailRedirectAddress = 9,
+    ExternalLoginProviders = 10
 }

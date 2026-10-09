@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Resources.PortalResources;
+using ViewModels.RazorPages.Configuration.Users;
 
 namespace ViewModels.RazorPages.Configuration;
 
@@ -15,6 +16,7 @@ public class ApplicationConfigurationViewModel :IValidatableObject
     public bool IsEmailRedirect { get; set; }
     public string ? EmailRedirectAddress { get; set; }
     public SmtpConfigurationViewModel? SmtpConfiguration { get; set; }
+    public IEnumerable<ExternalLoginProviderViewModel> ExternalLoginProviders { get; set; } = [];
 
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

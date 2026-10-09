@@ -1,3 +1,4 @@
+using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Notifications;
 
 namespace Configuration.Shared;
@@ -14,4 +15,5 @@ public interface IApplicationConfiguration
     string? EmailRedirectAddress { get; set; }
     EmailSendMode EmailSendMode { get; set; }
     ISmtpConfiguration? SmtpConfiguration { get; set; }
+    IEnumerable<IExternalLoginProvider> ExternalLoginProviders { get; }
 }

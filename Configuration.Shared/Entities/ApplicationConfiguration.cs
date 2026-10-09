@@ -1,3 +1,4 @@
+using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Notifications;
 
 namespace Configuration.Shared.Entities;
@@ -15,4 +16,5 @@ public class ApplicationConfiguration : IApplicationConfiguration
     public bool IsSelfRegisterEnabled { get; set; }
     public EmailSendMode EmailSendMode { get; set; }
     public ISmtpConfiguration? SmtpConfiguration { get; set; }
+    public IEnumerable<IExternalLoginProvider>? ExternalLoginProviders { get; set; }
 }

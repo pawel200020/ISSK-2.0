@@ -1,21 +1,21 @@
 ﻿@page "/Account/ExternalLogin"
 
+@using Google.Apis.Auth.OAuth2
+@using Google.Apis.PeopleService.v1
+@using Google.Apis.Services
 @using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
-@using System.Text
-@using System.Text.Encodings.Web
 @using Microsoft.AspNetCore.Identity
-@using Microsoft.AspNetCore.WebUtilities
-@using Users.Core
+@using Users.Shared.Managers
 @using Users.Shared.Models
+@using ViewModels.RazorPages.Configuration
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 @inject IUserStore<ApplicationUser> UserStore
-@inject IEmailSender<ApplicationUser> EmailSender
-@inject NavigationManager NavigationManager
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject ILogger<ExternalLogin> Logger
+@inject IUserEmailConfirmation UserEmailConfirmation;
 
 <PageTitle>Register</PageTitle>
 
@@ -53,7 +53,7 @@
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromForm] private InputModel Input { get; set; } = new();
+    [SupplyParameterFromForm] private EmailModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery] private string? RemoteError { get; set; }
 
@@ -65,6 +65,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        var c = await SignInManager.GetExternalAuthenticationSchemesAsync();
         if (RemoteError is not null)
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", $"Error from external provider: {RemoteError}", HttpContext);
@@ -75,7 +76,6 @@
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", "Error loading external login information.", HttpContext);
         }
-
         externalLoginInfo = info;
 
         if (HttpMethods.IsGet(HttpContext.Request.Method))
@@ -123,9 +123,36 @@
 
     private async Task OnValidSubmitAsync()
     {
-        var emailStore = GetEmailStore();
+        var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
         var user = CreateUser();
 
+        var googleProfile = await GetGoogleProfileAsync();
+        if (googleProfile.BirthDate is null)
+        {
+            message = "Google did not provide a birthdate. Please enter it manually.";
+            return;
+        }
+
+        user.FirstName = googleProfile.FirstName ?? "";
+        user.LastName = googleProfile.LastName ?? "";
+        user.PhoneNumber = googleProfile.PhoneNumber;
+        user.BirthDate = googleProfile.BirthDate.Value;
+        if (!string.IsNullOrWhiteSpace(googleProfile.Email))
+        {
+            Input.Email = googleProfile.Email;
+        }
+
+        if (externalLoginInfo.Principal.Identity is ClaimsIdentity identity)
+        {
+            AddClaimIfPresent(identity, ClaimTypes.GivenName, googleProfile.FirstName);
+            AddClaimIfPresent(identity, ClaimTypes.Surname, googleProfile.LastName);
+            AddClaimIfPresent(identity, ClaimTypes.MobilePhone, googleProfile.PhoneNumber);
+            AddClaimIfPresent(identity, ClaimTypes.Email, googleProfile.Email);
+            AddClaimIfPresent(
+                identity,
+                ClaimTypes.DateOfBirth,
+                googleProfile.BirthDate.Value.ToString("yyyy-MM-dd"));
+        }
         await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
         await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
 
@@ -135,17 +162,42 @@
             result = await UserManager.AddLoginAsync(user, externalLoginInfo);
             if (result.Succeeded)
             {
+                result = await UserManager.AddClaimAsync(
+                    user,
+                    new Claim(
+                        ClaimTypes.DateOfBirth,
+                        googleProfile.BirthDate.Value.ToString("yyyy-MM-dd")));
+                if (!result.Succeeded)
+                {
+                    message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
+                    return;
+                }
+
+                foreach (var claim in new[]
+                {
+                    (ClaimTypes.GivenName, googleProfile.FirstName),
+                    (ClaimTypes.Surname, googleProfile.LastName),
+                    (ClaimTypes.MobilePhone, googleProfile.PhoneNumber)
+                })
+                {
+                    if (!string.IsNullOrWhiteSpace(claim.Item2))
+                    {
+                        result = await UserManager.AddClaimAsync(
+                            user,
+                            new Claim(claim.Item1, claim.Item2));
+                        if (!result.Succeeded)
+                        {
+                            message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
+                            return;
+                        }
+                    }
+                }
+
                 Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
 
                 var userId = await UserManager.GetUserIdAsync(user);
-                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                var callbackUrl = NavigationManager.GetUriWithQueryParameters(
-                    NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
-                    new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code });
-                await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
-
+                await UserEmailConfirmation.SendConfirmationCurrentEmailAndGenerateToken(new Guid(userId));
+                
                 // If account confirmation is required, we need to show the link if we don't have a real email sender
                 if (UserManager.Options.SignIn.RequireConfirmedAccount)
                 {
@@ -160,6 +212,77 @@
         message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
     }
 
+    private async Task<GoogleProfile> GetGoogleProfileAsync()
+    {
+        if (!string.Equals(externalLoginInfo.LoginProvider, "Google",
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return new GoogleProfile();
+        }
+
+        var accessToken = externalLoginInfo.AuthenticationTokens?
+            .FirstOrDefault(token => token.Name == "access_token")?.Value;
+
+        if (string.IsNullOrWhiteSpace(accessToken))
+        {
+            Logger.LogWarning("Google external login did not contain an access token.");
+            return new GoogleProfile();
+        }
+
+        var credential = GoogleCredential.FromAccessToken(accessToken);
+        var peopleService = new PeopleServiceService(
+            new BaseClientService.Initializer
+            {
+                HttpClientInitializer = credential,
+                ApplicationName = "ISSK"
+            });
+
+        var personRequest = peopleService.People.Get("people/me");
+        personRequest.PersonFields = "birthdays,names,phoneNumbers,emailAddresses";
+        var person = await personRequest.ExecuteAsync(HttpContext.RequestAborted);
+
+        var name = person.Names?.FirstOrDefault();
+        var phoneNumber = person.PhoneNumbers?.FirstOrDefault()?.Value;
+        var email = person.EmailAddresses?.FirstOrDefault()?.Value;
+        var date = person.Birthdays?
+            .Select(birthday => birthday.Date)
+            .FirstOrDefault(birthday =>
+                birthday is not null &&
+                birthday.Year > 0 &&
+                birthday.Month is >= 1 and <= 12 &&
+                birthday.Day is >= 1 and <= 31);
+
+        return new GoogleProfile(
+            name?.GivenName,
+            name?.FamilyName,
+            phoneNumber,
+            email,
+            date is null
+                ? null
+                : new DateOnly(
+                    date.Year.GetValueOrDefault(),
+                    date.Month.GetValueOrDefault(),
+                    date.Day.GetValueOrDefault()));
+    }
+
+    private static void AddClaimIfPresent(
+        ClaimsIdentity identity,
+        string claimType,
+        string? value)
+    {
+        if (!string.IsNullOrWhiteSpace(value))
+        {
+            identity.AddClaim(new Claim(claimType, value));
+        }
+    }
+
+    private sealed record GoogleProfile(
+        string? FirstName = null,
+        string? LastName = null,
+        string? PhoneNumber = null,
+        string? Email = null,
+        DateOnly? BirthDate = null);
+
     private ApplicationUser CreateUser()
     {
         try
@@ -172,20 +295,4 @@
                                                 $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor");
         }
     }
-
-    private IUserEmailStore<ApplicationUser> GetEmailStore()
-    {
-        if (!UserManager.SupportsUserEmail)
-        {
-            throw new NotSupportedException("The default UI requires a user store with email support.");
-        }
-
-        return (IUserEmailStore<ApplicationUser>)UserStore;
-    }
-
-    private sealed class InputModel
-    {
-        [Required] [EmailAddress] public string Email { get; set; } = "";
-    }
-
 }

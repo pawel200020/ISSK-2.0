@@ -1,17 +1,14 @@
 ﻿@page "/Account/ConfirmEmailChange"
 
 @using System.Text
-@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.WebUtilities
 @using Resources.PortalResources
 @using Users.Shared.Managers.Edit
-@using Users.Shared.Managers.Read
-@using Users.Shared.Models
+@using Users.Shared.SignIn
 
-@inject IUsersDownloader UserDownloader
-@inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject IUserMetadataEditor UserMetadataEditor;
+@inject IUserAuthenticator UserAuthenticator;
 <PageTitle>@PortalResources.cConfirmEmailChange</PageTitle>
 
 <h1>@PortalResources.cConfirmEmailChange</h1>
@@ -38,8 +35,7 @@
         try
         {
             await UserMetadataEditor.ChangeUserEmail(new Guid(UserId), Email, token);
-            var user = await UserDownloader.GetUserById(new Guid(UserId));
-            await SignInManager.RefreshSignInAsync(user!);
+            await UserAuthenticator.RefreshAsync(new Guid(UserId));
         }
         catch (Exception ex)
         {

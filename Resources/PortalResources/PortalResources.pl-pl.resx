@@ -608,4 +608,10 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     <data name="cBrigade" xml:space="preserve">
         <value>Brygady</value>
     </data>
+    <data name="cAuthenticationProviders" xml:space="preserve">
+        <value>Dostawcy uwierzytelniania</value>
+    </data>
+    <data name="cExternalLogin" xml:space="preserve">
+        <value>Zewnętrzni dostawcy uwierzytelniania</value>
+    </data>
 </root>

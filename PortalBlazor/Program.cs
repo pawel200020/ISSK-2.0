@@ -34,6 +34,13 @@ builder.Services.AddAuthentication(options =>
         options.DefaultScheme = IdentityConstants.ApplicationScheme;
         options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
+    .AddGoogleOpenIdConnect(googleOptions =>
+    {
+        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]; 
+        googleOptions.Scope.Add("https://www.googleapis.com/auth/user.birthday.read");
+        googleOptions.SaveTokens = true;
+    })
     .AddIdentityCookies();
 
 builder.Services.Configure<IdentityOptions>(options =>

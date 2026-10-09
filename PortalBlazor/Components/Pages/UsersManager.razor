@@ -4,6 +4,7 @@
 @using PortalBlazor.Components.Modals.Users
 @using PortalBlazor.Toasts
 @using Resources.PortalResources
+@using Users.Core.Managers.Read
 @using Users.Shared.Managers.Read
 @using Users.Shared.Models.Roles
 @using ViewModels.RazorPages.Users
@@ -51,7 +52,7 @@
 </Grid>
 
 @code {
-    [Inject] private IUsersDownloader UsersDownloader { get; set; } = default!;
+    [Inject] private IUserSearcher UsersDownloader { get; set; } = default!;
     [Inject] private IMapper Mapper { get; set; } = default!;
     [Inject] private ToastMessageCreationService ToastMessageCreationService { get; set; } = null!;
     [Inject] private ILogger<UsersManager> Logger { get; set; } = null!;
@@ -74,7 +75,7 @@
                 sortDirection = request.Sorting.FirstOrDefault()!.SortDirection;
             }
 
-            var users = await UsersDownloader.GetUsersPaged(request.PageNumber, request.PageSize, "", request.Filters);
+            var users = await UsersDownloader.SearchAllUsersWithPagination(request.PageNumber, request.PageSize, request.Filters);
             return await Task.FromResult(new GridDataProviderResult<UserAdminViewModel> { Data = users.Users.Select(Mapper.Map<UserAdminViewModel>), TotalCount = users.TotalCount });
         }
         catch (Exception ex)

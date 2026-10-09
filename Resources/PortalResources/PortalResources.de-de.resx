@@ -605,4 +605,16 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cBrigade" xml:space="preserve">
         <value>Brigades</value>
     </data>
+    <data name="cAuthenticationProviders" xml:space="preserve">
+        <value>Authentifizierungsanbieter</value>
+    </data>
+    <data name="cExternalLogin" xml:space="preserve">
+        <value>Externe Authentifizierungsdienste</value>
+    </data>
+    <data name="cClientId" xml:space="preserve">
+        <value>Kunden-ID</value>
+    </data>
+    <data name="cClientSecret" xml:space="preserve">
+        <value>Client-Geheimnis</value>
+    </data>
 </root>

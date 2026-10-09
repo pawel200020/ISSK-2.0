@@ -618,4 +618,16 @@ If you need assistance, please contact our support team.</value>
     <data name="cBrigade" xml:space="preserve">
         <value>Brigades</value>
     </data>
+    <data name="cAuthenticationProviders" xml:space="preserve">
+        <value>Authentication providers</value>
+    </data>
+    <data name="cExternalLogin" xml:space="preserve">
+        <value>External authentication services</value>
+    </data>
+    <data name="cClientId" xml:space="preserve">
+        <value>Client ID</value>
+    </data>
+    <data name="cClientSecret" xml:space="preserve">
+        <value>Client Secret</value>
+    </data>
 </root>
