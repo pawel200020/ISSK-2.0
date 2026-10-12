@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Configuration.Repositories.ExternalLogin;
 using Configuration.Shared.ExternalLogin;
 
@@ -14,19 +15,36 @@ public class ExternalLoginProvidersGetter : IExternalLoginProvidersGetter
     public async Task<IEnumerable<IExternalLoginProvider>> GetAllProviders()
     {
         var providersJson = await _repository.GetExternalLoginProviders();
-        if (string.IsNullOrEmpty(providersJson))
+        if (string.IsNullOrWhiteSpace(providersJson))
         {
             return Enumerable.Empty<ExternalLoginProvider>();
         }
 
         try
         {
-            var providers = System.Text.Json.JsonSerializer.Deserialize<IEnumerable<ExternalLoginProvider>>(providersJson);
-            return providers ?? Enumerable.Empty<ExternalLoginProvider>();
+            using var document = JsonDocument.Parse(providersJson);
+            return ParseProviders(document.RootElement);
         }
-        catch (System.Text.Json.JsonException)
+        catch (JsonException)
         {
             return Enumerable.Empty<ExternalLoginProvider>();
         }
+    }
+
+    private static IEnumerable<IExternalLoginProvider> ParseProviders(JsonElement root)
+    {
+        if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("AuthenticationProviders", out var providersElement))
+        {
+            return providersElement.ValueKind == JsonValueKind.Array
+                ? providersElement.Deserialize<IEnumerable<ExternalLoginProvider>>() ?? Enumerable.Empty<ExternalLoginProvider>()
+                : Enumerable.Empty<ExternalLoginProvider>();
+        }
+
+        if (root.ValueKind == JsonValueKind.Array)
+        {
+            return root.Deserialize<IEnumerable<ExternalLoginProvider>>() ?? Enumerable.Empty<ExternalLoginProvider>();
+        }
+
+        return Enumerable.Empty<ExternalLoginProvider>();
     }
 }

@@ -128,6 +128,9 @@
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>Zewnętrzne serwisy logowania</value>
     </data>
+    <data name="cExternalLoginServicesInfo" xml:space="preserve">
+        <value>Skonfiguruj zewnętrznych dostawców tożsamości, których użytkownicy mogą używać do logowania. Zarejestruj tę aplikację u dostawcy, a następnie wpisz otrzymany identyfikator klienta i klucz tajny. Włącz dostawcę, aby udostępnić go na stronie logowania.</value>
+    </data>
     <data name="cAppConfig" xml:space="preserve">
         <value>Konfiguracja aplikacji</value>
     </data>

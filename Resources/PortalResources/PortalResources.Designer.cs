@@ -278,6 +278,12 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cExternalLoginServices", resourceCulture);
             }
         }
+
+        public static string cExternalLoginServicesInfo {
+            get {
+                return ResourceManager.GetString("cExternalLoginServicesInfo", resourceCulture);
+            }
+        }
         
         public static string cAppConfig {
             get {

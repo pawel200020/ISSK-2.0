@@ -1,6 +1,7 @@
 using Configuration.AppParameters.Managers;
 using Configuration.Encryption;
 using Configuration.Shared;
+using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Managers;
 using Configuration.Shared.Notifications;
 using Newtonsoft.Json;
@@ -39,7 +40,12 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
         await _appParameterSaver.SaveIntParameter(ApplicationParameter.EmailMode,
             (int)applicationConfiguration.EmailSendMode) &&
         await UpdateSmtpConfig(applicationConfiguration.EmailSendMode, applicationConfiguration.SmtpConfiguration) && 
-        await UpdateEmailRedirect(applicationConfiguration.IsEmailRedirect, applicationConfiguration.EmailRedirectAddress);
+        await UpdateEmailRedirect(applicationConfiguration.IsEmailRedirect, applicationConfiguration.EmailRedirectAddress) &&
+        await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders,
+            System.Text.Json.JsonSerializer.Serialize(new ExternalLoginProvidersConfiguration
+            {
+                AuthenticationProviders = applicationConfiguration.ExternalLoginProviders ?? Enumerable.Empty<IExternalLoginProvider>()
+            }));
 
     private string EncryptEmailPassword(string password)
         => _encryptionManager.Encrypt(password, EncryptionKeys.EmailPasswordEncryptionKey);

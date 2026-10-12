@@ -128,6 +128,9 @@
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>Externe Anmeldedienste</value>
     </data>
+    <data name="cExternalLoginServicesInfo" xml:space="preserve">
+        <value>Konfigurieren Sie externe Identitätsanbieter, mit denen sich Benutzer anmelden können. Registrieren Sie diese Anwendung beim Anbieter und tragen Sie anschließend die bereitgestellte Client-ID und das Client-Geheimnis ein. Aktivieren Sie den Anbieter, damit er auf der Anmeldeseite verfügbar ist.</value>
+    </data>
     <data name="cAppConfig" xml:space="preserve">
         <value>Anwendungskonfiguration</value>
     </data>

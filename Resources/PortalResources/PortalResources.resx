@@ -135,6 +135,9 @@
     <data name="cExternalLoginServices" xml:space="preserve">
         <value>External log-in services</value>
     </data>
+    <data name="cExternalLoginServicesInfo" xml:space="preserve">
+        <value>Configure external identity providers that users can use to sign in. Register this application with the provider, then enter the client ID and client secret supplied by that provider. Enable the provider to make it available on the sign-in page.</value>
+    </data>
     <data name="cAppConfig" xml:space="preserve">
         <value>Application configuration</value>
     </data>

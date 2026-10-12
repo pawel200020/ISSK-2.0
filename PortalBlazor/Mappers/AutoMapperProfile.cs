@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Configuration.Shared.Entities;
+using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Notifications;
 using EventsSaver.Shared.Entities;
 using Users.Shared.Models;
@@ -16,6 +17,9 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<AppUser, UserAdminViewModel>().ReverseMap();
         CreateMap<AppUser, UserAdminCreateViewModel>().ReverseMap();
+        CreateMap<IExternalLoginProvider, ExternalLoginProviderConfigurationViewModel>();
+        CreateMap<ExternalLoginProviderConfigurationViewModel, IExternalLoginProvider>()
+            .ConstructUsing(_ => new ExternalLoginProviderConfiguration());
         CreateMap<ApplicationConfiguration, ApplicationConfigurationViewModel>().ReverseMap();
         CreateMap<SmtpConfigurationViewModel, ISmtpConfiguration>().As<SmtpConfiguration>();
         CreateMap<SmtpConfiguration, SmtpConfigurationViewModel>().ReverseMap();

@@ -193,32 +193,45 @@
     
     <hr/>
     <div class="row mb-3">
-    <h5>@PortalResources.cExternalLoginServices</h5>
+        <div class="col-auto">
+            <h5 class="mb-0">@PortalResources.cExternalLoginServices</h5>
+        </div>
+        <div class="col-auto">
+            <TooltipInfo Content="@PortalResources.cExternalLoginServicesInfo"/>
+        </div>
     </div>
     @foreach (var provider in DataSource.ExternalLoginProviders)
     {
-        <h6>@provider.Name</h6>
-        <div class="form-group row mb-3">
-            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cActive</label>
-            <div class="col-md-4 col-sm-4 row-flex-item">
-                <Switch Class="form-checkbox" @bind-Value="DataSource.SmtpConfiguration.UseSsl"/>
-                <TooltipInfo Content="@PortalResources.cUseSslInfo"></TooltipInfo>
+        <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+                    <h6 class="mb-0 fw-semibold">@provider.ProviderName</h6>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="text-muted">@PortalResources.cActive</span>
+                        <Switch Class="form-checkbox" @bind-Value="provider.IsEnabled"
+                                @bind-Value:after="() => OnExternalProviderEnabledChanged(provider)"/>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">@PortalResources.cClientId</label>
+                        <TextInput @bind-Value="@provider.ClientId" Disabled="@(!provider.IsEnabled)"/>
+                        <div class="mt-2">
+                            <ValidationMessage For="@(() => provider.ClientId)"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label">@PortalResources.cClientSecret</label>
+                        <PasswordInput @bind-Value="@provider.ClientSecret" Placeholder="********" Disabled="@(!provider.IsEnabled)"/>
+                        <div class="mt-2">
+                            <ValidationMessage For="@(() => provider.ClientSecret)"/>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cClientId</label>
-            <div class="col-md-4 col-sm-6 row-flex-item">
-                <TextInput @bind-Value="@provider.ClientId"/>
-            </div>
-            <div class="col-md-4 col-sm-6 row-flex-item">
-                <ValidationMessage For="@(() => provider.ClientId)"/>
-            </div>
-            <label class="col-sm-3 col-md-2 col-form-label">@PortalResources.cClientSecret</label>
-            <div class="col-md-4 col-sm-6 row-flex-item">
-                <TextInput @bind-Value="@provider.ClientSecret"/>
-            </div>
-            <div class="col-md-4 col-sm-6 row-flex-item">
-                <ValidationMessage For="@(() => provider.ClientSecret)"/>
-            </div>
-        </div> 
+        </div>
     }
          
     
@@ -311,5 +324,14 @@
     {
         if (!DataSource.IsEmailRedirect)
             DataSource.EmailRedirectAddress = string.Empty;
+    }
+
+    private void OnExternalProviderEnabledChanged(ExternalLoginProviderConfigurationViewModel provider)
+    {
+        if (provider.IsEnabled)
+            return;
+
+        provider.ClientId = string.Empty;
+        provider.ClientSecret = string.Empty;
     }
 }

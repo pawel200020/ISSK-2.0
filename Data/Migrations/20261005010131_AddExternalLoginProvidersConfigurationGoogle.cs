@@ -17,12 +17,12 @@ namespace Data.Migrations
                     DateTime.Now, 
                     """
                     {
-                      [
+                      "AuthenticationProviders": [
                         {
-                            "ClientId": "",
-                            "ClientSecret": "",
-                            "IsEnabled": false,
-                            "ProviderName": "Google"
+                          "ClientId": "",
+                          "ClientSecret": "",
+                          "IsEnabled": false,
+                          "ProviderName": "Google"
                         }
                       ]
                     }
