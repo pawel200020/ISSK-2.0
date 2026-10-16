@@ -15,6 +15,7 @@ public class ApplicationConfigurationViewModel :IValidatableObject
     public bool IsEmailRedirect { get; set; }
     public string ? EmailRedirectAddress { get; set; }
     public SmtpConfigurationViewModel? SmtpConfiguration { get; set; }
+    [ValidateComplexType]
     public IEnumerable<ExternalLoginProviderConfigurationViewModel> ExternalLoginProviders { get; set; } = [];
 
 

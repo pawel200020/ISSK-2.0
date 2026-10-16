@@ -40,7 +40,7 @@ internal class AppConfigurationGetter : IAppConfigurationGetter
             EmailRedirectAddress =
                 await _appParameterGetter.GetStringParameterValue(ApplicationParameter.EmailRedirectAddress),
             ExternalLoginProviders =
-                await _externalLoginProvider.GetAllProviders()
+                await _externalLoginProvider.GetAllProvidersWithoutSensitiveData()
         };
 
     public async Task<string> GetSavedEmailLogin() =>

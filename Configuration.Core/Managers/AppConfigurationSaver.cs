@@ -39,16 +39,13 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
             applicationConfiguration.EmailLogin) &&
         await _appParameterSaver.SaveIntParameter(ApplicationParameter.EmailMode,
             (int)applicationConfiguration.EmailSendMode) &&
-        await UpdateSmtpConfig(applicationConfiguration.EmailSendMode, applicationConfiguration.SmtpConfiguration) && 
-        await UpdateEmailRedirect(applicationConfiguration.IsEmailRedirect, applicationConfiguration.EmailRedirectAddress) &&
-        await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders,
-            System.Text.Json.JsonSerializer.Serialize(new ExternalLoginProvidersConfiguration
-            {
-                AuthenticationProviders = applicationConfiguration.ExternalLoginProviders ?? Enumerable.Empty<IExternalLoginProvider>()
-            }));
+        await UpdateSmtpConfig(applicationConfiguration.EmailSendMode, applicationConfiguration.SmtpConfiguration) &&
+        await UpdateEmailRedirect(applicationConfiguration.IsEmailRedirect,
+            applicationConfiguration.EmailRedirectAddress) &&
+        await SaveExternalLoginProviders(applicationConfiguration.ExternalLoginProviders);
 
-    private string EncryptEmailPassword(string password)
-        => _encryptionManager.Encrypt(password, EncryptionKeys.EmailPasswordEncryptionKey);
+    private string EncryptEmailPassword(string password, string encryptionKey)
+        => _encryptionManager.Encrypt(password, encryptionKey);
 
     private async Task<bool> UpdateEmailRedirect(bool isRedirectEnabled, string? redirectAddress)
     {
@@ -75,10 +72,23 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
                                            (await _appConfigurationGetter.GetSmtpConfiguration()).SmtpServerAddress !=
                                            currentServer))
             _appParameterSaver.SaveStringParameter(ApplicationParameter.EmailPassword,
-                string.IsNullOrEmpty(password) ? "" : EncryptEmailPassword(password));
+                string.IsNullOrEmpty(password) ? "" : EncryptEmailPassword(password, EncryptionKeys.EmailPasswordEncryptionKey));
 
         return string.IsNullOrEmpty(password) || await _appParameterSaver.SaveStringParameter(
             ApplicationParameter.EmailPassword,
-            EncryptEmailPassword(password));
+            EncryptEmailPassword(password, EncryptionKeys.EmailPasswordEncryptionKey));
+    }
+    
+    private async Task<bool> SaveExternalLoginProviders(IEnumerable<IExternalLoginProvider> providers)
+    {
+        foreach (var externalLoginProvider in providers.Where(p=>p.IsEnabled)) 
+            externalLoginProvider.ClientSecret = _encryptionManager.Encrypt(externalLoginProvider.ClientSecret, EncryptionKeys.ExternalLoginProviderKey);
+        
+        var serializedProviders = System.Text.Json.JsonSerializer.Serialize(new ExternalLoginProvidersConfiguration
+        {
+            AuthenticationProviders = providers
+        });
+
+        return await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders, serializedProviders);
     }
 }

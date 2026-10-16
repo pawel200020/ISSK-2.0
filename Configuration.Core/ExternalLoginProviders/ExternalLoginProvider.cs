@@ -8,4 +8,9 @@ internal class ExternalLoginProvider : IExternalLoginProvider
     public string ClientSecret { get; set; }
     public bool IsEnabled { get; set; }
     public string ProviderName { get; set; }
+    
+    public void CleanSensitiveData()
+    {
+        ClientSecret = string.Empty;
+    }
 }

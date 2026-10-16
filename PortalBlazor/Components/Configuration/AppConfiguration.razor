@@ -15,7 +15,7 @@
 
 <Toasts class="p-3" Messages="_messages" AutoHide="true" Delay="6000" Placement="ToastsPlacement.TopRight"/>
 <Modal @ref="_modal"/>
-<EditForm Model="DataSource" method="post" OnValidSubmit="@HandleOnSubmitAsync" FormName="Configuration.Core"
+<EditForm EditContext="ConfigurationEditContext" method="post" OnValidSubmit="@HandleOnSubmitAsync" FormName="Configuration.Core"
           id="my-form-ref-44">
 
     <div class="menu-topbar">
@@ -30,7 +30,7 @@
     </div>
     <hr/>
     <div class="row">
-        <DataAnnotationsValidator/>
+        <ObjectGraphDataAnnotationsValidator/>
     </div>
 
     <div class="row mb-3">
@@ -213,10 +213,13 @@
                     </div>
                 </div>
 
-                <div class="row g-3">
+                <div class="row mb-3">
                     <div class="col-md-6">
                         <label class="form-label">@PortalResources.cClientId</label>
-                        <TextInput @bind-Value="@provider.ClientId" Disabled="@(!provider.IsEnabled)"/>
+                        <div class="input-group mb-3">
+                            <InputText @bind-Value="provider.ClientId" class="form-control"
+                                       disabled="@(!provider.IsEnabled)"/>
+                        </div>
                         <div class="mt-2">
                             <ValidationMessage For="@(() => provider.ClientId)"/>
                         </div>
@@ -224,7 +227,8 @@
 
                     <div class="col-md-6">
                         <label class="form-label">@PortalResources.cClientSecret</label>
-                        <PasswordInput @bind-Value="@provider.ClientSecret" Placeholder="********" Disabled="@(!provider.IsEnabled)"/>
+                        <PasswordInput @bind-Value="provider.ClientSecret" Placeholder="********"
+                                       Disabled="@(!provider.IsEnabled)"/>
                         <div class="mt-2">
                             <ValidationMessage For="@(() => provider.ClientSecret)"/>
                         </div>
@@ -244,6 +248,7 @@
     [SupplyParameterFromForm]
     private ApplicationConfigurationViewModel DataSource { get; set; }
         = new() { ApplicationName = "" };
+    private EditContext ConfigurationEditContext { get; set; } = null!;
 
     private readonly List<ToastMessage> _messages = new();
     [Inject] private IMapper Mapper { get; set; } = null!;
@@ -264,6 +269,7 @@
             ShowToast(@PortalResources.cError, ex.Message, ToastType.Danger);
         }
 
+        ConfigurationEditContext = new EditContext(DataSource);
         await base.OnInitializedAsync();
     }
 
@@ -328,10 +334,11 @@
 
     private void OnExternalProviderEnabledChanged(ExternalLoginProviderConfigurationViewModel provider)
     {
-        if (provider.IsEnabled)
-            return;
-
-        provider.ClientId = string.Empty;
-        provider.ClientSecret = string.Empty;
+        if (!provider.IsEnabled)
+        {
+            provider.ClientId = string.Empty;
+            provider.ClientSecret = string.Empty;
+            ConfigurationEditContext.Validate();
+        }
     }
 }
