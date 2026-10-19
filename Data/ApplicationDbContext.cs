@@ -17,7 +17,6 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<DictParameterType> DictParameterTypes { get; set; }
     public DbSet<SeasonDb> Seasons { get; set; }
     public DbSet<LineDb> Lines { get; set; }
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

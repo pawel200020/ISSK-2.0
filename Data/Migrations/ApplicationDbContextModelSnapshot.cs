@@ -45,7 +45,7 @@ namespace Event_Saver.Migrations
 
                     b.HasIndex("ParameterTypeId");
 
-                    b.ToTable("ApplicationParameters");
+                    b.ToTable("ApplicationParameters", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entites.Configuration.DictParameterType", b =>
@@ -60,7 +60,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DictParameterTypes");
+                    b.ToTable("DictParameterTypes", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entites.EventSaver.LineDb", b =>
@@ -105,7 +105,7 @@ namespace Event_Saver.Migrations
 
                     b.HasIndex("SupervisorId");
 
-                    b.ToTable("Lines");
+                    b.ToTable("Lines", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entites.EventSaver.SeasonDb", b =>
@@ -132,7 +132,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Seasons");
+                    b.ToTable("Seasons", (string)null);
                 });
 
             modelBuilder.Entity("Data.Entites.Languages.SupportedLanguage", b =>
@@ -153,7 +153,7 @@ namespace Event_Saver.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SupportedLanguages");
+                    b.ToTable("SupportedLanguages", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

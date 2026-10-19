@@ -1,7 +1,7 @@
+using Authentication.Shared.ExternalLoginProvider.Managers;
 using Configuration.Shared;
 using Configuration.Shared.AppParameters.Managers;
 using Configuration.Shared.Entities;
-using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Managers;
 using Configuration.Shared.Notifications;
 using Newtonsoft.Json;
@@ -11,9 +11,9 @@ namespace Configuration.Managers;
 internal class AppConfigurationGetter : IAppConfigurationGetter
 {
     private IAppParameterGetter _appParameterGetter;
-    private IExternalLoginProvidersGetter _externalLoginProvider;
+    private IExternalLoginConfigurationGetter _externalLoginProvider;
 
-    public AppConfigurationGetter(IAppParameterGetter appParameterGetter, IExternalLoginProvidersGetter externalLoginProvider)
+    public AppConfigurationGetter(IAppParameterGetter appParameterGetter, IExternalLoginConfigurationGetter externalLoginProvider)
     {
         _appParameterGetter = appParameterGetter ?? throw new ArgumentNullException(nameof(appParameterGetter));
         _externalLoginProvider = externalLoginProvider ?? throw new ArgumentNullException(nameof(externalLoginProvider));

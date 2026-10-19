@@ -1,3 +1,4 @@
+using Authentication.Api;
 using Data;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -69,7 +70,7 @@ builder.Services.AddUsers();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddMemoryCache();
 
-builder.Services.AddServices();
+builder.Services.AddServices(connectionString);
 
 var app = builder.Build();
 app.MapControllers();

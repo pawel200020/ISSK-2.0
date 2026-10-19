@@ -1,3 +1,4 @@
+using Authentication.Api;
 using Configuration;
 using Data.Extension;
 using EventsSaver.Core;
@@ -7,10 +8,11 @@ namespace PortalBlazor.Extension;
 
 internal static class PortalServiceExtension
 {
-    public static IServiceCollection AddServices(this IServiceCollection builder)
+    public static IServiceCollection AddServices(this IServiceCollection builder, string connectionString)
         => builder
             .AddData()
             .AddConfiguration()
             .AddNotifications()
-            .AddEventSaver();
+            .AddEventSaver()
+            .AddAuthenticationModule(connectionString);
 }

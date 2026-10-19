@@ -1,4 +1,5 @@
-using Configuration.Shared.ExternalLogin;
+using Authentication.Shared.ExternalLogin;
+using Authentication.Shared.ExternalLoginProvider;
 using Configuration.Shared.Notifications;
 
 namespace Configuration.Shared.Entities;

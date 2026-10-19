@@ -41,6 +41,7 @@
       <ProjectReference Include="..\EventsSaver.Shared\EventsSaver.Shared.csproj" />
       <ProjectReference Include="..\Notifications.Core\Notifications.Core.csproj" />
       <ProjectReference Include="..\Resources\Resources.csproj" />
+      <ProjectReference Include="..\src\Authentication\Authentication.Api\Authentication.Api.csproj" />
       <ProjectReference Include="..\Users.Core\Users.Core.csproj" />
       <ProjectReference Include="..\ViewModels\ViewModels.csproj" />
     </ItemGroup>

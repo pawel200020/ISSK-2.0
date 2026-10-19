@@ -1,8 +1,10 @@
-﻿using AutoMapper;
+﻿using Authentication.Shared.ExternalLogin;
+using Authentication.Shared.ExternalLoginProvider;
+using AutoMapper;
 using Configuration.Shared.Entities;
-using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Notifications;
 using EventsSaver.Shared.Entities;
+using PortalBlazor.Mappers.Mappings.ExternalLogin;
 using Users.Shared.Models;
 using ViewModels.RazorPages.Configuration;
 using ViewModels.RazorPages.EventSaver.Lines;
@@ -19,7 +21,7 @@ public class AutoMapperProfile : Profile
         CreateMap<AppUser, UserAdminCreateViewModel>().ReverseMap();
         CreateMap<IExternalLoginProvider, ExternalLoginProviderConfigurationViewModel>();
         CreateMap<ExternalLoginProviderConfigurationViewModel, IExternalLoginProvider>()
-            .ConstructUsing(_ => new ExternalLoginProviderConfiguration());
+            .ConstructUsing(_ => new ExternalLoginProvider());
         CreateMap<ApplicationConfiguration, ApplicationConfigurationViewModel>().ReverseMap();
         CreateMap<SmtpConfigurationViewModel, ISmtpConfiguration>().As<SmtpConfiguration>();
         CreateMap<SmtpConfiguration, SmtpConfigurationViewModel>().ReverseMap();

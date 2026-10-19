@@ -1,7 +1,9 @@
+using Authentication.Shared.ExternalLogin;
+using Authentication.Shared.ExternalLogin.Managers;
+using Authentication.Shared.ExternalLoginProvider;
 using Configuration.AppParameters.Managers;
 using Configuration.Encryption;
 using Configuration.Shared;
-using Configuration.Shared.ExternalLogin;
 using Configuration.Shared.Managers;
 using Configuration.Shared.Notifications;
 using Newtonsoft.Json;
@@ -13,14 +15,16 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
     private readonly IAppParameterSaver _appParameterSaver;
     private readonly IEncryptionManager _encryptionManager;
     private readonly IAppConfigurationGetter _appConfigurationGetter;
+    private readonly IExternalLoginConfigurationUpdater _configurationUpdater;
 
     public AppConfigurationSaver(IAppParameterSaver appParameterSaver, IEncryptionManager encryptionManager,
-        IAppConfigurationGetter appConfigurationGetter)
+        IAppConfigurationGetter appConfigurationGetter, IExternalLoginConfigurationUpdater configurationUpdater)
     {
         _appParameterSaver = appParameterSaver ?? throw new ArgumentNullException(nameof(appParameterSaver));
         _encryptionManager = encryptionManager ?? throw new ArgumentNullException(nameof(encryptionManager));
         _appConfigurationGetter =
             appConfigurationGetter ?? throw new ArgumentNullException(nameof(appConfigurationGetter));
+        _configurationUpdater = configurationUpdater ?? throw new ArgumentNullException(nameof(configurationUpdater));
     }
 
     public async Task<bool> SaveApplication(IApplicationConfiguration applicationConfiguration) =>
@@ -42,7 +46,7 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
         await UpdateSmtpConfig(applicationConfiguration.EmailSendMode, applicationConfiguration.SmtpConfiguration) &&
         await UpdateEmailRedirect(applicationConfiguration.IsEmailRedirect,
             applicationConfiguration.EmailRedirectAddress) &&
-        await SaveExternalLoginProviders(applicationConfiguration.ExternalLoginProviders);
+        await _configurationUpdater.UpdateExternalLoginProviderAsync(applicationConfiguration.ExternalLoginProviders);
 
     private string EncryptEmailPassword(string password, string encryptionKey)
         => _encryptionManager.Encrypt(password, encryptionKey);
@@ -79,16 +83,13 @@ internal class AppConfigurationSaver : IAppConfigurationSaver
             EncryptEmailPassword(password, EncryptionKeys.EmailPasswordEncryptionKey));
     }
     
-    private async Task<bool> SaveExternalLoginProviders(IEnumerable<IExternalLoginProvider> providers)
+    private async Task<bool> SaveExternalLoginProviders(IEnumerable<IExternalLoginProvider>? externalLoginProviders)
     {
-        foreach (var externalLoginProvider in providers.Where(p=>p.IsEnabled)) 
-            externalLoginProvider.ClientSecret = _encryptionManager.Encrypt(externalLoginProvider.ClientSecret, EncryptionKeys.ExternalLoginProviderKey);
-        
-        var serializedProviders = System.Text.Json.JsonSerializer.Serialize(new ExternalLoginProvidersConfiguration
-        {
-            AuthenticationProviders = providers
-        });
+        if (externalLoginProviders == null || !externalLoginProviders.Any())
+            return await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders, "");
 
-        return await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders, serializedProviders);
+        var serializedProviders = JsonConvert.SerializeObject(externalLoginProviders);
+        return await _appParameterSaver.SaveStringParameter(ApplicationParameter.ExternalLoginProviders,
+            serializedProviders ?? "");
     }
 }

@@ -6,9 +6,10 @@ namespace ViewModels.RazorPages.Configuration;
 public class ExternalLoginProviderConfigurationViewModel : IValidatableObject
 {
     public int ProviderType { get; set; }
-    public string ProviderName { get; set; } = "";
+    public Guid Guid { get; set; }
+    public string Name { get; set; } = "";
     public string ClientId { get; set; } = "";
-    public string ClientSecret { get; set; } = "";
+    public string? ClientSecret { get; set; } = "";
     public bool IsEnabled { get; set; }
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
@@ -16,8 +17,6 @@ public class ExternalLoginProviderConfigurationViewModel : IValidatableObject
         {
             if (string.IsNullOrWhiteSpace(ClientId))
                 yield return new ValidationResult(PortalResources.cRequiredField, [nameof(ClientId)]);
-            if (string.IsNullOrWhiteSpace(ClientSecret))
-                yield return new ValidationResult(PortalResources.cRequiredField, [nameof(ClientSecret)]);
         }
     }
 }
