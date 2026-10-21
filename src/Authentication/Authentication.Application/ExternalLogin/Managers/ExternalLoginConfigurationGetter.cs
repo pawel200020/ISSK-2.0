@@ -1,6 +1,5 @@
 using Authentication.Application.Repositiories.ExternalLogin;
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLoginProvider;
 using Authentication.Shared.ExternalLoginProvider.Managers;
 
 namespace Authentication.Application.ExternalLogin.Managers;

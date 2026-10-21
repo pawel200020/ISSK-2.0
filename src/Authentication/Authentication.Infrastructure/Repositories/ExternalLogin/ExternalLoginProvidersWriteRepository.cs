@@ -1,7 +1,6 @@
 using Authentication.Application.Repositiories.ExternalLogin;
 using Authentication.Infrastructure.Caching;
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLoginProvider;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Authentication.Infrastructure.Repositories.ExternalLogin;
@@ -30,7 +29,7 @@ internal class ExternalLoginProvidersWriteRepository : IExternalLoginProvidersWr
         currentProviderData.IsEnabled = provider.IsEnabled;
         
         if (currentProviderData.ClientId != provider.ClientId ||
-            (currentProviderData.ClientId == provider.ClientId && !string.IsNullOrEmpty(currentProviderData.ClientSecret)))
+            (currentProviderData.ClientId == provider.ClientId && !string.IsNullOrEmpty(provider.ClientSecret)))
             currentProviderData.ClientSecret = provider.ClientSecret;
         
         await _context.SaveChangesAsync();

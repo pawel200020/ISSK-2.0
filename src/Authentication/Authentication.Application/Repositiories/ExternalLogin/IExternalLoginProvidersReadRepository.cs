@@ -6,7 +6,7 @@ namespace Authentication.Application.Repositiories.ExternalLogin;
 public interface IExternalLoginProvidersReadRepository
 {
     Task<IEnumerable<ExternalLoginProvider>> GetExternalLoginProvidersMetadata(bool cleanSensitiveData);
-    Task<IExternalLoginProviderMetadata?> GetGoogleExternalLoginProvidersMetadata();
+    Task<ExternalLoginProviderMetadata?> GetGoogleExternalLoginProvidersMetadata();
 
 
 }

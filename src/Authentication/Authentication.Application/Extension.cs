@@ -1,3 +1,4 @@
+using Authentication.Application.Encryption;
 using Authentication.Application.ExternalLogin;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -7,7 +8,8 @@ public static class Extension
 {
     public static IServiceCollection AddApplication(
         this IServiceCollection builder)
-        => builder.AddExternalLogin();
+        => builder.AddExternalLogin()
+            .AddSingleton<IEncryptionManager, EncryptionManager>();
 
 
 }

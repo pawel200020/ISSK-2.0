@@ -44,7 +44,7 @@ internal class ExternalLoginProvidersReadRepository : IExternalLoginProvidersRea
         return metadata;
     }
 
-    public async Task<IExternalLoginProviderMetadata?> GetGoogleExternalLoginProvidersMetadata()
+    public async Task<ExternalLoginProviderMetadata?> GetGoogleExternalLoginProvidersMetadata()
     {
         if(_memoryCache.TryGetValue(CacheKeys.ExternalLoginProvidersMetadata, out IEnumerable<ExternalLoginProvider>? cachedMetadata))
         {
