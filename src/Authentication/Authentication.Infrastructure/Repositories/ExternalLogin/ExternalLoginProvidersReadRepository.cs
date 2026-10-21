@@ -58,7 +58,10 @@ internal class ExternalLoginProvidersReadRepository : IExternalLoginProvidersRea
         }
         
         var externalLoginProvider = await _context.ExternalLoginProviders.AsNoTracking()
-            .SingleAsync(p => p.ProviderType == (Entities.ExternalLoginProviders.ProviderType)ProviderType.Google);
+            .SingleOrDefaultAsync(p => p.ProviderType == (Entities.ExternalLoginProviders.ProviderType)ProviderType.Google);
+
+        if (externalLoginProvider is null)
+            return null;
         
         var metadata = new ExternalLoginProviderMetadata()
         {

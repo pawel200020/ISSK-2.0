@@ -1,7 +1,4 @@
-using Authentication.Api;
 using Data;
-using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PortalBlazor.Components;
 using PortalBlazor.Components.Account;
@@ -10,7 +7,6 @@ using Blazored.Modal;
 using PortalBlazor.Extension;
 using PortalBlazor.Middlewares.Extension;
 using PortalBlazor.Toasts;
-using Users.Shared.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,33 +17,12 @@ builder.Services.AddRazorComponents(options =>
     .AddInteractiveWebAssemblyComponents();
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "../Resources/PortalResources");
-builder.Services.AddCascadingAuthenticationState();
-builder.Services.AddScoped<CurrentUserProvider>();
-builder.Services.AddScoped<IdentityRedirectProcessor>();
-builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddSingleton<ToastMessageCreationService>();
 builder.Services.AddBlazoredModal();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultScheme = IdentityConstants.ApplicationScheme;
-        options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
-    })
-    .AddGoogleOpenIdConnect(googleOptions =>
-    {
-        googleOptions.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-        googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]; 
-        googleOptions.Scope.Add("https://www.googleapis.com/auth/user.birthday.read");
-        googleOptions.SaveTokens = true;
-    })
-    .AddIdentityCookies();
-
-builder.Services.Configure<IdentityOptions>(options =>
-{
-    options.Lockout.AllowedForNewUsers = false;
-});
+builder.Services.AddPortalAuthentication();
 
 builder.Services.AddServerSideBlazor().AddCircuitOptions(option =>
 {
@@ -60,12 +35,6 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<ApplicationRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddSignInManager()
-    .AddDefaultTokenProviders();
-
 builder.Services.AddUsers();
 builder.Services.AddBlazorBootstrap();
 builder.Services.AddMemoryCache();
@@ -73,6 +42,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddServices(connectionString);
 
 var app = builder.Build();
+
+await app.InitializePortalAuthenticationAsync();
+
 app.MapControllers();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
