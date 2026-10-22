@@ -1,8 +1,7 @@
 using Authentication.Application.Repositiories.ExternalLogin;
-using Authentication.Domain.ExternalLoginProviders;
+using Authentication.Domain.ExternalLogin;
 using Authentication.Infrastructure.Caching;
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLoginProvider;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 

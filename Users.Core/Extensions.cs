@@ -1,6 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection;
-using Users.Core.Email;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Users.Core.ExternalLogin;
 using Users.Core.Filters;
 using Users.Core.Filters.Factory;
 using Users.Core.Managers;
@@ -10,11 +9,7 @@ using Users.Core.Password;
 using Users.Core.Repositories;
 using Users.Core.Repositories.Edit;
 using Users.Core.SignIn;
-using Users.Shared;
-using Users.Shared.Managers;
 using Users.Shared.Managers.Edit;
-using Users.Shared.Managers.Read;
-using Users.Shared.Models;
 using Users.Shared.Password;
 using Users.Shared.SignIn;
 
@@ -36,6 +31,7 @@ public static class Extensions
             .AddScoped<IUserResetPasswordEmailSender, UserResetPasswordEmailSender>()
             .AddScoped<IUserAuthenticator, UserAuthenticator>()
             .AddScoped<IUserSearcher, UserSearcher>()
+            .AddExternalLoginServices()
             .AddManagers()
             .AddRepositories();
 }

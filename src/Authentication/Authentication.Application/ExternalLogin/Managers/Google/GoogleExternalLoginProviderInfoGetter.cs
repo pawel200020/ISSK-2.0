@@ -1,10 +1,10 @@
 using Authentication.Application.Encryption;
 using Authentication.Application.Repositiories.ExternalLogin;
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLogin.Managers;
+using Authentication.Shared.ExternalLogin.Managers.Google;
 using Microsoft.Extensions.Configuration;
 
-namespace Authentication.Application.ExternalLogin.Managers;
+namespace Authentication.Application.ExternalLogin.Managers.Google;
 
 internal class GoogleExternalLoginProviderInfoGetter : IGoogleExternalLoginProviderInfoGetter
 {

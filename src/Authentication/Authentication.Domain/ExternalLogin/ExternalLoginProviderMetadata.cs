@@ -1,6 +1,6 @@
 using Authentication.Shared.ExternalLogin;
 
-namespace Authentication.Domain.ExternalLoginProviders;
+namespace Authentication.Domain.ExternalLogin;
 
 public class ExternalLoginProviderMetadata : IExternalLoginProviderMetadata
 {

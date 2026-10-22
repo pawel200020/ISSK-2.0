@@ -1,5 +1,5 @@
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLogin.Managers;
+using Authentication.Shared.ExternalLogin.Managers.Google;
 using Data;
 using Google.Apis.Auth.AspNetCore3;
 using Microsoft.AspNetCore.Authentication;

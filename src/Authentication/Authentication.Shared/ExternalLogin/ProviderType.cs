@@ -1,4 +1,4 @@
-namespace Authentication.Shared.ExternalLoginProvider;
+namespace Authentication.Shared.ExternalLogin;
 
 public enum ProviderType
 {

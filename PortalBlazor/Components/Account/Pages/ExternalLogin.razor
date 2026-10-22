@@ -1,21 +1,18 @@
 ﻿@page "/Account/ExternalLogin"
-
-@using Google.Apis.Auth.OAuth2
-@using Google.Apis.PeopleService.v1
-@using Google.Apis.Services
-@using System.ComponentModel.DataAnnotations
 @using System.Security.Claims
-@using Microsoft.AspNetCore.Identity
-@using Users.Shared.Managers
-@using Users.Shared.Models
-@using ViewModels.RazorPages.Configuration
+@using Authentication.Shared.ExternalLogin
+@using Authentication.Shared.ExternalLogin.Entities
+@using Authentication.Shared.ExternalLogin.UserProfile
+@using Resources.PortalResources
+@using Users.Shared.Authentication
+@using Users.Shared.ExternalLogin.Authenticator
+@using ViewModels.RazorPages.Users
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
-@inject IUserStore<ApplicationUser> UserStore
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject ILogger<ExternalLogin> Logger
-@inject IUserEmailConfirmation UserEmailConfirmation;
+@inject IExternalLoginInfoGetter ExternalLoginInfoGetter;
+@inject IExternalUserAuthenticator ExternalUserAuthenticator;
+@inject IExternalUserProfileGetterFactory ExternalUserProfileGetterFactory;
 
 <PageTitle>Register</PageTitle>
 
@@ -36,10 +33,32 @@
             <DataAnnotationsValidator/>
             <ValidationSummary class="text-danger" role="alert"/>
             <div class="form-floating mb-3">
-                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" placeholder="Please enter your email."/>
-                <label for="email" class="form-label">Email</label>
-                <ValidationMessage For="() => Input.Email"/>
-            </div>
+                    <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
+                    <label for="email">@PortalResources.cEmail</label>
+                    <ValidationMessage For="() => Input.Email" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Input.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>       
+                    <label for="firstName">@PortalResources.cFirstName</label>
+                    <ValidationMessage For="() => Input.FirstName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Input.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
+                    <label for="lastName">@PortalResources.cLastName</label>
+                    <ValidationMessage For="() => Input.LastName" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputText @bind-Value="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
+                    <label for="phoneNumber">@PortalResources.cPhone</label>
+                    <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
+                </div>
+                <div class="form-floating mb-3">
+                    <InputDate TValue="DateOnly?" @bind-Value="Input.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
+                    <label for="date">@PortalResources.cBirthDate</label>
+                    <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
+                </div>
+            
+            
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
     </div>
@@ -49,11 +68,11 @@
     public const string LoginCallbackAction = "LoginCallback";
 
     private string? message;
-    private ExternalLoginInfo externalLoginInfo = default!;
+    private IExternalLoginData _externalLoginInfo = default!;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromForm] private EmailModel Input { get; set; } = new();
+    [SupplyParameterFromForm] private ExternalLoginUserViewModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery] private string? RemoteError { get; set; }
 
@@ -61,22 +80,21 @@
 
     [SupplyParameterFromQuery] private string? Action { get; set; }
 
-    private string? ProviderDisplayName => externalLoginInfo.ProviderDisplayName;
+    private string? ProviderDisplayName => _externalLoginInfo.Provider;
 
     protected override async Task OnInitializedAsync()
     {
-        var c = await SignInManager.GetExternalAuthenticationSchemesAsync();
         if (RemoteError is not null)
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", $"Error from external provider: {RemoteError}", HttpContext);
         }
 
-        var info = await SignInManager.GetExternalLoginInfoAsync();
+        var info = await ExternalLoginInfoGetter.GetExternalLoginInfo();
         if (info is null)
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", "Error loading external login information.", HttpContext);
         }
-        externalLoginInfo = info;
+        _externalLoginInfo = info;
 
         if (HttpMethods.IsGet(HttpContext.Request.Method))
         {
@@ -94,175 +112,117 @@
 
     private async Task OnLoginCallbackAsync()
     {
-        // Sign in the user with this external login provider if the user already has a login.
-        var result = await SignInManager.ExternalLoginSignInAsync(
-            externalLoginInfo.LoginProvider,
-            externalLoginInfo.ProviderKey,
-            isPersistent: false,
-            bypassTwoFactor: true);
+        var result = await ExternalUserAuthenticator.AuthenticateAsync(
+            _externalLoginInfo.Provider,
+            _externalLoginInfo.ProviderKey);
 
-        if (result.Succeeded)
+        if (result == AuthenticationResult.Success)
         {
             Logger.LogInformation(
                 "{Name} logged in with {LoginProvider} provider.",
-                externalLoginInfo.Principal.Identity?.Name,
-                externalLoginInfo.LoginProvider);
+                _externalLoginInfo.UserName,
+                _externalLoginInfo.Provider);
             RedirectProcessor.RedirectTo(ReturnUrl);
         }
-        else if (result.IsLockedOut)
-        {
+        else if (result == AuthenticationResult.LockedOut)
             RedirectProcessor.RedirectTo("Account/Lockout");
-        }
+        var userInfoGetter = ExternalUserProfileGetterFactory.GetUserProfileGetter(_externalLoginInfo.ProviderType);
+        var userProfile = await userInfoGetter.GetProfileAsync(_externalLoginInfo.Provider, _externalLoginInfo.AccessToken);
 
-        // If the user does not have an account, then ask the user to create an account.
-        if (externalLoginInfo.Principal.HasClaim(c => c.Type == ClaimTypes.Email))
+        if (userProfile != null)
         {
-            Input.Email = externalLoginInfo.Principal.FindFirstValue(ClaimTypes.Email) ?? "";
+            Input.Email = userProfile.Email ?? "";
+            Input.FirstName = userProfile.FirstName ?? "";
+            Input.LastName = userProfile.LastName ?? "";
+            Input.PhoneNumber = userProfile.PhoneNumber ?? "";
+            Input.BirthDate = userProfile.BirthDate ?? new DateOnly();
         }
     }
 
     private async Task OnValidSubmitAsync()
     {
-        var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
-        var user = CreateUser();
+        //var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
+        //var user = CreateUser();
 
-        var googleProfile = await GetGoogleProfileAsync();
-        if (googleProfile.BirthDate is null)
-        {
-            message = "Google did not provide a birthdate. Please enter it manually.";
-            return;
-        }
+        
 
-        user.FirstName = googleProfile.FirstName ?? "";
-        user.LastName = googleProfile.LastName ?? "";
-        user.PhoneNumber = googleProfile.PhoneNumber;
-        user.BirthDate = googleProfile.BirthDate.Value;
-        if (!string.IsNullOrWhiteSpace(googleProfile.Email))
-        {
-            Input.Email = googleProfile.Email;
-        }
+        // user.FirstName = googleProfile.FirstName ?? "";
+        // user.LastName = googleProfile.LastName ?? "";
+        // user.PhoneNumber = googleProfile.PhoneNumber;
+        // user.BirthDate = googleProfile.BirthDate.Value;
+        // if (!string.IsNullOrWhiteSpace(googleProfile.Email))
+        // {
+        //     Input.Email = googleProfile.Email;
+        // }
 
-        if (externalLoginInfo.Principal.Identity is ClaimsIdentity identity)
-        {
-            AddClaimIfPresent(identity, ClaimTypes.GivenName, googleProfile.FirstName);
-            AddClaimIfPresent(identity, ClaimTypes.Surname, googleProfile.LastName);
-            AddClaimIfPresent(identity, ClaimTypes.MobilePhone, googleProfile.PhoneNumber);
-            AddClaimIfPresent(identity, ClaimTypes.Email, googleProfile.Email);
-            AddClaimIfPresent(
-                identity,
-                ClaimTypes.DateOfBirth,
-                googleProfile.BirthDate.Value.ToString("yyyy-MM-dd"));
-        }
-        await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
-        await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        // if (_externalLoginInfo.Principal.Identity is ClaimsIdentity identity)
+        // {
+        //     AddClaimIfPresent(identity, ClaimTypes.GivenName, googleProfile.FirstName);
+        //     AddClaimIfPresent(identity, ClaimTypes.Surname, googleProfile.LastName);
+        //     AddClaimIfPresent(identity, ClaimTypes.MobilePhone, googleProfile.PhoneNumber);
+        //     AddClaimIfPresent(identity, ClaimTypes.Email, googleProfile.Email);
+        //     AddClaimIfPresent(
+        //         identity,
+        //         ClaimTypes.DateOfBirth,
+        //         googleProfile.BirthDate.Value.ToString("yyyy-MM-dd"));
+        // }
+        // await UserStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+        // await emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
+        //
+        // var result = await UserManager.CreateAsync(user);
+        // if (result.Succeeded)
+        // {
+        //     result = await UserManager.AddLoginAsync(user, _externalLoginInfo);
+        //     if (result.Succeeded)
+        //     {
+        //         result = await UserManager.AddClaimAsync(
+        //             user,
+        //             new Claim(
+        //                 ClaimTypes.DateOfBirth,
+        //                 googleProfile.BirthDate.Value.ToString("yyyy-MM-dd")));
+        //         if (!result.Succeeded)
+        //         {
+        //             message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
+        //             return;
+        //         }
+        //
+        //         foreach (var claim in new[]
+        //         {
+        //             (ClaimTypes.GivenName, googleProfile.FirstName),
+        //             (ClaimTypes.Surname, googleProfile.LastName),
+        //             (ClaimTypes.MobilePhone, googleProfile.PhoneNumber)
+        //         })
+        //         {
+        //             if (!string.IsNullOrWhiteSpace(claim.Item2))
+        //             {
+        //                 result = await UserManager.AddClaimAsync(
+        //                     user,
+        //                     new Claim(claim.Item1, claim.Item2));
+        //                 if (!result.Succeeded)
+        //                 {
+        //                     message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
+        //                     return;
+        //                 }
+        //             }
+        //         }
+        //
+        //         Logger.LogInformation("User created an account using {Name} provider.", _externalLoginInfo.Provider);
+        //
+        //         var userId = await UserManager.GetUserIdAsync(user);
+        //         await UserEmailConfirmation.SendConfirmationCurrentEmailAndGenerateToken(new Guid(userId));
+        //         
+        //         // If account confirmation is required, we need to show the link if we don't have a real email sender
+        //         if (UserManager.Options.SignIn.RequireConfirmedAccount)
+        //         {
+        //             RedirectProcessor.RedirectTo("Account/RegisterConfirmation", new() { ["email"] = Input.Email });
+        //         }
+        //
+        //         await SignInManager.SignInAsync(user, isPersistent: false, _externalLoginInfo.Provider);
+        //         RedirectProcessor.RedirectTo(ReturnUrl);
+        //    }
+        //}
 
-        var result = await UserManager.CreateAsync(user);
-        if (result.Succeeded)
-        {
-            result = await UserManager.AddLoginAsync(user, externalLoginInfo);
-            if (result.Succeeded)
-            {
-                result = await UserManager.AddClaimAsync(
-                    user,
-                    new Claim(
-                        ClaimTypes.DateOfBirth,
-                        googleProfile.BirthDate.Value.ToString("yyyy-MM-dd")));
-                if (!result.Succeeded)
-                {
-                    message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
-                    return;
-                }
-
-                foreach (var claim in new[]
-                {
-                    (ClaimTypes.GivenName, googleProfile.FirstName),
-                    (ClaimTypes.Surname, googleProfile.LastName),
-                    (ClaimTypes.MobilePhone, googleProfile.PhoneNumber)
-                })
-                {
-                    if (!string.IsNullOrWhiteSpace(claim.Item2))
-                    {
-                        result = await UserManager.AddClaimAsync(
-                            user,
-                            new Claim(claim.Item1, claim.Item2));
-                        if (!result.Succeeded)
-                        {
-                            message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
-                            return;
-                        }
-                    }
-                }
-
-                Logger.LogInformation("User created an account using {Name} provider.", externalLoginInfo.LoginProvider);
-
-                var userId = await UserManager.GetUserIdAsync(user);
-                await UserEmailConfirmation.SendConfirmationCurrentEmailAndGenerateToken(new Guid(userId));
-                
-                // If account confirmation is required, we need to show the link if we don't have a real email sender
-                if (UserManager.Options.SignIn.RequireConfirmedAccount)
-                {
-                    RedirectProcessor.RedirectTo("Account/RegisterConfirmation", new() { ["email"] = Input.Email });
-                }
-
-                await SignInManager.SignInAsync(user, isPersistent: false, externalLoginInfo.LoginProvider);
-                RedirectProcessor.RedirectTo(ReturnUrl);
-            }
-        }
-
-        message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
-    }
-
-    private async Task<GoogleProfile> GetGoogleProfileAsync()
-    {
-        if (!string.Equals(externalLoginInfo.LoginProvider, "Google",
-                StringComparison.OrdinalIgnoreCase))
-        {
-            return new GoogleProfile();
-        }
-
-        var accessToken = externalLoginInfo.AuthenticationTokens?
-            .FirstOrDefault(token => token.Name == "access_token")?.Value;
-
-        if (string.IsNullOrWhiteSpace(accessToken))
-        {
-            Logger.LogWarning("Google external login did not contain an access token.");
-            return new GoogleProfile();
-        }
-
-        var credential = GoogleCredential.FromAccessToken(accessToken);
-        var peopleService = new PeopleServiceService(
-            new BaseClientService.Initializer
-            {
-                HttpClientInitializer = credential,
-                ApplicationName = "ISSK"
-            });
-
-        var personRequest = peopleService.People.Get("people/me");
-        personRequest.PersonFields = "birthdays,names,phoneNumbers,emailAddresses";
-        var person = await personRequest.ExecuteAsync(HttpContext.RequestAborted);
-
-        var name = person.Names?.FirstOrDefault();
-        var phoneNumber = person.PhoneNumbers?.FirstOrDefault()?.Value;
-        var email = person.EmailAddresses?.FirstOrDefault()?.Value;
-        var date = person.Birthdays?
-            .Select(birthday => birthday.Date)
-            .FirstOrDefault(birthday =>
-                birthday is not null &&
-                birthday.Year > 0 &&
-                birthday.Month is >= 1 and <= 12 &&
-                birthday.Day is >= 1 and <= 31);
-
-        return new GoogleProfile(
-            name?.GivenName,
-            name?.FamilyName,
-            phoneNumber,
-            email,
-            date is null
-                ? null
-                : new DateOnly(
-                    date.Year.GetValueOrDefault(),
-                    date.Month.GetValueOrDefault(),
-                    date.Day.GetValueOrDefault()));
+        //message = $"Error: {string.Join(",", result.Errors.Select(error => error.Description))}";
     }
 
     private static void AddClaimIfPresent(
@@ -275,24 +235,24 @@
             identity.AddClaim(new Claim(claimType, value));
         }
     }
-
-    private sealed record GoogleProfile(
-        string? FirstName = null,
-        string? LastName = null,
-        string? PhoneNumber = null,
-        string? Email = null,
-        DateOnly? BirthDate = null);
-
-    private ApplicationUser CreateUser()
-    {
-        try
-        {
-            return Activator.CreateInstance<ApplicationUser>();
-        }
-        catch
-        {
-            throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
-                                                $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor");
-        }
-    }
+    //
+    // private sealed record GoogleProfile(
+    //     string? FirstName = null,
+    //     string? LastName = null,
+    //     string? PhoneNumber = null,
+    //     string? Email = null,
+    //     DateOnly? BirthDate = null);
+    //
+    // private ApplicationUser CreateUser()
+    // {
+    //     try
+    //     {
+    //         return Activator.CreateInstance<ApplicationUser>();
+    //     }
+    //     catch
+    //     {
+    //         throw new InvalidOperationException($"Can't create an instance of '{nameof(ApplicationUser)}'. " +
+    //                                             $"Ensure that '{nameof(ApplicationUser)}' is not an abstract class and has a parameterless constructor");
+    //     }
+    // }
 }

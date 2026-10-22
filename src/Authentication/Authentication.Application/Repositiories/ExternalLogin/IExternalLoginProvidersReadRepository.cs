@@ -1,4 +1,4 @@
-using Authentication.Domain.ExternalLoginProviders;
+using Authentication.Domain.ExternalLogin;
 using Authentication.Shared.ExternalLogin;
 
 namespace Authentication.Application.Repositiories.ExternalLogin;

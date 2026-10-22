@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Users.Shared.Models;
 
-namespace Users.Core.ExternalServices.Google;
+namespace Users.Core.ExternalLogin.Google;
 
 public class GoogleExternalLoginProvider
 {
