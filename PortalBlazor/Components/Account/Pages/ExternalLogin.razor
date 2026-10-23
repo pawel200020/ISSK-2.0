@@ -14,7 +14,7 @@
 @inject IExternalUserAuthenticator ExternalUserAuthenticator;
 @inject IExternalUserProfileGetterFactory ExternalUserProfileGetterFactory;
 
-<PageTitle>Register</PageTitle>
+<PageTitle>@PortalResources.cRegister</PageTitle>
 
 <StatusMessage Message="@message"/>
 <h1>@PortalResources.cRegister</h1>
@@ -58,9 +58,7 @@
                 <label for="date">@PortalResources.cBirthDate</label>
                 <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
             </div>
-
-
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
         </EditForm>
     </div>
 </div>
