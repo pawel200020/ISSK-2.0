@@ -1250,5 +1250,41 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cExternalRegisterSucces", resourceCulture);
             }
         }
+        public static string cAccessDenied {
+            get {
+                return ResourceManager.GetString("cAccessDenied", resourceCulture);
+            }
+        }
+
+        public static string cAccessDeniedMessage {
+            get {
+                return ResourceManager.GetString("cAccessDeniedMessage", resourceCulture);
+            }
+        }
+
+        public static string cInvalidPasswordReset {
+            get {
+                return ResourceManager.GetString("cInvalidPasswordReset", resourceCulture);
+            }
+        }
+
+        public static string cInvalidPasswordResetMessage {
+            get {
+                return ResourceManager.GetString("cInvalidPasswordResetMessage", resourceCulture);
+            }
+        }
+
+        public static string cInvalidUser {
+            get {
+                return ResourceManager.GetString("cInvalidUser", resourceCulture);
+            }
+        }
+
+        public static string cUnableToLoadUser {
+            get {
+                return ResourceManager.GetString("cUnableToLoadUser", resourceCulture);
+            }
+        }
+
     }
 }

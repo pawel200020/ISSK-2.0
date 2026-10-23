@@ -1,7 +1,7 @@
-﻿@using System.Runtime.InteropServices
+﻿@using Resources.PortalResources
 @if (!string.IsNullOrEmpty(DisplayMessage))
 {
-    var statusMessageClass = DisplayMessage.StartsWith("Error") ? "danger" : "success";
+    var statusMessageClass = (DisplayMessage.StartsWith("Error") || DisplayMessage.StartsWith(PortalResources.cError + ":")) ? "danger" : "success";
     <div class="alert alert-@statusMessageClass" role="alert">
         @DisplayMessage
     </div>

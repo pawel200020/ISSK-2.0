@@ -622,4 +622,22 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
 Sprawdź, poprawność danych pobranych z profilu. 
 Kliknij przycisk „Zarejestruj się”, aby zakończyć proces logowania.</value>
     </data>
+    <data name="cAccessDenied" xml:space="preserve">
+        <value>Odmowa dostępu</value>
+    </data>
+    <data name="cAccessDeniedMessage" xml:space="preserve">
+        <value>Nie masz dostępu do tego zasobu.</value>
+    </data>
+    <data name="cInvalidPasswordReset" xml:space="preserve">
+        <value>Nieprawidłowe resetowanie hasła</value>
+    </data>
+    <data name="cInvalidPasswordResetMessage" xml:space="preserve">
+        <value>Link do resetowania hasła jest nieprawidłowy.</value>
+    </data>
+    <data name="cInvalidUser" xml:space="preserve">
+        <value>Nieprawidłowy użytkownik</value>
+    </data>
+    <data name="cUnableToLoadUser" xml:space="preserve">
+        <value>Nie można załadować użytkownika o identyfikatorze „{0}”.</value>
+    </data>
 </root>

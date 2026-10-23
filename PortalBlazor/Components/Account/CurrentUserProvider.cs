@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+using Resources.PortalResources;
 using Users.Shared.Managers.Read;
 using Users.Shared.Models;
 
@@ -14,7 +14,7 @@ internal sealed class CurrentUserProvider(
         if (user is null)
         {
             redirectProcessor.RedirectToWithStatus("Account/InvalidUser",
-                $"Error: Unable to load user with ID '{context.User.Identity}'.", context);
+                $"{PortalResources.cError}: {string.Format(PortalResources.cUnableToLoadUser, context.User.Identity)}", context);
         }
 
         return user;
@@ -26,7 +26,7 @@ internal sealed class CurrentUserProvider(
         if (userGuid is null)
         {
             redirectProcessor.RedirectToWithStatus("Account/InvalidUser",
-                $"Error: Unable to load user with ID '{context.User.Identity}'.", context);
+                $"{PortalResources.cError}: {string.Format(PortalResources.cUnableToLoadUser, context.User.Identity)}", context);
         }
 
         return userGuid.Value;

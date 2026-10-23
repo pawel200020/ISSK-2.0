@@ -625,4 +625,22 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
 Bitte überprüfen Sie die aus Ihrem Profil heruntergeladenen Daten, die für diese Website erforderlich sind. 
 Klicken Sie auf die Schaltfläche „Registrieren“, um die Anmeldung abzuschließen.</value>
     </data>
+    <data name="cAccessDenied" xml:space="preserve">
+        <value>Zugriff verweigert</value>
+    </data>
+    <data name="cAccessDeniedMessage" xml:space="preserve">
+        <value>Sie haben keinen Zugriff auf diese Ressource.</value>
+    </data>
+    <data name="cInvalidPasswordReset" xml:space="preserve">
+        <value>Ungültiges Zurücksetzen des Passworts</value>
+    </data>
+    <data name="cInvalidPasswordResetMessage" xml:space="preserve">
+        <value>Der Link zum Zurücksetzen des Passworts ist ungültig.</value>
+    </data>
+    <data name="cInvalidUser" xml:space="preserve">
+        <value>Ungültiger Benutzer</value>
+    </data>
+    <data name="cUnableToLoadUser" xml:space="preserve">
+        <value>Der Benutzer mit der ID „{0}“ konnte nicht geladen werden.</value>
+    </data>
 </root>
