@@ -18,12 +18,12 @@ public class ExternalLoginInfoGetter : IExternalLoginInfoGetter
         _providerResolver = providerResolver ?? throw new ArgumentNullException(nameof(providerResolver));
     }
 
-    public async Task<IExternalLoginData?> GetExternalLoginInfo()
+    public async Task<IExternalLoginMetadata?> GetExternalLoginInfoMetadata()
     {
         var result = await _signInManager.GetExternalLoginInfoAsync();
         return result == null
             ? null
-            : new ExternalLoginData()
+            : new ExternalLoginMetadata()
             {
                 Provider = result.LoginProvider, 
                 ProviderKey = result.ProviderKey,
@@ -32,5 +32,10 @@ public class ExternalLoginInfoGetter : IExternalLoginInfoGetter
                     .FirstOrDefault(token => token.Name == "access_token")?.Value,
                 ProviderType = _providerResolver.Resolve(result.LoginProvider)
             };
+    }
+    
+    public async Task<ExternalLoginInfo?> GetExternalLoginInfo()
+    {
+         return await _signInManager.GetExternalLoginInfoAsync();
     }
 }

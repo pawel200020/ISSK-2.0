@@ -3,7 +3,7 @@ using Authentication.Shared.ExternalLogin.Entities;
 
 namespace Authentication.Domain.ExternalLogin;
 
-public class ExternalLoginData : IExternalLoginData
+public class ExternalLoginMetadata : IExternalLoginMetadata
 {
     public required string Provider { get; init; }
     public required string ProviderKey { get; init; }

@@ -1,6 +1,6 @@
 namespace Authentication.Shared.ExternalLogin.Entities;
 
-public interface IExternalLoginData
+public interface IExternalLoginMetadata
 {
     string Provider { get; }
     string ProviderKey { get; }

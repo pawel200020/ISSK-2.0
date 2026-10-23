@@ -40,6 +40,8 @@ internal class SmtpEmailSender : IEmailSender
             {
                 var socketOptions =
                     _useSsl ? SecureSocketOptions.SslOnConnect : SecureSocketOptions.StartTlsWhenAvailable;
+                //MAC OS bypass certificate revocation check to avoid "The revocation function was unable to check revocation for the certificate" error
+                client.CheckCertificateRevocation = false;
                 client.Connect(_server, _port, socketOptions);
                 client.AuthenticationMechanisms.Remove("XOAUTH2");
 

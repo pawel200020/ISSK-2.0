@@ -28,8 +28,9 @@ internal class UserAuthenticator : IUserAuthenticator
         return SignInStatus.Failed;
     }
     
-    public async Task ExternalAuthenticateAsync(ApplicationUser user, string loginProvider)
+    public async Task ExternalAuthenticateAsync(Guid userId, string loginProvider)
     {
+        var user = await _usersRepository.GetUserById(userId);
         await _signInManager.SignInAsync(user, isPersistent: false, loginProvider);
     }
     

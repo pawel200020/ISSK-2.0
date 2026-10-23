@@ -1,4 +1,5 @@
-﻿using Users.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Users.Core.Entities;
 using Users.Shared.Managers.Create;
 using Users.Shared.Models;
 
@@ -6,7 +7,8 @@ namespace Users.Core.Repositories.Edit;
 
 internal interface IEditUsersRepository
 {
-    Task<IUserCreationResult> CreateUser(IUser user);
+    Task<IUserCreationResult> CreateUser(IUser user, bool isExternal);
+    Task<bool> AssignExternalProviderToUserAsync(Guid userId, ExternalLoginInfo externalLoginInfo);
     Task<bool> EditUserAsync(IUser user);
     Task<bool> RemoveUserAsync(Guid userId);
     Task<UserOperationResult> ChangePasswordAsync(Guid userId, string oldPassword, string newPassword);

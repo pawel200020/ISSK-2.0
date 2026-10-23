@@ -6,4 +6,5 @@ namespace Users.Shared.Managers.Edit;
 public interface IUsersCreator
 {
     Task<IUserCreationResult> RegisterUser(IUser user, string? returnUrl);
+    Task<IUserCreationResult> RegisterExternalUser(IUser user, string? returnUrl);
 }

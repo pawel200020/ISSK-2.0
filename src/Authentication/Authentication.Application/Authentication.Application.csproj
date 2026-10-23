@@ -17,14 +17,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Google.Apis.Auth" Version="1.76.0" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.77.0" />
       <PackageReference Include="Google.Apis.PeopleService.v1" Version="1.74.0.3973" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.0" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="ExternalLogin\Google\" />
     </ItemGroup>
 
 </Project>

@@ -57,17 +57,30 @@ internal class ReadUsersRepository : IReadUsersRepository
         IEnumerable<FilterItem> filters)
     {
         var filteredUsers = ApplyFiltering(filters);
+        var users = filteredUsers
+            .Skip(page - 1)
+            .Take(pageSize)
+            .Select(user => new
+            {
+                user.Email,
+                user.Id,
+                user.LockoutEnabled,
+                user.EmailConfirmed,
+                user.PhoneNumber,
+                user.UserName,
+                user.FirstName,
+                user.LastName,
+                user.BirthDate,
+                RoleId = user.UserRoles.Select(userRole => userRole.RoleId).FirstOrDefault()
+            })
+            .ToArray();
+
         return new UsersPaginatedList()
         {
-            Users = filteredUsers
-                .Include(x => x.UserRoles)
-                .ThenInclude(x => x.Role)
-                .Skip(page - 1)
-                .Take(pageSize)
-                .Select(user => new AppUser()
+            Users = users.Select(user => new AppUser()
                 {
                     Email = user.Email!,
-                    Id = new Guid(user.Id),
+                    Id = Guid.Parse(user.Id),
                     IsAccountDisabled = user.LockoutEnabled,
                     IsEmailConfirmed = user.EmailConfirmed,
                     PhoneNumber = user.PhoneNumber!,
@@ -76,7 +89,7 @@ internal class ReadUsersRepository : IReadUsersRepository
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     BirthDate = user.BirthDate,
-                    RoleId = new Guid(user.UserRoles.First().RoleId)
+                    RoleId = user.RoleId is null ? Guid.Empty : Guid.Parse(user.RoleId)
                 }).ToArray(),
             TotalCount = GetTotalRowsNumber()
         };

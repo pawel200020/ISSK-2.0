@@ -30,7 +30,7 @@ internal class EditUserRepository : IEditUsersRepository
         _readUsersRepository = readUsersRepository ?? throw new ArgumentNullException(nameof(readUsersRepository));
     }
 
-    public async Task<IUserCreationResult> CreateUser(IUser user)
+    public async Task<IUserCreationResult> CreateUser(IUser user, bool isExternal)
     {
         var dbUser = CreateDbUser(user);
 
@@ -47,7 +47,12 @@ internal class EditUserRepository : IEditUsersRepository
             };
         }
         await emailStore.SetEmailAsync(dbUser, user.Email, CancellationToken.None);
-        var result = await _userManager.CreateAsync(dbUser, user.Password);
+        
+        IdentityResult result;
+            if(isExternal)
+            result = await _userManager.CreateAsync(dbUser);
+        else
+            result = await _userManager.CreateAsync(dbUser, user.Password);
 
         if (!result.Succeeded)
             return new UserCreationResult() { Errors = result.Errors };
@@ -63,6 +68,16 @@ internal class EditUserRepository : IEditUsersRepository
             UserId = userId, Code = code, CreatedUser = dbUser,
             RequireConfirmedAccount = _userManager.Options.SignIn.RequireConfirmedAccount
         };
+    }
+    
+    public async Task<bool> AssignExternalProviderToUserAsync(Guid userId, ExternalLoginInfo externalLoginInfo)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null)
+            throw new InvalidOperationException("User not found");
+
+        var result = await _userManager.AddLoginAsync(user, externalLoginInfo);
+        return result.Succeeded;
     }
 
     private ApplicationUser CreateDbUser(IUser user)
