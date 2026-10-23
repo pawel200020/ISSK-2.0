@@ -21,7 +21,6 @@
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator/>
                 <hr/>
-                <ValidationSummary class="text-danger" role="alert"/>
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com"/>
                     <label for="user login" class="form-label">Login</label>

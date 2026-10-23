@@ -17,48 +17,49 @@
 <PageTitle>Register</PageTitle>
 
 <StatusMessage Message="@message"/>
-<h1>Register</h1>
-<h2>Associate your @ProviderDisplayName account.</h2>
+<h1>@PortalResources.cRegister</h1>
 <hr/>
 
-<div class="alert alert-info">
-    You've successfully authenticated with <strong>@ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</div>
+<Alert Color="AlertColor.Success" Dismissable="true">
+    <Icon Name="IconName.CheckCircleFill" class="me-2"/> @PortalResources.cExternalRegisterSucces </Alert>
 
 <div class="row">
     <div class="col-md-4">
         <EditForm Model="Input" OnValidSubmit="OnValidSubmitAsync" FormName="confirmation" method="post">
+            @* <ValidationSummary class="text-danger" role="alert"/> *@
             <DataAnnotationsValidator/>
-            <ValidationSummary class="text-danger" role="alert"/>
             <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com"/>
-                    <label for="email">@PortalResources.cEmail</label>
-                    <ValidationMessage For="() => Input.Email" class="text-danger"/>
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.FirstName" class="form-control" autocomplete="firstName" aria-required="true" placeholder="first name..."/>       
-                    <label for="firstName">@PortalResources.cFirstName</label>
-                    <ValidationMessage For="() => Input.FirstName" class="text-danger"/>
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.LastName" class="form-control" autocomplete="lastName" aria-required="true" placeholder="last name..."/>
-                    <label for="lastName">@PortalResources.cLastName</label>
-                    <ValidationMessage For="() => Input.LastName" class="text-danger"/>
-                </div>
-                <div class="form-floating mb-3">
-                    <InputText @bind-Value="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber" aria-required="true" placeholder="phone number"/>
-                    <label for="phoneNumber">@PortalResources.cPhone</label>
-                    <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
-                </div>
-                <div class="form-floating mb-3">
-                    <InputDate TValue="DateOnly?" @bind-Value="Input.BirthDate" class="form-control" autocomplete="date" aria-required="true" placeholder="date"/>
-                    <label for="date">@PortalResources.cBirthDate</label>
-                    <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
-                </div>
-            
-            
+                <InputText @bind-Value="Input.Email" class="form-control" autocomplete="email" aria-required="true"
+                           placeholder="name@example.com"/>
+                <label for="email">@PortalResources.cEmail</label>
+                <ValidationMessage For="() => Input.Email" class="text-danger"/>
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.FirstName" class="form-control" autocomplete="firstName"
+                           aria-required="true" placeholder="first name..."/>
+                <label for="firstName">@PortalResources.cFirstName</label>
+                <ValidationMessage For="() => Input.FirstName" class="text-danger"/>
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.LastName" class="form-control" autocomplete="lastName"
+                           aria-required="true" placeholder="last name..."/>
+                <label for="lastName">@PortalResources.cLastName</label>
+                <ValidationMessage For="() => Input.LastName" class="text-danger"/>
+            </div>
+            <div class="form-floating mb-3">
+                <InputText @bind-Value="Input.PhoneNumber" class="form-control" autocomplete="phoneNumber"
+                           aria-required="true" placeholder="phone number"/>
+                <label for="phoneNumber">@PortalResources.cPhone</label>
+                <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
+            </div>
+            <div class="form-floating mb-3">
+                <InputDate TValue="DateOnly?" @bind-Value="Input.BirthDate" class="form-control" autocomplete="date"
+                           aria-required="true" placeholder="date"/>
+                <label for="date">@PortalResources.cBirthDate</label>
+                <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
+            </div>
+
+
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
     </div>
@@ -72,15 +73,13 @@
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromForm] private ExternalLoginUserViewModel Input { get; set; } = new();
+    [SupplyParameterFromForm] private UserViewModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery] private string? RemoteError { get; set; }
 
     [SupplyParameterFromQuery] private string? ReturnUrl { get; set; }
 
     [SupplyParameterFromQuery] private string? Action { get; set; }
-
-    private string? ProviderDisplayName => _externalLoginInfo.Provider;
 
     protected override async Task OnInitializedAsync()
     {
@@ -94,6 +93,7 @@
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", "Error loading external login information.", HttpContext);
         }
+
         _externalLoginInfo = info;
 
         if (HttpMethods.IsGet(HttpContext.Request.Method))
@@ -103,9 +103,7 @@
                 await OnLoginCallbackAsync();
                 return;
             }
-
-            // We should only reach this page via the login callback, so redirect back to
-            // the login page if we get here some other way.
+            
             RedirectProcessor.RedirectTo("Account/Login");
         }
     }
@@ -126,6 +124,7 @@
         }
         else if (result == AuthenticationResult.LockedOut)
             RedirectProcessor.RedirectTo("Account/Lockout");
+
         var userInfoGetter = ExternalUserProfileGetterFactory.GetUserProfileGetter(_externalLoginInfo.ProviderType);
         var userProfile = await userInfoGetter.GetProfileAsync(_externalLoginInfo.Provider, _externalLoginInfo.AccessToken);
 
@@ -144,7 +143,6 @@
         //var emailStore = (IUserEmailStore<ApplicationUser>)UserStore;
         //var user = CreateUser();
 
-        
 
         // user.FirstName = googleProfile.FirstName ?? "";
         // user.LastName = googleProfile.LastName ?? "";
@@ -235,6 +233,7 @@
             identity.AddClaim(new Claim(claimType, value));
         }
     }
+
     //
     // private sealed record GoogleProfile(
     //     string? FirstName = null,

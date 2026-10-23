@@ -620,4 +620,9 @@ Wenn Sie Hilfe benötigen, kontaktieren Sie bitte unser Support-Team.</value>
     <data name="cClientSecret" xml:space="preserve">
         <value>Client-Geheimnis</value>
     </data>
+    <data name="cExternalRegisterSucces" xml:space="preserve">
+        <value>Sie haben sich erfolgreich authentifiziert. 
+Bitte überprüfen Sie die aus Ihrem Profil heruntergeladenen Daten, die für diese Website erforderlich sind. 
+Klicken Sie auf die Schaltfläche „Registrieren“, um die Anmeldung abzuschließen.</value>
+    </data>
 </root>

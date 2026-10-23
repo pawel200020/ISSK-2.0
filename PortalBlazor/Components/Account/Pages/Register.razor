@@ -25,9 +25,8 @@ else
         <div class="col-md-6">
             <Alert Show="@(!string.IsNullOrEmpty(Message))" Color="AlertColor.Danger" Dismissable="true" hidden="@string.IsNullOrEmpty(Message)"> <Icon Name="@IconName.ExclamationTriangleFill" class="me-2"></Icon> @Message </Alert>
             <EditForm Model="UserCreate" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
-                <DataAnnotationsValidator/>
                 <hr/>
-                <ValidationSummary class="text-danger" role="alert"/>
+                <DataAnnotationsValidator/>
                 <div class="form-floating mb-3">
                     <InputText @bind-Value="UserCreate.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="nick"/>
                     <label for="nickName">@PortalResources.cUserName</label>
@@ -71,13 +70,13 @@ else
                 <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cRegister</button>
             </EditForm>
         </div>
-        @*<div class="col-md-6 col-md-offset-2">
+        <div class="col-md-6 col-md-offset-2">
         <section>
             <h3>@PortalResources.cExternalLoginServices</h3>
             <hr/>
             <ExternalLoginPicker/>
         </section>
-    </div>*@
+    </div>
     </div>
     <br/>
 
@@ -121,7 +120,6 @@ else
                 new() { ["email"] = UserCreate.Email, ["returnUrl"] = ReturnUrl });
         }
         
-
         await SignInManager.SignInAsync(creationResult.CreatedUser, isPersistent: false);
         RedirectProcessor.RedirectTo(ReturnUrl);
     }

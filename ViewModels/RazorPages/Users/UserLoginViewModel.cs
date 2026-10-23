@@ -1,15 +1,20 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Resources.PortalResources;
+using ViewModels.Validation;
 
 namespace ViewModels.RazorPages.Users;
 
 public sealed class UserLoginViewModel
 {
-    [Required(ErrorMessageResourceName = "cRequiredField",  ErrorMessageResourceType = typeof(Resources.PortalResources.PortalResources))] 
+    [LocalizedRequired]
+    [LocalizedDisplay(nameof(PortalResources.cUserName))]
     public string UserName { get; set; } = "";
 
-    [Required]
+    [LocalizedRequired]
+    [LocalizedDisplay(nameof(PortalResources.cPassword))]
     [DataType(DataType.Password)]
     public string Password { get; set; } = "";
 
-    [Display(Name = "Remember me?")] public bool RememberMe { get; set; }
+    [LocalizedDisplay(nameof(PortalResources.cRememberMe))] 
+    public bool RememberMe { get; set; }
 }

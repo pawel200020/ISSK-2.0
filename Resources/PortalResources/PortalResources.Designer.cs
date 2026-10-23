@@ -278,7 +278,7 @@ namespace Resources.PortalResources {
                 return ResourceManager.GetString("cExternalLoginServices", resourceCulture);
             }
         }
-
+        
         public static string cExternalLoginServicesInfo {
             get {
                 return ResourceManager.GetString("cExternalLoginServicesInfo", resourceCulture);
@@ -1242,6 +1242,12 @@ namespace Resources.PortalResources {
         public static string cClientSecret {
             get {
                 return ResourceManager.GetString("cClientSecret", resourceCulture);
+            }
+        }
+        
+        public static string cExternalRegisterSucces {
+            get {
+                return ResourceManager.GetString("cExternalRegisterSucces", resourceCulture);
             }
         }
     }

@@ -204,7 +204,7 @@
         <value>Brak</value>
     </data>
     <data name="cRequiredField" xml:space="preserve">
-        <value>to pole jest wymagane</value>
+        <value>Wymagane pole</value>
     </data>
     <data name="cAtLeastOneBrigadeRequired" xml:space="preserve">
         <value>Wymagana jest co najmniej jedna brygada</value>
@@ -616,5 +616,10 @@ Jeśli potrzebujesz pomocy, skontaktuj się z naszym zespołem wsparcia.</value>
     </data>
     <data name="cExternalLogin" xml:space="preserve">
         <value>Zewnętrzni dostawcy uwierzytelniania</value>
+    </data>
+    <data name="cExternalRegisterSucces" xml:space="preserve">
+        <value>Udało Ci się poprawnie zautentykować! 
+Sprawdź, poprawność danych pobranych z profilu. 
+Kliknij przycisk „Zarejestruj się”, aby zakończyć proces logowania.</value>
     </data>
 </root>
