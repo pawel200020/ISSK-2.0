@@ -19,7 +19,10 @@ builder.Services.AddRazorComponents(options =>
 builder.Services.AddLocalization(options => options.ResourcesPath = "../Resources/PortalResources");
 builder.Services.AddSingleton<ToastMessageCreationService>();
 builder.Services.AddBlazoredModal();
-builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAutoMapper(cfg =>
+{
+    cfg.LicenseKey = builder.Configuration["AutoMapper:LicenseKey"];
+}, AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 
 builder.Services.AddPortalAuthentication();
