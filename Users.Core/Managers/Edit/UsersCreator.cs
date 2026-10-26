@@ -11,10 +11,10 @@ internal class UsersCreator : IUsersCreator
 {
     private readonly IEditUsersRepository _editUsersRepository;
     private readonly IUserEmailConfirmation _userEmailConfirmation;
-    private readonly IExternalLoginInfoGetter _externalLoginInfoGetter;
+    private readonly IUserExternalLoginInfoGetter _externalLoginInfoGetter;
     
 
-    public UsersCreator(IEditUsersRepository editUsersRepository, IUserEmailConfirmation userEmailConfirmation, IExternalLoginInfoGetter externalLoginInfoGetter)
+    public UsersCreator(IEditUsersRepository editUsersRepository, IUserEmailConfirmation userEmailConfirmation, IUserExternalLoginInfoGetter externalLoginInfoGetter)
     {
         _editUsersRepository = editUsersRepository ?? throw new ArgumentNullException(nameof(editUsersRepository));
         _userEmailConfirmation = userEmailConfirmation ?? throw new ArgumentNullException(nameof(userEmailConfirmation));
@@ -36,7 +36,7 @@ internal class UsersCreator : IUsersCreator
         if(createdUser.Errors != null && createdUser.Errors.Any())
             return createdUser;
         
-        var externalLoginInfo = await _externalLoginInfoGetter.GetExternalLoginInfo();
+        var externalLoginInfo = await _externalLoginInfoGetter.GetCurrentUserExternalLoginInfo();
         if (externalLoginInfo == null)
             throw new InvalidOperationException("External login info not found");
 

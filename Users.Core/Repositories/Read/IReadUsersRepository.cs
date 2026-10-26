@@ -1,4 +1,5 @@
 using BlazorBootstrap;
+using Microsoft.AspNetCore.Identity;
 using Users.Shared.Models;
 using Users.Shared.Models.Roles;
 
@@ -11,8 +12,9 @@ internal interface IReadUsersRepository
     Task<ApplicationUser?> TryGetUserByEmail(string email);
     Task<bool> CheckUserPassword(Guid userGuid, string password);
     Task<bool> HasUser2FaEnabled(Guid userGuid);
-    IUsersPaginatedList GetUsersPagedWithFilters(int page, int pageSize,
-        IEnumerable<FilterItem> filters);
+    IUsersPaginatedList GetUsersPagedWithFilters(int page, int pageSize, IEnumerable<FilterItem> filters);
+    Task<bool> HasUserLocalPasswordConfiguredAsync(Guid userGuid);
+    Task<IEnumerable<UserLoginInfo>> GetUserConfiguredExternalLogins(Guid userId);
     Task<IEnumerable<ApplicationUser>?> SearchUsers(string searchPhrase, IEnumerable<UserRole> roles,
         int maxResultCount);
 }

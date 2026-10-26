@@ -1,41 +1,37 @@
+using Authentication.Application.Repositiories.ExternalLogin;
 using Authentication.Application.ExternalLogin.Providers;
 using Authentication.Domain.ExternalLogin;
-using Authentication.Shared.ExternalLogin;
 using Authentication.Shared.ExternalLogin.Entities;
-using Microsoft.AspNetCore.Identity;
-using Users.Shared.Models;
+using Authentication.Shared.ExternalLogin.Managers;
+using Microsoft.AspNetCore.Authentication;
 
 namespace Authentication.Application.ExternalLogin.Managers;
 
-public class ExternalLoginInfoGetter : IExternalLoginInfoGetter
+internal class ExternalLoginInfoGetter : IExternalLoginInfoGetter
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly IExternalLoginProvidersReadRepository _readRepository;
+    private readonly IAuthenticationSchemeProvider _schemeProvider;
     private readonly IExternalLoginProviderResolver _providerResolver;
 
-    public ExternalLoginInfoGetter(SignInManager<ApplicationUser> signInManager, IExternalLoginProviderResolver providerResolver)
+    public ExternalLoginInfoGetter(IExternalLoginProvidersReadRepository readRepository,
+        IAuthenticationSchemeProvider schemeProvider, IExternalLoginProviderResolver providerResolver)
     {
-        _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _readRepository = readRepository ?? throw new ArgumentNullException(nameof(readRepository));
+        _schemeProvider = schemeProvider ?? throw new ArgumentNullException(nameof(schemeProvider));
         _providerResolver = providerResolver ?? throw new ArgumentNullException(nameof(providerResolver));
     }
 
-    public async Task<IExternalLoginMetadata?> GetExternalLoginInfoMetadata()
+    public async Task<IEnumerable<IExternalLoginMetadata>> GetAvailableExternalLoginProvidersAsync()
     {
-        var result = await _signInManager.GetExternalLoginInfoAsync();
-        return result == null
-            ? null
-            : new ExternalLoginMetadata()
+        var providers = (await _readRepository.GetExternalLoginProvidersMetadata(true)).Where(p => p.IsEnabled);
+        var schemes = await _schemeProvider.GetAllSchemesAsync();
+        return providers.SelectMany(provider => schemes
+            .Where(scheme => scheme.DisplayName is not null &&
+                             _providerResolver.Resolve(scheme.Name) == provider.ProviderType)
+            .Select(scheme => new ExternalLoginMetadata
             {
-                Provider = result.LoginProvider, 
-                ProviderKey = result.ProviderKey,
-                UserName = result.Principal?.Identity?.Name,
-                AccessToken = result.AuthenticationTokens?
-                    .FirstOrDefault(token => token.Name == "access_token")?.Value,
-                ProviderType = _providerResolver.Resolve(result.LoginProvider)
-            };
-    }
-    
-    public async Task<ExternalLoginInfo?> GetExternalLoginInfo()
-    {
-         return await _signInManager.GetExternalLoginInfoAsync();
+                ProviderType = provider.ProviderType,
+                Provider = scheme.Name
+            })).ToArray();
     }
 }

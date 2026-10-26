@@ -1,39 +1,38 @@
-﻿@using Microsoft.AspNetCore.Identity
-@using Users.Core
-@using Users.Shared.Models
+﻿@using Authentication.Shared.ExternalLogin.Managers
+@using Resources.PortalResources
 
-@inject SignInManager<ApplicationUser> SignInManager
+@inject IExternalLoginInfoGetter ExternalLoginInfoGetter;
 
 <ul class="nav nav-pills flex-column">
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
+        <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">@PortalResources.cProfile</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/Email">@PortalResources.cEmail</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/ChangePassword">@PortalResources.cPassword</NavLink>
     </li>
-    @if (hasExternalLogins)
+    @if (_hasExternalLogins)
     {
         <li class="nav-item">
-            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
+            <NavLink class="nav-link" href="Account/Manage/ExternalLogins">@PortalResources.cExternalLoginServices</NavLink>
         </li>
     }
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">Two-factor authentication</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/TwoFactorAuthentication">@PortalResources.cTwoFactorAuthentication</NavLink>
     </li>
     <li class="nav-item">
-        <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
+        <NavLink class="nav-link" href="Account/Manage/PersonalData">@PortalResources.cPersonalData</NavLink>
     </li>
 </ul>
 
 @code {
-    private bool hasExternalLogins;
+    private bool _hasExternalLogins;
 
     protected override async Task OnInitializedAsync()
     {
-        hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+        _hasExternalLogins = (await ExternalLoginInfoGetter.GetAvailableExternalLoginProvidersAsync()).Any();
     }
 
 }

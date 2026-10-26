@@ -1,5 +1,3 @@
-using Authentication.Shared.ExternalLoginProvider;
-
 namespace Authentication.Shared.ExternalLogin;
 
 public interface IExternalLoginProvider

@@ -1,10 +1,10 @@
 ﻿@using Resources.PortalResources
 @if (!string.IsNullOrEmpty(DisplayMessage))
 {
-    var statusMessageClass = (DisplayMessage.StartsWith("Error") || DisplayMessage.StartsWith(PortalResources.cError + ":")) ? "danger" : "success";
-    <div class="alert alert-@statusMessageClass" role="alert">
+    var statusMessageColor = (DisplayMessage.StartsWith("Error") || DisplayMessage.StartsWith(PortalResources.cError + ":")) ? AlertColor.Danger : AlertColor.Success;
+    <Alert Color="@statusMessageColor" Dismissable="true">
         @DisplayMessage
-    </div>
+    </Alert>
 }
 
 @code {

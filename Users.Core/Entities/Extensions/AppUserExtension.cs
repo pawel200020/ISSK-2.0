@@ -6,7 +6,7 @@ internal static class AppUserExtension
 {
     public static ApplicationUserMetadata GetMetadata(this IUser user)
     {
-        return new ApplicationUserMetadata(user.Id, user.Email, user.FirstName, user.LastName, user.IsEmailConfirmed,
+        return new ApplicationUserMetadata(user.Id,user.UserName, user.Email, user.FirstName, user.LastName, user.IsEmailConfirmed, user.PhoneNumber,
             $"{user.FirstName} {user.LastName}");
     }
 }

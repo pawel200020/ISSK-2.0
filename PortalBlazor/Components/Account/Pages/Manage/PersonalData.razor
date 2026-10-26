@@ -1,25 +1,27 @@
 ﻿@page "/Account/Manage/PersonalData"
 
+@using Resources.PortalResources
+
 @inject CurrentUserProvider UserProvider
 
-<PageTitle>Personal Data</PageTitle>
+<PageTitle>@PortalResources.cPersonalData</PageTitle>
 
 <StatusMessage/>
-<h3>Personal Data</h3>
+<h3>@PortalResources.cPersonalData</h3>
 
 <div class="row">
     <div class="col-md-6">
-        <p>Your account contains personal data that you have given us. This page allows you to download or delete that data.</p>
+        <p>@PortalResources.cPersonalDataDescription</p>
         <p>
-            <strong>Deleting this data will permanently remove your account, and this cannot be recovered.</strong>
+            <strong>@PortalResources.cDeletePersonalDataWarning</strong>
         </p>
-        <form action="Account/Manage/DownloadPersonalData" method="post">
-            <AntiforgeryToken/>
-            <button class="btn btn-primary" type="submit">Download</button>
-        </form>
-        <p>
-            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger">Delete</a>
-        </p>
+        <div class="d-flex justify-content-between align-items-center gap-3">
+            <form action="Account/Manage/DownloadPersonalData" method="post">
+                <AntiforgeryToken/>
+                <button class="btn btn-primary" type="submit">@PortalResources.cDownload</button>
+            </form>
+            <a href="Account/Manage/DeletePersonalData" class="btn btn-danger">@PortalResources.cDelete</a>
+        </div>
     </div>
 </div>
 

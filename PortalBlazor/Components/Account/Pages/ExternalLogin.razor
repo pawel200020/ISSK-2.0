@@ -14,7 +14,7 @@
 @inject IUserAuthenticator UserAuthenticator
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject ILogger<ExternalLogin> Logger
-@inject IExternalLoginInfoGetter ExternalLoginInfoGetter;
+@inject IUserExternalLoginInfoGetter UserExternalLoginInfoGetter;
 @inject IExternalUserAuthenticator ExternalUserAuthenticator;
 @inject IExternalUserProfileGetterFactory ExternalUserProfileGetterFactory;
 @inject IUsersCreator UsersCreator;
@@ -72,7 +72,7 @@
     public const string LoginCallbackAction = "LoginCallback";
 
     private string? message;
-    private IExternalLoginMetadata _externalLoginInfo = default!;
+    private IUserExternalLoginMetadata _externalLoginInfo = default!;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
@@ -91,7 +91,7 @@
             RedirectProcessor.RedirectToWithStatus("Account/Login", $"Error from external provider: {RemoteError}", HttpContext);
         }
 
-        var info = await ExternalLoginInfoGetter.GetExternalLoginInfoMetadata();
+        var info = await UserExternalLoginInfoGetter.GetCurrentUserExternalLoginInfoMetadata();
         if (info is null)
         {
             RedirectProcessor.RedirectToWithStatus("Account/Login", "Error loading external login information.", HttpContext);

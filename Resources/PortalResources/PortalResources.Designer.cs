@@ -16,6 +16,12 @@ namespace Resources.PortalResources {
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class PortalResources {
         
+        public static string cNotFound {
+            get {
+                return ResourceManager.GetString("cNotFound", resourceCulture);
+            }
+        }
+
         private static System.Resources.ResourceManager resourceMan;
         
         private static System.Globalization.CultureInfo resourceCulture;
@@ -1283,6 +1289,114 @@ namespace Resources.PortalResources {
         public static string cUnableToLoadUser {
             get {
                 return ResourceManager.GetString("cUnableToLoadUser", resourceCulture);
+            }
+        }
+
+        public static string cManageExternalLogins {
+            get {
+                return ResourceManager.GetString("cManageExternalLogins", resourceCulture);
+            }
+        }
+
+        public static string cRegisteredLogins {
+            get {
+                return ResourceManager.GetString("cRegisteredLogins", resourceCulture);
+            }
+        }
+
+        public static string cAddExternalLoginService {
+            get {
+                return ResourceManager.GetString("cAddExternalLoginService", resourceCulture);
+            }
+        }
+
+        public static string cRemove {
+            get {
+                return ResourceManager.GetString("cRemove", resourceCulture);
+            }
+        }
+
+        public static string cRemoveExternalLoginTitle {
+            get {
+                return ResourceManager.GetString("cRemoveExternalLoginTitle", resourceCulture);
+            }
+        }
+
+        public static string cLoginUsingProviderTitle {
+            get {
+                return ResourceManager.GetString("cLoginUsingProviderTitle", resourceCulture);
+            }
+        }
+
+        public static string cExternalLoginRemoveFailed {
+            get {
+                return ResourceManager.GetString("cExternalLoginRemoveFailed", resourceCulture);
+            }
+        }
+
+        public static string cExternalLoginRemoved {
+            get {
+                return ResourceManager.GetString("cExternalLoginRemoved", resourceCulture);
+            }
+        }
+
+        public static string cExternalLoginInfoLoadFailed {
+            get {
+                return ResourceManager.GetString("cExternalLoginInfoLoadFailed", resourceCulture);
+            }
+        }
+
+        public static string cExternalLoginAddFailed {
+            get {
+                return ResourceManager.GetString("cExternalLoginAddFailed", resourceCulture);
+            }
+        }
+
+        public static string cExternalLoginAdded {
+            get {
+                return ResourceManager.GetString("cExternalLoginAdded", resourceCulture);
+            }
+        }
+
+        public static string cPersonalData {
+            get {
+                return ResourceManager.GetString("cPersonalData", resourceCulture);
+            }
+        }
+
+        public static string cPersonalDataDescription {
+            get {
+                return ResourceManager.GetString("cPersonalDataDescription", resourceCulture);
+            }
+        }
+
+        public static string cDownload {
+            get {
+                return ResourceManager.GetString("cDownload", resourceCulture);
+            }
+        }
+
+        public static string cManageYourAccount {
+            get {
+                return ResourceManager.GetString("cManageYourAccount", resourceCulture);
+            }
+        }
+
+        public static string cChangeAccountSettings {
+            get {
+                return ResourceManager.GetString("cChangeAccountSettings", resourceCulture);
+            }
+        }
+
+        public static string cProfile {
+            get {
+                return ResourceManager.GetString("cProfile", resourceCulture);
+            }
+        }
+
+        public static string cTwoFactorAuthentication {
+            get {
+                return ResourceManager.GetString("cTwoFactorAuthentication", resourceCulture);
             }
         }
 

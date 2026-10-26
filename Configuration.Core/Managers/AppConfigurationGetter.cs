@@ -1,4 +1,4 @@
-using Authentication.Shared.ExternalLoginProvider.Managers;
+using Authentication.Shared.ExternalLogin.Managers;
 using Configuration.Shared;
 using Configuration.Shared.AppParameters.Managers;
 using Configuration.Shared.Entities;

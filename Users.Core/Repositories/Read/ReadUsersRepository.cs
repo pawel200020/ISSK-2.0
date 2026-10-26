@@ -1,3 +1,4 @@
+using Authentication.Shared.ExternalLogin.Entities;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -58,7 +59,8 @@ internal class ReadUsersRepository : IReadUsersRepository
     {
         var filteredUsers = ApplyFiltering(filters);
         var users = filteredUsers
-            .Skip(page - 1)
+            .OrderBy(user => user.Id)
+            .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .Select(user => new
             {
@@ -91,7 +93,7 @@ internal class ReadUsersRepository : IReadUsersRepository
                     BirthDate = user.BirthDate,
                     RoleId = user.RoleId is null ? Guid.Empty : Guid.Parse(user.RoleId)
                 }).ToArray(),
-            TotalCount = GetTotalRowsNumber()
+            TotalCount = filteredUsers.Count()
         };
     }
 
@@ -122,5 +124,19 @@ internal class ReadUsersRepository : IReadUsersRepository
         return users;
     }
 
-    private int GetTotalRowsNumber() => _userManager.Users.Count();
+    public async Task<bool> HasUserLocalPasswordConfiguredAsync(Guid userGuid)
+    {
+        var user = await _userManager.FindByIdAsync(userGuid.ToString());
+        if (user == null) return false;
+
+        return await _userManager.HasPasswordAsync(user);
+    }
+
+    public async Task<IEnumerable<UserLoginInfo>> GetUserConfiguredExternalLogins(Guid userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user == null) return Enumerable.Empty<UserLoginInfo>();
+
+        return await _userManager.GetLoginsAsync(user);
+    }
 }

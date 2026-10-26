@@ -1,5 +1,4 @@
 using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLoginProvider;
 
 namespace PortalBlazor.Mappers.Mappings.ExternalLogin;
 

@@ -1,6 +1,4 @@
-using Authentication.Shared.ExternalLogin;
-
-namespace Authentication.Shared.ExternalLoginProvider.Managers;
+namespace Authentication.Shared.ExternalLogin.Managers;
 
 public interface IExternalLoginConfigurationGetter
 {

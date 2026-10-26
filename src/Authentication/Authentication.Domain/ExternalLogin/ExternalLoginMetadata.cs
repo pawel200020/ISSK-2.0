@@ -5,9 +5,7 @@ namespace Authentication.Domain.ExternalLogin;
 
 public class ExternalLoginMetadata : IExternalLoginMetadata
 {
-    public required string Provider { get; init; }
-    public required string ProviderKey { get; init; }
-    public string? UserName { get; init; }
-    public string? AccessToken { get; init; }
-    public ProviderType ProviderType { get; init; }
+    public string Provider { get; set; }
+    public string? ProviderKey { get; set; }
+    public ProviderType ProviderType { get; set; }
 }

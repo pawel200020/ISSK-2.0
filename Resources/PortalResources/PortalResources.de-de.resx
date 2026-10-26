@@ -643,4 +643,61 @@ Klicken Sie auf die Schaltfläche „Registrieren“, um die Anmeldung abzuschli
     <data name="cUnableToLoadUser" xml:space="preserve">
         <value>Der Benutzer mit der ID „{0}“ konnte nicht geladen werden.</value>
     </data>
+    <data name="cNotFound" xml:space="preserve">
+        <value>Nicht gefunden</value>
+    </data>
+    <data name="cManageExternalLogins" xml:space="preserve">
+        <value>Externe Anmeldungen verwalten</value>
+    </data>
+    <data name="cRegisteredLogins" xml:space="preserve">
+        <value>Verknüpfte Konten</value>
+    </data>
+    <data name="cAddExternalLoginService" xml:space="preserve">
+        <value>Weiteren Anmeldedienst hinzufügen.</value>
+    </data>
+    <data name="cRemove" xml:space="preserve">
+        <value>Entfernen</value>
+    </data>
+    <data name="cRemoveExternalLoginTitle" xml:space="preserve">
+        <value>Diese {0}-Anmeldung aus Ihrem Konto entfernen</value>
+    </data>
+    <data name="cLoginUsingProviderTitle" xml:space="preserve">
+        <value>Mit Ihrem {0}-Konto anmelden</value>
+    </data>
+    <data name="cExternalLoginRemoveFailed" xml:space="preserve">
+        <value>Die externe Anmeldung konnte nicht entfernt werden.</value>
+    </data>
+    <data name="cExternalLoginRemoved" xml:space="preserve">
+        <value>Die externe Anmeldung wurde entfernt.</value>
+    </data>
+    <data name="cExternalLoginInfoLoadFailed" xml:space="preserve">
+        <value>Die Informationen zur externen Anmeldung konnten nicht geladen werden.</value>
+    </data>
+    <data name="cExternalLoginAddFailed" xml:space="preserve">
+        <value>Die externe Anmeldung wurde nicht hinzugefügt. Externe Anmeldungen können nur mit einem Konto verknüpft werden.</value>
+    </data>
+    <data name="cExternalLoginAdded" xml:space="preserve">
+        <value>Die externe Anmeldung wurde hinzugefügt.</value>
+    </data>
+    <data name="cPersonalData" xml:space="preserve">
+        <value>Persönliche Daten</value>
+    </data>
+    <data name="cPersonalDataDescription" xml:space="preserve">
+        <value>Ihr Konto enthält personenbezogene Daten, die Sie uns bereitgestellt haben. Auf dieser Seite können Sie diese Daten herunterladen oder löschen.</value>
+    </data>
+    <data name="cDownload" xml:space="preserve">
+        <value>Herunterladen</value>
+    </data>
+    <data name="cManageYourAccount" xml:space="preserve">
+        <value>Ihr Konto verwalten</value>
+    </data>
+    <data name="cChangeAccountSettings" xml:space="preserve">
+        <value>Ihre Kontoeinstellungen ändern</value>
+    </data>
+    <data name="cProfile" xml:space="preserve">
+        <value>Profil</value>
+    </data>
+    <data name="cTwoFactorAuthentication" xml:space="preserve">
+        <value>Zwei-Faktor-Authentifizierung</value>
+    </data>
 </root>

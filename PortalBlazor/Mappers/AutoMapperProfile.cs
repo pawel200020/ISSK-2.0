@@ -1,5 +1,4 @@
 ﻿using Authentication.Shared.ExternalLogin;
-using Authentication.Shared.ExternalLoginProvider;
 using AutoMapper;
 using Configuration.Shared.Entities;
 using Configuration.Shared.Notifications;

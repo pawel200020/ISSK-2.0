@@ -6,16 +6,17 @@
 @using Users.Shared.Managers.Edit
 @using Users.Shared.Models
 @using Users.Shared.Models.Roles
+@using Users.Shared.SignIn
 @using ViewModels.RazorPages.Users
 
-@inject SignInManager<ApplicationUser> SignInManager
 @inject IdentityRedirectProcessor RedirectProcessor
 @inject IUsersCreator UsersCreator
 @inject IAppConfigurationGetter AppConfigurationGetter
+@inject IUserAuthenticator UserAuthenticator;
 <PageTitle>@PortalResources.cRegister</PageTitle>
 @if (!AppConfigurationGetter.IsAnonymousRegisterEnabled().GetAwaiter().GetResult())
 {
-    <p>Not found</p>
+    <p>@PortalResources.cNotFound</p>
 }
 else
 {
@@ -120,7 +121,7 @@ else
                 new() { ["email"] = UserCreate.Email, ["returnUrl"] = ReturnUrl });
         }
         
-        await SignInManager.SignInAsync(creationResult.CreatedUser, isPersistent: false);
+        await UserAuthenticator.AuthenticateAsync(new Guid(creationResult.UserId!));
         RedirectProcessor.RedirectTo(ReturnUrl);
     }
 }

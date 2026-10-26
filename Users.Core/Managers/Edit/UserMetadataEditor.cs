@@ -1,4 +1,3 @@
-using System.Text;
 using Microsoft.Extensions.Logging;
 using Resources.PortalResources;
 using Users.Core.Repositories.Edit;
@@ -62,5 +61,10 @@ internal class UserMetadataEditor : IUserMetadataEditor
             var token = await _editUsersRepository.GenerateEmailConfirmationTokenAsync(new Guid(user.Id));
             await _userEmailConfirmation.SendConfirmEmailWithReturnUrl(new Guid(user.Id), email, token, null);
         }
+    }
+
+    public async Task ChangePhoneNumber(string phoneNumber)
+    {
+        
     }
 }

@@ -16,5 +16,7 @@ internal static class Extensions
             .AddScoped<ICurrentUserProvider, CurrentUserProvider>()
             .AddScoped<IUserPasswordEditor, UserPasswordEditor>()
             .AddScoped<IUserMetadataGetter, UserMetadataGetter>()
-            .AddScoped<IUsersEditor, UsersEditor>();
+            .AddScoped<IUsersEditor, UsersEditor>()
+            .AddScoped<IUserExternalLoginsGetter, UserExternalLoginsGetter>()
+            .AddScoped<IUserExternalLoginProvidersEditor, UserExternalLoginProvidersEditor>();
 }

@@ -3,13 +3,13 @@
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
 @using Resources.PortalResources
-@using Users.Shared.Models
+@using Users.Shared.SignIn
 @using ViewModels.RazorPages.Users
 
-@inject SignInManager<ApplicationUser> SignInManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectProcessor RedirectProcessor
+@inject IUserAuthenticator UserAuthenticator
 
 <PageTitle>@PortalResources.cLogin</PageTitle>
 
@@ -85,19 +85,19 @@
     {
         // This doesn't count login failures towards account lockout
         // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-        var result = await SignInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-        if (result.Succeeded)
+        var result = await UserAuthenticator.AuthenticateAsync(Input.UserName, Input.Password, Input.RememberMe);
+        if (result == SignInStatus.Success)
         {
             Logger.LogInformation("User logged in.");
             RedirectProcessor.RedirectTo(ReturnUrl);
         }
-        else if (result.RequiresTwoFactor)
+        else if (result == SignInStatus.RequiresTwoFactor)
         {
             RedirectProcessor.RedirectTo(
                 "Account/LoginWith2fa",
                 new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
         }
-        else if (result.IsLockedOut)
+        else if (result == SignInStatus.LockedOut)
         {
             Logger.LogWarning("User account locked out.");
             RedirectProcessor.RedirectTo("Account/Lockout");

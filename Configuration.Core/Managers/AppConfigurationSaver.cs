@@ -1,6 +1,5 @@
 using Authentication.Shared.ExternalLogin;
 using Authentication.Shared.ExternalLogin.Managers;
-using Authentication.Shared.ExternalLoginProvider;
 using Configuration.AppParameters.Managers;
 using Configuration.Encryption;
 using Configuration.Shared;

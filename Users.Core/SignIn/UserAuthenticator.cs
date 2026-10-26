@@ -16,9 +16,15 @@ internal class UserAuthenticator : IUserAuthenticator
         _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
     }
     
-    public async Task<SignInStatus> AuthenticateAsync(ApplicationUser user, string password, bool rememberMe)
+    public async Task AuthenticateAsync(Guid userId)
     {
-        var result = await _signInManager.PasswordSignInAsync(user, password, rememberMe, lockoutOnFailure: false);
+        var user = await _usersRepository.GetUserById(userId);
+        await _signInManager.SignInAsync(user, isPersistent: false);
+    }
+    
+    public async Task<SignInStatus> AuthenticateAsync(string userName, string password, bool rememberMe)
+    {
+        var result = await _signInManager.PasswordSignInAsync(userName, password, rememberMe, lockoutOnFailure: false);
         if (result.Succeeded)
             return SignInStatus.Success;
         if (result.IsLockedOut)

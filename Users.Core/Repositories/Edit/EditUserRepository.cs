@@ -65,11 +65,18 @@ internal class EditUserRepository : IEditUsersRepository
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(dbUser);
         return new UserCreationResult()
         {
-            UserId = userId, Code = code, CreatedUser = dbUser,
+            UserId = userId, Code = code,
             RequireConfirmedAccount = _userManager.Options.SignIn.RequireConfirmedAccount
         };
     }
-    
+
+    public async Task<bool> RemoveAssignedExternalLogin(Guid userId, string provider, string providerKey)
+    {
+        var user= await _userManager.FindByIdAsync(userId.ToString());
+        var result = await _userManager.RemoveLoginAsync(user!, provider, providerKey);
+        return result.Succeeded;
+    }
+
     public async Task<bool> AssignExternalProviderToUserAsync(Guid userId, ExternalLoginInfo externalLoginInfo)
     {
         var user = await _userManager.FindByIdAsync(userId.ToString());
@@ -218,6 +225,15 @@ internal class EditUserRepository : IEditUsersRepository
         var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
         return ParseUserChangePasswordResult(result, userId);
         
+    }
+
+    public async Task UpdatePhoneNumber(Guid userId, string phoneNumber)
+    {
+        var user = await _userManager.FindByIdAsync(userId.ToString());
+        if (user is null)
+            throw new InvalidOperationException("User not found");
+        
+        await _userManager.SetPhoneNumberAsync(user, phoneNumber);
     }
 
     private IUserEmailStore<ApplicationUser> GetEmailStore()

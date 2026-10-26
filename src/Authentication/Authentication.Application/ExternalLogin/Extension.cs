@@ -6,7 +6,6 @@ using Authentication.Shared.ExternalLogin;
 using Authentication.Shared.ExternalLogin.Managers;
 using Authentication.Shared.ExternalLogin.Managers.Google;
 using Authentication.Shared.ExternalLogin.UserProfile;
-using Authentication.Shared.ExternalLoginProvider.Managers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Authentication.Application.ExternalLogin;
@@ -18,7 +17,8 @@ public static class Extension
         => builder.AddScoped<IExternalLoginConfigurationGetter, ExternalLoginConfigurationGetter>()
             .AddScoped<IExternalLoginConfigurationUpdater, ExternalLoginConfigurationUpdater>()
             .AddScoped<IGoogleExternalLoginProviderInfoGetter, GoogleExternalLoginProviderInfoGetter>()
-            .AddScoped<IExternalLoginInfoGetter, ExternalLoginInfoGetter>()
+            .AddScoped<IUserExternalLoginInfoGetter, UserExternalLoginInfoGetter>()
             .AddSingleton<IExternalLoginProviderResolver, ExternalLoginProviderResolver>()
-            .AddScoped<IExternalUserProfileGetterFactory, ExternalUserInfoGetterFactory>();
+            .AddScoped<IExternalUserProfileGetterFactory, ExternalUserInfoGetterFactory>()
+            .AddScoped<IExternalLoginInfoGetter, ExternalLoginInfoGetter>();
 }

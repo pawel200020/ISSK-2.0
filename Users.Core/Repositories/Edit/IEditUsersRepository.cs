@@ -8,6 +8,7 @@ namespace Users.Core.Repositories.Edit;
 internal interface IEditUsersRepository
 {
     Task<IUserCreationResult> CreateUser(IUser user, bool isExternal);
+    Task<bool> RemoveAssignedExternalLogin(Guid userId, string provider, string providerKey);
     Task<bool> AssignExternalProviderToUserAsync(Guid userId, ExternalLoginInfo externalLoginInfo);
     Task<bool> EditUserAsync(IUser user);
     Task<bool> RemoveUserAsync(Guid userId);
@@ -18,5 +19,6 @@ internal interface IEditUsersRepository
     Task<string> GenerateEmailConfirmationTokenAsync(Guid userId);
     Task<string> GeneratePasswordResetTokenAsync(Guid userId);
     Task<UserOperationResult> ResetPasswordAsync(Guid userId, string token, string newPassword);
+    Task UpdatePhoneNumber(Guid userId, string phoneNumber);
 
 }

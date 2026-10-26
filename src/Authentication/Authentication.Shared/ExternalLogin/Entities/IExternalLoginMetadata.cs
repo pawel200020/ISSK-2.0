@@ -3,8 +3,6 @@ namespace Authentication.Shared.ExternalLogin.Entities;
 public interface IExternalLoginMetadata
 {
     string Provider { get; }
-    string ProviderKey { get; }
-    string UserName { get; }
-    string? AccessToken { get; }
+    public string? ProviderKey { get; }
     ProviderType ProviderType { get; }
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
+using Resources.PortalResources;
 using PortalBlazor.Components.Account.Pages;
 using PortalBlazor.Components.Account.Pages.Manage;
 using Users.Shared.Models;
@@ -82,7 +83,7 @@ internal static class IdentityComponentsEndpointRouteBuilderExtensions
             var user = await userManager.GetUserAsync(context.User);
             if (user is null)
             {
-                return Results.NotFound($"Unable to load user with ID '{userManager.GetUserId(context.User)}'.");
+                return Results.NotFound(string.Format(PortalResources.cUnableToLoadUser, userManager.GetUserId(context.User)));
             }
 
             var userId = await userManager.GetUserIdAsync(user);

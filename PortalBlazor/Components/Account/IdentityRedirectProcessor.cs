@@ -9,10 +9,11 @@ internal sealed class IdentityRedirectProcessor(NavigationManager navigationMana
 
     private static readonly CookieBuilder StatusCookieBuilder = new()
     {
-        SameSite = SameSiteMode.Strict,
+        // The status message must survive the top-level redirect back from an external provider.
+        SameSite = SameSiteMode.Lax,
         HttpOnly = true,
         IsEssential = true,
-        MaxAge = TimeSpan.FromSeconds(5),
+        MaxAge = TimeSpan.FromMinutes(1),
     };
 
     [DoesNotReturn]

@@ -1,94 +1,82 @@
 ﻿@page "/Account/Manage"
+@using Resources.PortalResources
+@using Users.Shared.Managers.Read
+@using ViewModels.RazorPages.Users
 
-@using System.ComponentModel.DataAnnotations
-@using Humanizer
-@using Microsoft.AspNetCore.Identity
-@using Users.Core
-@using Users.Shared.Models
-
-@inject UserManager<ApplicationUser> UserManager
-@inject SignInManager<ApplicationUser> SignInManager
 @inject CurrentUserProvider UserProvider
 @inject IdentityRedirectProcessor RedirectProcessor
+@inject IUserMetadataGetter IUserMetadataGetter
 
-<PageTitle>Profile</PageTitle>
+<PageTitle>@PortalResources.cProfile</PageTitle>
 
-<h3>Profile</h3>
+<h3>@PortalResources.cProfile</h3>
 <StatusMessage/>
 
 <div class="row">
     <div class="col-md-6">
         <EditForm Model="Input" FormName="profile" OnValidSubmit="OnValidSubmitAsync" method="post">
             <DataAnnotationsValidator/>
-            <ValidationSummary class="text-danger" role="alert"/>
             <div class="form-floating mb-3">
                 <input type="text" value="@username" class="form-control" placeholder="Please choose your username." disabled/>
-                <label for="username" class="form-label">Username</label>
+                <label for="username" class="form-label">@PortalResources.cUserName</label>
             </div>
             <div class="form-floating mb-3">
                 <InputText @bind-Value="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
-                <label for="phone-number" class="form-label">Phone number</label>
+                <label for="phone-number" class="form-label">@PortalResources.cPhone</label>
                 <ValidationMessage For="() => Input.PhoneNumber" class="text-danger"/>
             </div>
             <div class="form-floating mb-3">
                 <DateInput TValue="DateOnly?" @bind-Value="Input.BirthDate" class="form-control" placeholder="Please enter your birth date."/>
-                <label for="birth-date" class="form-label">Birth date</label>
+                <label for="birth-date" class="form-label">@PortalResources.cBirthDate</label>
                 <ValidationMessage For="() => Input.BirthDate" class="text-danger"/>
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">@PortalResources.cSave</button>
         </EditForm>
     </div>
 </div>
 
 @code {
-    private ApplicationUser user = default!;
     private string? username;
     private string? phoneNumber;
 
     [CascadingParameter] private HttpContext HttpContext { get; set; } = default!;
 
-    [SupplyParameterFromForm] private InputModel Input { get; set; } = new();
+    [SupplyParameterFromForm] private UserOwnEditorViewModel Input { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
-        user = await UserProvider.GetRequiredUserAsync(HttpContext);
-        username = await UserManager.GetUserNameAsync(user);
-        phoneNumber = await UserManager.GetPhoneNumberAsync(user);
+        
+        var userFromRequest = await UserProvider.GetRequiredUserAsync(HttpContext);
+        var userMetadata = await IUserMetadataGetter.GetUserMetadataAsync(new Guid(userFromRequest.Id));
+        username = userMetadata.UserName;
+        phoneNumber = userMetadata.PhoneNumber;
 
         Input.PhoneNumber ??= phoneNumber;
-        Input.BirthDate ??= user.BirthDate;
+        Input.BirthDate ??= userFromRequest.BirthDate;
 
     }
 
     private async Task OnValidSubmitAsync()
     {
-        user.PhoneNumber = Input.PhoneNumber;
-        user.BirthDate = Input.BirthDate.Value;
-        var updateResult = await UserManager.UpdateAsync(user);
-        if (!updateResult.Succeeded)
+        //user.PhoneNumber = Input.PhoneNumber;
+        //user.BirthDate = Input.BirthDate.Value;
+        //var updateResult = await UserManager.UpdateAsync(user);
+        //if (!updateResult.Succeeded)
         {
             RedirectProcessor.RedirectToCurrentPageWithStatus("Error: Failed to update a user.", HttpContext);
         }
+
         if (Input.PhoneNumber != phoneNumber)
         {
-            var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-            if (!setPhoneResult.Succeeded)
+            //var setPhoneResult = await UserManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //if (!setPhoneResult.Succeeded)
             {
                 RedirectProcessor.RedirectToCurrentPageWithStatus("Error: Failed to set phone number.", HttpContext);
             }
         }
 
-        await SignInManager.RefreshSignInAsync(user);
+        //await SignInManager.RefreshSignInAsync(user);
         RedirectProcessor.RedirectToCurrentPageWithStatus("Your profile has been updated", HttpContext);
-    }
-
-    private sealed class InputModel
-    {
-        [Phone]
-        [Display(Name = "Phone number")]
-        public string? PhoneNumber { get; set; }
-        [Display(Name = "Date of birth")]
-        public DateOnly? BirthDate { get; set; }
     }
 
 }
